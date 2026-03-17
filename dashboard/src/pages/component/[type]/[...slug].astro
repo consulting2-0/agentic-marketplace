@@ -239,13 +239,13 @@ const refs: string[] = (component as any)?.references ?? [];
               <button
                 id="curlCopyBtn"
                 class="text-[11px] text-primary-400 hover:text-primary-300 transition-colors"
-                data-cmd={`curl -fsSL "${rawUrl}" -o "${destPath}"`}
+                data-cmd={`curl -fsSL "${rawUrl}" --create-dirs -o "${destPath}"`}
               >
                 Copy
               </button>
             </div>
             <code class="block text-xs font-mono text-accent-400 bg-surface-0 rounded px-3 py-2 break-all">
-              {`curl -fsSL "${rawUrl}" -o "${destPath}"`}
+              {`curl -fsSL "${rawUrl}" --create-dirs -o "${destPath}"`}
             </code>
           </div>
         </div>

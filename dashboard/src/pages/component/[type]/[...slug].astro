@@ -105,7 +105,10 @@ const config = TYPE_CONFIG[typePlural ?? 'agents'];
 const installCmd = component ? getInstallCommand(component) : '';
 
 const cleanPath = component?.path?.replace(/\.(md|json)$/, '') ?? '';
-const rawUrl = component ? `${Astro.url.origin}/api/raw/${component.type}/${cleanPath}` : '';
+const host = Astro.request.headers.get('x-forwarded-host') ?? Astro.request.headers.get('host') ?? Astro.url.host;
+const proto = Astro.request.headers.get('x-forwarded-proto') ?? 'https';
+const origin = `${proto}://${host}`;
+const rawUrl = component ? `${origin}/api/raw/${component.type}/${cleanPath}` : '';
 const destPath = component ? (() => {
   const fname = cleanPath.split('/').pop() ?? component.name;
   const ext = ['mcp','setting','hook'].includes(component.type) ? 'json' : 'md';

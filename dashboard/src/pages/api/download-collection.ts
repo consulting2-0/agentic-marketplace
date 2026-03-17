@@ -1,6 +1,9 @@
 import type { APIRoute } from 'astro';
-import JSZip from 'jszip';
+import * as JSZipModule from 'jszip';
 import { getAdminClient } from '../../lib/supabase';
+
+// Handle both CJS and ESM exports of jszip
+const JSZip = (JSZipModule as any).default ?? JSZipModule;
 
 interface ComponentRequest {
   path: string;
@@ -8,127 +11,127 @@ interface ComponentRequest {
   name: string;
 }
 
-/**
- * POST /api/download-collection
- * Body: { collectionName: string, components: ComponentRequest[] }
- * Returns a ZIP file with the correct .claude/ folder structure.
- */
+function toSingular(type: string): string {
+  const map: Record<string, string> = {
+    agents: 'agent', skills: 'skill', commands: 'command',
+    hooks: 'hook', mcps: 'mcp', settings: 'setting', templates: 'template',
+  };
+  return map[type] ?? type;
+}
+
+function destPath(type: string, fname: string): string {
+  const t = toSingular(type);
+  if (t === 'agent')   return `.claude/agents/${fname}.md`;
+  if (t === 'command') return `.claude/commands/${fname}.md`;
+  if (t === 'skill')   return `.claude/skills/${fname}/SKILL.md`;
+  if (t === 'hook')    return `.claude/hooks/${fname}.sh`;
+  if (t === 'setting') return null as any; // merged into settings.json
+  if (t === 'mcp')     return null as any; // merged into .mcp.json
+  return `.claude/${fname}.md`;
+}
+
 export const POST: APIRoute = async ({ request }) => {
-  const body = await request.json();
-  const components: ComponentRequest[] = body.components ?? [];
-  const collectionName: string = body.collectionName ?? 'my-collection';
+  try {
+    const body = await request.json();
+    const components: ComponentRequest[] = body.components ?? [];
+    const collectionName: string = body.collectionName ?? 'my-collection';
 
-  if (!components.length) {
-    return new Response(JSON.stringify({ error: 'No components provided' }), { status: 400 });
-  }
+    if (!components.length) {
+      return new Response(JSON.stringify({ error: 'No components provided' }), { status: 400 });
+    }
 
-  const supabase = getAdminClient();
-
-  // Fetch all component content in one query
-  const paths = components.map((c) => c.path);
-  const pathsWithExt = paths.flatMap((p) => [p, `${p}.md`, `${p}.json`]);
-
-  const { data: rows } = await supabase
-    .from('components')
-    .select('path, type, name, content')
-    .in('path', pathsWithExt);
-
-  // Build a lookup by path (normalised — strip extension)
-  const contentMap: Record<string, { content: string; type: string; name: string }> = {};
-  for (const row of rows ?? []) {
-    const key = row.path.replace(/\.(md|json)$/, '');
-    contentMap[key] = { content: row.content ?? '', type: row.type, name: row.name };
-  }
-
-  // Increment downloads for all fetched components (fire and forget)
-  supabase
-    .from('components')
-    .select('path, downloads')
-    .in('path', pathsWithExt)
-    .then(({ data }) => {
-      if (!data) return;
-      for (const row of data) {
-        supabase
-          .from('components')
-          .update({ downloads: (row.downloads ?? 0) + 1 })
-          .eq('path', row.path)
-          .then(() => {});
-      }
+    // Fetch content from Supabase
+    const supabase = getAdminClient();
+    const allPaths = components.flatMap((c) => {
+      const p = c.path.replace(/\.(md|json)$/, '');
+      return [p, `${p}.md`, `${p}.json`];
     });
 
-  const zip = new JSZip();
+    const { data: rows } = await supabase
+      .from('components')
+      .select('path, type, name, content')
+      .in('path', allPaths);
 
-  const settingsChunks: Record<string, unknown>[] = [];
-  const mcpChunks: Record<string, unknown>[] = [];
-
-  for (const comp of components) {
-    const key = comp.path.replace(/\.(md|json)$/, '');
-    const row = contentMap[key];
-    const content = row?.content ?? `# ${comp.name}\n\nContent not found.`;
-    const type = comp.type.replace(/s$/, ''); // normalise plural → singular
-    const fname = comp.name.replace(/\.(md|json)$/, '');
-
-    if (type === 'agent' || type === 'agents') {
-      zip.file(`.claude/agents/${fname}.md`, content);
-    } else if (type === 'command' || type === 'commands') {
-      zip.file(`.claude/commands/${fname}.md`, content);
-    } else if (type === 'skill' || type === 'skills') {
-      // Skills live in their own subfolder: .claude/skills/<name>/SKILL.md
-      zip.file(`.claude/skills/${fname}/SKILL.md`, content);
-    } else if (type === 'hook' || type === 'hooks') {
-      // Individual hook scripts
-      zip.file(`.claude/hooks/${fname}.sh`, content);
-    } else if (type === 'setting' || type === 'settings') {
-      // Merge into settings.json
-      try { settingsChunks.push(JSON.parse(content)); } catch { /* skip malformed */ }
-    } else if (type === 'mcp' || type === 'mcps') {
-      // Merge into .mcp.json
-      try { mcpChunks.push(JSON.parse(content)); } catch { /* skip malformed */ }
-    } else {
-      // Fallback: put in .claude/ root
-      zip.file(`.claude/${fname}.md`, content);
+    const contentMap: Record<string, string> = {};
+    for (const row of rows ?? []) {
+      const key = row.path.replace(/\.(md|json)$/, '');
+      if (row.content) contentMap[key] = row.content;
     }
-  }
 
-  // Merge settings
-  if (settingsChunks.length) {
-    const merged = settingsChunks.reduce((acc, chunk) => ({ ...acc, ...chunk }), {});
-    zip.file('.claude/settings.json', JSON.stringify(merged, null, 2));
-  }
-
-  // Merge MCPs into .mcp.json
-  if (mcpChunks.length) {
-    const merged = { mcpServers: {} as Record<string, unknown> };
-    for (const chunk of mcpChunks) {
-      const servers = (chunk as any).mcpServers ?? chunk;
-      Object.assign(merged.mcpServers, servers);
+    // Increment downloads async
+    if (rows?.length) {
+      supabase
+        .from('components')
+        .upsert(
+          rows.map((r) => ({ ...r, downloads: (r.downloads ?? 0) + 1 })),
+          { onConflict: 'path' }
+        )
+        .then(() => {});
     }
-    zip.file('.mcp.json', JSON.stringify(merged, null, 2));
+
+    const zip = new JSZip();
+    const settingsChunks: Record<string, unknown>[] = [];
+    const mcpChunks: Record<string, unknown>[] = [];
+
+    for (const comp of components) {
+      const key = comp.path.replace(/\.(md|json)$/, '');
+      const content = contentMap[key] ?? `# ${comp.name}\n\nInstall from: https://marketplace.consulting20.com`;
+      const fname = comp.name.replace(/\.(md|json)$/, '').trim();
+      const type = toSingular(comp.type);
+
+      if (type === 'setting') {
+        try { settingsChunks.push(JSON.parse(content)); } catch { /* skip */ }
+        continue;
+      }
+      if (type === 'mcp') {
+        try { mcpChunks.push(JSON.parse(content)); } catch { /* skip */ }
+        continue;
+      }
+
+      const path = destPath(type, fname);
+      if (path) zip.file(path, content);
+    }
+
+    if (settingsChunks.length) {
+      const merged = settingsChunks.reduce((acc, c) => ({ ...acc, ...c }), {});
+      zip.file('.claude/settings.json', JSON.stringify(merged, null, 2));
+    }
+
+    if (mcpChunks.length) {
+      const merged = { mcpServers: {} as Record<string, unknown> };
+      for (const c of mcpChunks) {
+        Object.assign(merged.mcpServers, (c as any).mcpServers ?? c);
+      }
+      zip.file('.mcp.json', JSON.stringify(merged, null, 2));
+    }
+
+    zip.file('README.md', [
+      `# ${collectionName}`,
+      '',
+      'Generated by [Consulting 2.0 Agentic Marketplace](https://marketplace.consulting20.com)',
+      '',
+      '## Install',
+      'Copy the `.claude/` folder into your project root, or `~/.claude/` for global use.',
+      '',
+      '## Components',
+      ...components.map((c) => `- **${c.name}** (${c.type})`),
+    ].join('\n'));
+
+    const zipBuffer = await zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE' });
+    const safeName = collectionName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+    return new Response(zipBuffer, {
+      headers: {
+        'Content-Type': 'application/zip',
+        'Content-Disposition': `attachment; filename="${safeName}.zip"`,
+        'Cache-Control': 'no-store',
+      },
+    });
+  } catch (err: any) {
+    console.error('download-collection error:', err);
+    return new Response(JSON.stringify({ error: err?.message ?? 'Unknown error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
-
-  // Add a README
-  const readmeLines = [
-    `# ${collectionName}`,
-    '',
-    'Generated by [Consulting 2.0 Agentic Marketplace](https://marketplace.consulting20.com)',
-    '',
-    '## Installation',
-    '',
-    'Copy the `.claude/` folder into your project root (or `~/.claude/` for global install).',
-    '',
-    '## Components',
-    '',
-    ...components.map((c) => `- **${c.name}** (${c.type})`),
-  ];
-  zip.file('README.md', readmeLines.join('\n'));
-
-  const zipBuffer = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
-  const safeName = collectionName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-
-  return new Response(zipBuffer, {
-    headers: {
-      'Content-Type': 'application/zip',
-      'Content-Disposition': `attachment; filename="${safeName}.zip"`,
-    },
-  });
 };

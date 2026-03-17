@@ -455,6 +455,7 @@ export default function MyComponentsView() {
   const [renaming, setRenaming] = useState<string | null>(null);
   const [renameValue, setRenameValue] = useState('');
   const [copied, setCopied] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [showSendToRepo, setShowSendToRepo] = useState(false);
 
   useEffect(() => {
@@ -549,6 +550,37 @@ export default function MyComponentsView() {
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function downloadCollection(items: CollectionItem[], collectionName: string) {
+    if (!items.length) return;
+    setDownloading(true);
+    try {
+      const res = await fetch('/api/download-collection', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          collectionName,
+          components: items.map((i) => ({
+            path: i.component_path,
+            type: i.component_type,
+            name: i.component_name,
+          })),
+        }),
+      });
+      if (!res.ok) throw new Error('Download failed');
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${collectionName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.zip`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDownloading(false);
+    }
   }
 
   // ── Not loaded ──
@@ -787,31 +819,25 @@ export default function MyComponentsView() {
                   </button>
                 )}
                 <button
-                  onClick={() => copyCommand(generateCommand(selectedItems))}
-                  className="flex items-center gap-2 px-4 py-2 bg-white text-black rounded-lg text-[13px] font-medium hover:bg-gray-100 transition-colors"
+                  onClick={() => downloadCollection(selectedItems, selectedCollection?.name ?? 'collection')}
+                  disabled={downloading}
+                  className="flex items-center gap-2 px-4 py-2 bg-white text-black rounded-lg text-[13px] font-medium hover:bg-gray-100 transition-colors disabled:opacity-50"
                 >
-                  {copied ? (
+                  {downloading ? (
                     <>
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                      Copied!
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                      Packaging...
                     </>
                   ) : (
                     <>
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><polyline points="4 17 10 11 4 5" /><line x1="12" y1="19" x2="20" y2="19" /></svg>
-                      Install All
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                      Download ZIP
                     </>
                   )}
                 </button>
               </div>
             </div>
 
-            {/* Install command */}
-            <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg p-3 mb-6">
-              <code className="text-[12px] text-[--color-text-secondary] font-mono break-all leading-relaxed">
-                <span className="text-[--color-text-tertiary] select-none">$ </span>
-                {generateCommand(selectedItems)}
-              </code>
-            </div>
 
             {/* Project structure view */}
             <div className="mb-6">

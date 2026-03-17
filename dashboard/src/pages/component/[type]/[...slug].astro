@@ -103,6 +103,20 @@ const title = component ? formatName(component.name) : 'Component Not Found';
 const typePlural = type?.endsWith('s') ? type : (type + 's');
 const config = TYPE_CONFIG[typePlural ?? 'agents'];
 const installCmd = component ? getInstallCommand(component) : '';
+
+const cleanPath = component?.path?.replace(/\.(md|json)$/, '') ?? '';
+const rawUrl = component ? `${Astro.site?.origin ?? ''}/api/raw/${component.type}/${cleanPath}` : '';
+const destPath = component ? (() => {
+  const fname = cleanPath.split('/').pop() ?? component.name;
+  const ext = ['mcp','setting','hook'].includes(component.type) ? 'json' : 'md';
+  const dirs: Record<string, string> = {
+    skill: '.claude/skills', agent: '.claude/agents', command: '.claude/commands',
+    hook: '.claude/settings.json', mcp: '.claude/mcp.json', setting: '.claude/settings.json',
+  };
+  const dir = dirs[component.type] ?? `.claude/${component.type}s`;
+  if (['hook','mcp','setting'].includes(component.type)) return dir;
+  return `${dir}/${fname}.${ext}`;
+})() : '';
 const frontmatter = component ? parseFrontmatter(component.content, typePlural ?? '') : {};
 const infoCards = CARD_FIELDS.filter((f) => {
   const v = frontmatter[f.key];
@@ -192,19 +206,45 @@ const refs: string[] = (component as any)?.references ?? [];
           </div>
         </div>
 
-        {/* Install command */}
-        <div class="bg-surface-2 border border-border rounded-lg p-4 mb-6">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-medium text-text-secondary">Install</span>
-            <button
-              id="copyBtn"
-              class="text-xs text-primary-400 hover:text-primary-300 transition-colors"
-              data-cmd={installCmd}
+        {/* Install section */}
+        <div class="bg-surface-2 border border-border rounded-lg p-4 mb-6 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-text-secondary uppercase tracking-wider">How to Install</span>
+            <a
+              href={rawUrl}
+              download
+              class="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-colors"
+              style="background:#0057FF; color:white;"
             >
-              Copy
-            </button>
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+              Download File
+            </a>
           </div>
-          <code class="text-sm text-accent-400 font-mono break-all">{installCmd}</code>
+
+          {/* Destination path */}
+          <div>
+            <p class="text-[11px] text-text-tertiary mb-1">Save to your project at:</p>
+            <code class="block text-xs font-mono text-emerald-400 bg-surface-0 rounded px-3 py-2">{destPath}</code>
+          </div>
+
+          {/* curl command */}
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <p class="text-[11px] text-text-tertiary">Or install via curl:</p>
+              <button
+                id="curlCopyBtn"
+                class="text-[11px] text-primary-400 hover:text-primary-300 transition-colors"
+                data-cmd={`curl -fsSL "${rawUrl}" -o "${destPath}"`}
+              >
+                Copy
+              </button>
+            </div>
+            <code class="block text-xs font-mono text-accent-400 bg-surface-0 rounded px-3 py-2 break-all">
+              {`curl -fsSL "${rawUrl}" -o "${destPath}"`}
+            </code>
+          </div>
         </div>
 
         {/* Metadata labels — click to see detail */}
@@ -286,17 +326,21 @@ const refs: string[] = (component as any)?.references ?? [];
 </DashboardLayout>
 
 <script>
-  // Copy button
-  document.getElementById('copyBtn')?.addEventListener('click', (e) => {
-    const cmd = (e.currentTarget as HTMLElement).dataset.cmd;
-    if (cmd) {
-      navigator.clipboard.writeText(cmd);
-      (e.currentTarget as HTMLElement).textContent = 'Copied!';
-      setTimeout(() => {
-        (e.currentTarget as HTMLElement).textContent = 'Copy';
-      }, 2000);
-    }
-  });
+  // Copy button helper
+  function setupCopyBtn(id: string, resetText: string) {
+    document.getElementById(id)?.addEventListener('click', (e) => {
+      const cmd = (e.currentTarget as HTMLElement).dataset.cmd;
+      if (cmd) {
+        navigator.clipboard.writeText(cmd);
+        (e.currentTarget as HTMLElement).textContent = 'Copied!';
+        setTimeout(() => {
+          (e.currentTarget as HTMLElement).textContent = resetText;
+        }, 2000);
+      }
+    });
+  }
+  setupCopyBtn('copyBtn', 'Copy');
+  setupCopyBtn('curlCopyBtn', 'Copy');
 
   // Metadata modal
   const metaModal = document.getElementById('metaModal');

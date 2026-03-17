@@ -22,6 +22,7 @@ export default function AdminPanel({ adminPassword }: { adminPassword: string })
   const [creating, setCreating] = useState(false);
   const [importing, setImporting] = useState(false);
   const [importResult, setImportResult] = useState<string | null>(null);
+  const [xlsxUploading, setXlsxUploading] = useState(false);
   const LIMIT = 50;
 
   const headers = { 'x-admin-password': adminPassword, 'Content-Type': 'application/json' };
@@ -88,6 +89,41 @@ export default function AdminPanel({ adminPassword }: { adminPassword: string })
     load();
   }
 
+  async function downloadTemplate() {
+    const res = await fetch('/api/admin/import-template', { headers: { 'x-admin-password': adminPassword } });
+    if (!res.ok) return;
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'c20-import-template.xlsx';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function uploadXlsx(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setXlsxUploading(true);
+    setImportResult(null);
+    const fd = new FormData();
+    fd.append('file', file);
+    const res = await fetch('/api/admin/import-xlsx', {
+      method: 'POST',
+      headers: { 'x-admin-password': adminPassword },
+      body: fd,
+    });
+    const json = await res.json();
+    if (json.error) {
+      setImportResult(`Error: ${json.error}`);
+    } else {
+      setImportResult(`XLSX: ${json.inserted} imported of ${json.total} (${json.skipped} skipped).`);
+    }
+    setXlsxUploading(false);
+    e.target.value = '';
+    load();
+  }
+
   const totalPages = Math.max(1, Math.ceil(count / LIMIT));
 
   return (
@@ -116,18 +152,28 @@ export default function AdminPanel({ adminPassword }: { adminPassword: string })
           {tab === 'components' && (<>
             <span className="text-[12px] text-[#4D6080]">{count} components</span>
             <button
+              onClick={downloadTemplate}
+              className="px-3 py-1.5 text-[12px] rounded-lg border border-[#2A3550] text-[#8A9BBE] hover:text-white hover:border-[#3D5580] transition-colors"
+            >
+              ↓ XLSX Template
+            </button>
+            <label className={`px-3 py-1.5 text-[12px] rounded-lg border border-[#2A3550] text-[#8A9BBE] hover:text-white hover:border-[#3D5580] transition-colors cursor-pointer ${xlsxUploading ? 'opacity-50 pointer-events-none' : ''}`}>
+              {xlsxUploading ? 'Importing...' : '↑ Import XLSX'}
+              <input type="file" accept=".xlsx" className="hidden" onChange={uploadXlsx} />
+            </label>
+            <button
               onClick={runImport}
               disabled={importing}
               className="px-3 py-1.5 text-[12px] rounded-lg border border-[#2A3550] text-[#8A9BBE] hover:text-white hover:border-[#3D5580] transition-colors disabled:opacity-50"
             >
-              {importing ? 'Importing...' : '↑ Import from JSON'}
+              {importing ? 'Importing...' : '↑ Import JSON'}
             </button>
             <button
               onClick={() => setCreating(true)}
               className="px-3 py-1.5 text-[12px] rounded-lg font-medium transition-colors"
               style={{ background: '#0057FF', color: 'white' }}
             >
-              + New Component
+              + New
             </button>
           </>)}
         </div>

@@ -1,0 +1,53 @@
+<svg width="400" height="80" viewBox="0 0 400 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background (transparent by default, uncomment for dark bg preview) -->
+  <!-- <rect width="400" height="80" fill="#040D20"/> -->
+
+  <!-- Icon Mark -->
+  <g transform="translate(4, 4) scale(0.818)">
+    <path d="M44 4L80 24V64L44 84L8 64V24L44 4Z" fill="#040D20" stroke="#0057FF" stroke-width="1.8"/>
+    <line x1="44" y1="24" x2="26" y2="46" stroke="#0057FF" stroke-opacity="0.5" stroke-width="1.4"/>
+    <line x1="44" y1="24" x2="62" y2="46" stroke="#0057FF" stroke-opacity="0.5" stroke-width="1.4"/>
+    <line x1="26" y1="46" x2="44" y2="64" stroke="#00E599" stroke-opacity="0.65" stroke-width="1.4"/>
+    <line x1="62" y1="46" x2="44" y2="64" stroke="#00E599" stroke-opacity="0.65" stroke-width="1.4"/>
+    <line x1="26" y1="46" x2="62" y2="46" stroke="#7B4FFF" stroke-opacity="0.35" stroke-width="1.2"/>
+    <circle cx="44" cy="24" r="5.5" fill="#0057FF"/>
+    <circle cx="44" cy="24" r="9" fill="#0057FF" fill-opacity="0.12"/>
+    <circle cx="26" cy="46" r="4.5" fill="#3D80FF"/>
+    <circle cx="62" cy="46" r="4.5" fill="#3D80FF"/>
+    <circle cx="44" cy="64" r="5.5" fill="#00E599"/>
+    <circle cx="44" cy="64" r="9" fill="#00E599" fill-opacity="0.12"/>
+    <circle cx="20" cy="32" r="2.8" fill="#7B4FFF" fill-opacity="0.8"/>
+    <circle cx="68" cy="32" r="2.8" fill="#7B4FFF" fill-opacity="0.8"/>
+    <circle cx="20" cy="58" r="2.2" fill="#FF8C00" fill-opacity="0.7"/>
+    <circle cx="68" cy="58" r="2.2" fill="#FF8C00" fill-opacity="0.7"/>
+  </g>
+
+  <!-- Wordmark: "Consulting 2.0" -->
+  <!-- Using system fonts as fallback; replace with Syne in production -->
+  <text
+    x="82"
+    y="52"
+    font-family="'Syne', 'Arial Black', sans-serif"
+    font-weight="800"
+    font-size="40"
+    letter-spacing="-1.2"
+    fill="#FFFFFF">Consulting</text>
+  <text
+    x="305"
+    y="52"
+    font-family="'Syne', 'Arial Black', sans-serif"
+    font-weight="800"
+    font-size="40"
+    letter-spacing="-1.2"
+    fill="#00E599"> 2.0</text>
+
+  <!-- Tagline -->
+  <text
+    x="82"
+    y="68"
+    font-family="'JetBrains Mono', 'Courier New', monospace"
+    font-weight="400"
+    font-size="10"
+    letter-spacing="2.5"
+    fill="#8A9BBE">AGENTIC MARKETPLACE</text>
+</svg>

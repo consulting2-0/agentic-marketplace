@@ -1,17 +1,12 @@
 {
-  "name": "claude-code-templates",
-  "version": "1.28.13",
-  "description": "CLI tool to setup Claude Code configurations with framework-specific commands, automation hooks and MCP Servers for your projects",
+  "name": "c20-claude-template",
+  "version": "1.0.0",
+  "description": "Consulting 2.0 — Open source agentic marketplace CLI. Install AI agents, skills, commands, hooks and MCP integrations for Claude Code enterprise projects.",
   "main": "src/index.js",
   "bin": {
-    "create-claude-config": "bin/create-claude-config.js",
-    "claude-code-templates": "bin/create-claude-config.js",
-    "claude-code-template": "bin/create-claude-config.js",
-    "claude-init": "bin/create-claude-config.js",
-    "cctemplates": "bin/create-claude-config.js",
-    "cct": "bin/create-claude-config.js",
-    "claude-setup": "bin/create-claude-config.js",
-    "claude-config": "bin/create-claude-config.js"
+    "c20-claude-template": "bin/create-claude-config.js",
+    "c20": "bin/create-claude-config.js",
+    "create-claude-config": "bin/create-claude-config.js"
   },
   "scripts": {
     "start": "node bin/create-claude-config.js",

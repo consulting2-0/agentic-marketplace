@@ -34,6 +34,7 @@ export default function ComponentGrid({ initialType }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [activeType, setActiveType] = useState<string>(initialType);
   const [category, setCategory] = useState('all');
+  const [platform, setPlatform] = useState<'all' | 'claude' | 'joule' | 'both'>('all');
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState<'downloads' | 'name'>('downloads');
   const [page, setPage] = useState(1);
@@ -43,6 +44,7 @@ export default function ComponentGrid({ initialType }: Props) {
   useEffect(() => {
     setActiveType(initialType);
     setCategory('all');
+    setPlatform('all');
     setPage(1);
   }, [initialType]);
 
@@ -88,6 +90,10 @@ export default function ComponentGrid({ initialType }: Props) {
   const filtered = useMemo(() => {
     let items = typeComponents;
     if (category !== 'all') items = items.filter((c) => c.category === category);
+    if (platform !== 'all') items = items.filter((c) => {
+      const p = c.platform ?? 'claude';
+      return p === platform || p === 'both';
+    });
     if (search.trim()) {
       const q = search.toLowerCase();
       items = items.filter((c) =>
@@ -98,12 +104,12 @@ export default function ComponentGrid({ initialType }: Props) {
     if (sortBy === 'downloads') sorted.sort((a, b) => (b.downloads ?? 0) - (a.downloads ?? 0));
     else sorted.sort((a, b) => a.name.localeCompare(b.name));
     return sorted;
-  }, [typeComponents, category, search, sortBy]);
+  }, [typeComponents, category, platform, search, sortBy]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
   const paged = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
-  useEffect(() => { setPage(1); }, [category, search, activeType]);
+  useEffect(() => { setPage(1); }, [category, platform, search, activeType]);
 
   const counts = useMemo(() => {
     if (!data) return {};
@@ -169,8 +175,35 @@ export default function ComponentGrid({ initialType }: Props) {
 
   return (
     <div>
+      {/* Platform tabs */}
+      <div className="flex items-center gap-1 px-6 pt-3 pb-1 border-b border-[#1C2433]">
+        {([
+          { value: 'all',    label: 'All Platforms', color: '' },
+          { value: 'claude', label: 'Claude Code',   color: '#60A5FA' },
+          { value: 'joule',  label: 'SAP Joule',     color: '#00E599' },
+        ] as { value: 'all' | 'claude' | 'joule' | 'both'; label: string; color: string }[]).map(({ value, label, color }) => (
+          <button
+            key={value}
+            onClick={() => setPlatform(value)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors"
+            style={platform === value
+              ? { background: `${color || '#60A5FA'}18`, color: color || '#E4EBF8', border: `1px solid ${color || '#60A5FA'}30` }
+              : { color: '#4D6080', border: '1px solid transparent' }}
+          >
+            {value !== 'all' && color && (
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
+            )}
+            {label}
+          </button>
+        ))}
+        <span className="ml-auto text-[11px] text-[#4D6080]">
+          {filtered.length} result{filtered.length !== 1 ? 's' : ''}
+          {search && ` for "${search}"`}
+        </span>
+      </div>
+
       {/* Filter bar */}
-      <div className="flex items-center gap-2 px-6 py-3">
+      <div className="flex items-center gap-2 px-6 py-2.5">
         {/* Search */}
         <div className="relative">
           <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#666]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -210,14 +243,6 @@ export default function ComponentGrid({ initialType }: Props) {
         </div>
       </div>
 
-      {/* Results count */}
-      <div className="px-6 pb-2">
-        <span className="text-[11px] text-[--color-text-tertiary]">
-          {filtered.length} result{filtered.length !== 1 ? 's' : ''}
-          {search && ` for "${search}"`}
-        </span>
-      </div>
-
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 px-6 pb-6">
         {paged.map((component) => {
@@ -227,7 +252,7 @@ export default function ComponentGrid({ initialType }: Props) {
           return (
             <div
               key={component.path ?? component.name}
-              className="group flex items-start gap-3 p-4 rounded-xl bg-[#111111] border border-[#1a1a1a] hover:border-[#2a2a2a] hover:bg-[#151515] transition-all duration-200 cursor-pointer"
+              className="group flex items-start gap-3 p-4 rounded-xl bg-[#0D1117] border border-[#1C2433] hover:border-[#2A3550] hover:bg-[#111827] transition-all duration-200 cursor-pointer"
               onClick={() => {
                 window.location.href = `/component/${component.type}/${cleanPath(component.path ?? component.name)}`;
               }}
@@ -248,14 +273,23 @@ export default function ComponentGrid({ initialType }: Props) {
                 <p className="text-[12px] text-[--color-text-tertiary] line-clamp-2 mt-1 leading-relaxed">
                   {component.description || component.content?.slice(0, 120) || 'No description'}
                 </p>
-                <div className="flex items-center gap-2 mt-2.5">
+                <div className="flex items-center gap-1.5 mt-2.5 flex-wrap">
+                  {/* Platform badge */}
+                  {component.platform && component.platform !== 'claude' && (
+                    <span className="text-[9px] px-1.5 py-0.5 rounded font-semibold uppercase tracking-wider"
+                      style={component.platform === 'joule'
+                        ? { background: 'rgba(0,229,153,0.1)', color: '#00E599', border: '1px solid rgba(0,229,153,0.2)' }
+                        : { background: 'rgba(96,165,250,0.1)', color: '#60A5FA', border: '1px solid rgba(96,165,250,0.2)' }}>
+                      {component.platform === 'joule' ? 'Joule' : 'Claude + Joule'}
+                    </span>
+                  )}
                   {component.category && (
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.06] text-[--color-text-tertiary]">
                       {component.category}
                     </span>
                   )}
                   {(component.downloads ?? 0) > 0 && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center gap-1">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full flex items-center gap-1" style={{ background: 'rgba(52,211,153,0.08)', color: '#34D399' }}>
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                       </svg>
@@ -278,7 +312,7 @@ export default function ComponentGrid({ initialType }: Props) {
                   className={`w-7 h-7 rounded-lg flex items-center justify-center mt-0.5 transition-all ${
                     inCart
                       ? 'bg-white text-black'
-                      : 'text-[--color-text-tertiary] opacity-0 group-hover:opacity-100 hover:text-white hover:bg-white/10'
+                      : 'text-[--color-text-tertiary] hover:text-white hover:bg-white/10'
                   }`}
                   title={inCart ? 'Remove from stack' : 'Add to stack'}
                 >

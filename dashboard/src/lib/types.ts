@@ -8,6 +8,8 @@ export interface Component {
   url?: string;
   downloads?: number;
   references?: string[];
+  platform?: 'claude' | 'joule' | 'both';
+  featured?: boolean;
 }
 
 export interface ComponentsData {

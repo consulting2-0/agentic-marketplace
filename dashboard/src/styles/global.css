@@ -1,43 +1,48 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-50: #eef0fb;
-  --color-primary-100: #d4d7f2;
-  --color-primary-200: #a9b0e5;
-  --color-primary-300: #7e88d8;
-  --color-primary-400: #5e6ad2;
-  --color-primary-500: #5e6ad2;
-  --color-primary-600: #4b55a8;
-  --color-primary-700: #38407e;
-  --color-primary-800: #262b54;
-  --color-primary-900: #13152a;
+  /* Consulting 2.0 — Electric Blue (primary) */
+  --color-primary-50:  #e6eeff;
+  --color-primary-100: #b3caff;
+  --color-primary-200: #80a5ff;
+  --color-primary-300: #4d81ff;
+  --color-primary-400: #1a5cff;
+  --color-primary-500: #0057FF;
+  --color-primary-600: #0045cc;
+  --color-primary-700: #003499;
+  --color-primary-800: #002266;
+  --color-primary-900: #001133;
 
-  --color-accent-50: #fdf2ee;
-  --color-accent-100: #f9dcd2;
-  --color-accent-200: #f0b5a0;
-  --color-accent-300: #e38d6e;
-  --color-accent-400: #d57455;
-  --color-accent-500: #d57455;
-  --color-accent-600: #b35c3e;
-  --color-accent-700: #8c472f;
-  --color-accent-800: #663320;
-  --color-accent-900: #3f1f13;
+  /* Consulting 2.0 — Neon Mint (accent) */
+  --color-accent-50:  #e6fff6;
+  --color-accent-100: #b3ffe4;
+  --color-accent-200: #66ffca;
+  --color-accent-300: #1affaf;
+  --color-accent-400: #00E599;
+  --color-accent-500: #00b377;
+  --color-accent-600: #008055;
+  --color-accent-700: #004d33;
+  --color-accent-800: #001a11;
+  --color-accent-900: #000d09;
 
-  --color-surface-0: #000000;
-  --color-surface-1: #0a0a0a;
-  --color-surface-2: #111111;
-  --color-surface-3: #1a1a1a;
-  --color-surface-4: #252525;
+  /* Consulting 2.0 — Space dark surfaces */
+  --color-surface-0: #040D20;
+  --color-surface-1: #071535;
+  --color-surface-2: #0D1F45;
+  --color-surface-3: #162850;
+  --color-surface-4: #1E325C;
 
-  --color-border: #1f1f1f;
-  --color-border-hover: #333333;
+  --color-border:       #1A2E55;
+  --color-border-hover: #2B4880;
 
-  --color-text-primary: #ededed;
-  --color-text-secondary: #a1a1a1;
-  --color-text-tertiary: #666666;
+  --color-text-primary:   #E4EBF8;
+  --color-text-secondary: #8A9BBE;
+  --color-text-tertiary:  #4D6080;
 
-  --font-sans: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace;
+  /* Consulting 2.0 fonts */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Syne', 'Arial Black', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 }
 
 html {
@@ -52,7 +57,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar - Vercel thin style */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
@@ -63,28 +68,33 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: var(--color-border-hover);
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #3D5FA0;
 }
 
 /* Selection */
 ::selection {
-  background: rgba(94, 106, 210, 0.3);
+  background: rgba(0, 87, 255, 0.25);
 }
 
-/* Vercel-style focus ring */
+/* Focus ring */
 *:focus-visible {
   outline: 2px solid var(--color-primary-500);
   outline-offset: 2px;
 }
 
-/* Subtle transition for all interactive elements */
+/* Transitions */
 a, button {
   transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, opacity 150ms ease;
+}
+
+/* Consulting 2.0 glow */
+.c20-glow {
+  box-shadow: 0 0 16px rgba(0, 87, 255, 0.18), 0 0 40px rgba(0, 229, 153, 0.06);
 }
 
 /* Markdown preview styles */
@@ -125,7 +135,7 @@ a, button {
 }
 
 .md-preview a {
-  color: var(--color-accent-400);
+  color: var(--color-primary-400);
   text-decoration: none;
 }
 
@@ -145,10 +155,10 @@ a, button {
 .md-preview code {
   font-family: var(--font-mono);
   font-size: 0.85em;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 87, 255, 0.08);
   padding: 0.15em 0.4em;
   border-radius: 4px;
-  color: var(--color-text-primary);
+  color: var(--color-accent-400);
 }
 
 .md-preview .md-code-block {
@@ -210,10 +220,10 @@ a, button {
 }
 
 .md-preview blockquote {
-  border-left: 3px solid var(--color-accent-400);
+  border-left: 3px solid var(--color-primary-500);
   padding: 0.5em 1em;
   margin: 1em 0;
-  background: rgba(213, 116, 85, 0.05);
+  background: rgba(0, 87, 255, 0.05);
   border-radius: 0 6px 6px 0;
   color: var(--color-text-secondary);
 }
@@ -250,7 +260,7 @@ a, button {
 }
 
 .md-preview tbody tr:hover {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 87, 255, 0.04);
 }
 
 .md-preview img {
@@ -261,7 +271,7 @@ a, button {
 
 .md-preview input[type="checkbox"] {
   margin-right: 0.4em;
-  accent-color: var(--color-accent-400);
+  accent-color: var(--color-primary-500);
 }
 
 .md-preview dl dt {
@@ -275,9 +285,9 @@ a, button {
   margin-bottom: 0.4em;
 }
 
-/* Search highlights in markdown preview */
+/* Search highlights */
 mark.md-search-hl {
-  background: rgba(213, 116, 85, 0.3);
+  background: rgba(0, 229, 153, 0.2);
   color: var(--color-text-primary);
   border-radius: 2px;
   padding: 0 1px;

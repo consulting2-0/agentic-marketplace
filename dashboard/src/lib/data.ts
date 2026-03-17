@@ -118,5 +118,5 @@ export function getInstallCommand(component: Component): string {
   };
   const flag = typeFlag[component.type] ?? '--agent';
   const cleanPath = component.path?.replace(/\.(md|json)$/, '') ?? component.name;
-  return `npx claude-code-templates@latest ${flag} ${cleanPath}`;
+  return `npx c20-claude-template@latest ${flag} ${cleanPath}`;
 }

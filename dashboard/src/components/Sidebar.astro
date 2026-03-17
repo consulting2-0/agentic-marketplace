@@ -1,6 +1,5 @@
 ---
 import NavItem from './NavItem.astro';
-import { NAV_LINKS } from '../lib/constants';
 import { TYPE_CONFIG, ICONS } from '../lib/icons';
 import AuthButton from './AuthButton';
 import MyComponentsSidebarItem from './MyComponentsSidebarItem';
@@ -15,11 +14,37 @@ function isActive(path: string): boolean {
 
 <div class="flex flex-col h-full">
   <!-- Logo -->
-  <div class="px-4 py-4">
-    <a href="/" class="flex items-center gap-2">
-      <img src="/logo.png" alt="AI Templates" class="w-6 h-6 shrink-0" />
-      <span class="text-[13px] font-semibold text-text-primary tracking-tight">AI Templates</span>
-      <span class="text-[9px] font-semibold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded">Beta</span>
+  <div class="px-4 py-4 border-b border-border">
+    <a href="/" class="flex items-center gap-2.5">
+      <!-- Consulting 2.0 hexagon icon mark -->
+      <svg width="26" height="26" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+        <rect width="200" height="200" rx="40" fill="#071535"/>
+        <g transform="translate(16, 16) scale(1.9)">
+          <path d="M44 4L80 24V64L44 84L8 64V24L44 4Z" fill="#071535" stroke="#0057FF" stroke-width="1.5"/>
+          <line x1="44" y1="24" x2="26" y2="46" stroke="#0057FF" stroke-opacity="0.5" stroke-width="1.3"/>
+          <line x1="44" y1="24" x2="62" y2="46" stroke="#0057FF" stroke-opacity="0.5" stroke-width="1.3"/>
+          <line x1="26" y1="46" x2="44" y2="64" stroke="#00E599" stroke-opacity="0.65" stroke-width="1.3"/>
+          <line x1="62" y1="46" x2="44" y2="64" stroke="#00E599" stroke-opacity="0.65" stroke-width="1.3"/>
+          <line x1="26" y1="46" x2="62" y2="46" stroke="#7B4FFF" stroke-opacity="0.35" stroke-width="1"/>
+          <circle cx="44" cy="24" r="5.5" fill="#0057FF"/>
+          <circle cx="44" cy="24" r="9" fill="#0057FF" fill-opacity="0.15"/>
+          <circle cx="26" cy="46" r="4.5" fill="#3D80FF"/>
+          <circle cx="62" cy="46" r="4.5" fill="#3D80FF"/>
+          <circle cx="44" cy="64" r="5.5" fill="#00E599"/>
+          <circle cx="44" cy="64" r="9" fill="#00E599" fill-opacity="0.15"/>
+          <circle cx="20" cy="32" r="2.8" fill="#7B4FFF" fill-opacity="0.8"/>
+          <circle cx="68" cy="32" r="2.8" fill="#7B4FFF" fill-opacity="0.8"/>
+          <circle cx="20" cy="58" r="2.2" fill="#FF8C00" fill-opacity="0.7"/>
+          <circle cx="68" cy="58" r="2.2" fill="#FF8C00" fill-opacity="0.7"/>
+        </g>
+      </svg>
+      <div class="flex flex-col">
+        <span class="text-[13px] font-semibold tracking-tight leading-none" style="font-family: 'Syne', sans-serif;">
+          <span class="text-text-primary">Consulting </span><span style="color: #00E599;">2.0</span>
+        </span>
+        <span class="text-[9px] tracking-widest leading-none mt-0.5 uppercase" style="color: #8A9BBE; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.15em;">Agentic Marketplace</span>
+      </div>
+      <span class="ml-auto text-[9px] font-semibold uppercase tracking-wider bg-primary-500/15 text-primary-400 px-1.5 py-0.5 rounded">Beta</span>
     </a>
   </div>
 
@@ -27,7 +52,7 @@ function isActive(path: string): boolean {
   <nav class="flex-1 overflow-y-auto px-2 py-1 space-y-0.5">
     <!-- Workplace section -->
     <div class="px-2 py-2">
-      <span class="text-[11px] font-medium text-text-tertiary uppercase tracking-widest">Workplace</span>
+      <span class="text-[11px] font-medium text-text-tertiary uppercase tracking-widest">My Workspace</span>
     </div>
 
     <!-- My Components (React island) -->
@@ -38,7 +63,7 @@ function isActive(path: string): boolean {
 
     <!-- Browse section -->
     <div class="px-2 py-2">
-      <span class="text-[11px] font-medium text-text-tertiary uppercase tracking-widest">Browse</span>
+      <span class="text-[11px] font-medium text-text-tertiary uppercase tracking-widest">Catalog</span>
     </div>
 
     {Object.entries(TYPE_CONFIG).map(([type, config]) => (
@@ -64,56 +89,6 @@ function isActive(path: string): boolean {
       </a>
     ))}
 
-    <!-- Divider -->
-    <div class="my-3 mx-2 border-t border-border"></div>
-
-    <!-- Resources -->
-    <div class="px-2 py-2">
-      <span class="text-[11px] font-medium text-text-tertiary uppercase tracking-widest">Resources</span>
-    </div>
-
-    <a href="/trending"
-      class:list={[
-        'flex items-center gap-2.5 px-2.5 py-[6px] rounded-md text-[13px] transition-colors group',
-        isActive('/trending')
-          ? 'bg-surface-3 text-text-primary font-medium'
-          : 'text-text-secondary hover:text-text-primary hover:bg-surface-2',
-      ]}>
-      <svg class:list={[
-        'w-4 h-4 shrink-0',
-        isActive('/trending') ? 'text-text-primary' : 'text-text-tertiary group-hover:text-text-secondary',
-      ]} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-      </svg>
-      <span>Trending</span>
-    </a>
-
-    <a href={NAV_LINKS.blog} target="_blank" rel="noopener noreferrer"
-      class="flex items-center gap-2.5 px-2.5 py-[6px] rounded-md text-[13px] text-text-secondary hover:text-text-primary hover:bg-surface-2 transition-colors group">
-      <svg class="w-4 h-4 shrink-0 text-text-tertiary group-hover:text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 19.5v-15A2.5 2.5 0 016.5 2H20v20H6.5a2.5 2.5 0 010-5H20" />
-      </svg>
-      <span>Blog</span>
-      <svg class="w-3 h-3 ml-auto opacity-0 group-hover:opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-    </a>
-
-    <a href={NAV_LINKS.docs} target="_blank" rel="noopener noreferrer"
-      class="flex items-center gap-2.5 px-2.5 py-[6px] rounded-md text-[13px] text-text-secondary hover:text-text-primary hover:bg-surface-2 transition-colors group">
-      <svg class="w-4 h-4 shrink-0 text-text-tertiary group-hover:text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" />
-      </svg>
-      <span>Docs</span>
-      <svg class="w-3 h-3 ml-auto opacity-0 group-hover:opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-    </a>
-
-    <a href={NAV_LINKS.github} target="_blank" rel="noopener noreferrer"
-      class="flex items-center gap-2.5 px-2.5 py-[6px] rounded-md text-[13px] text-text-secondary hover:text-text-primary hover:bg-surface-2 transition-colors group">
-      <svg class="w-4 h-4 shrink-0 text-text-tertiary group-hover:text-text-secondary" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-      </svg>
-      <span>GitHub</span>
-      <svg class="w-3 h-3 ml-auto opacity-0 group-hover:opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-    </a>
   </nav>
 
   <!-- Bottom -->

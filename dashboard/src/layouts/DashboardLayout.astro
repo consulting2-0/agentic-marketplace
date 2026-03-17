@@ -10,8 +10,8 @@ interface Props {
 }
 
 const {
-  title = 'Claude Code Templates',
-  description = 'Browse and install 1000+ components for Claude Code: AI agents, slash commands, MCP integrations, hooks, settings, and skills. Free, open-source CLI tool.',
+  title = 'Consulting 2.0 — Agentic Marketplace for Enterprise Intelligence',
+  description = 'The open-source agentic marketplace for SAP BTP. Browse and install AI agents, skills, commands, hooks and MCP integrations built for enterprise consulting.',
   ogImage = '/logo.png'
 } = Astro.props;
 
@@ -23,24 +23,17 @@ const schemaData = JSON.stringify({
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://www.aitmpl.com/#website",
-      "url": "https://www.aitmpl.com/",
-      "name": "Claude Code Templates",
-      "description": "Marketplace for Claude Code components: agents, commands, skills, settings, hooks, and MCPs",
-      "publisher": { "@id": "https://www.aitmpl.com/#organization" }
+      "@id": "https://consulting20.com/#website",
+      "url": "https://consulting20.com/",
+      "name": "Consulting 2.0",
+      "description": "The open-source agentic marketplace for enterprise intelligence",
+      "publisher": { "@id": "https://consulting20.com/#organization" }
     },
     {
       "@type": "Organization",
-      "@id": "https://www.aitmpl.com/#organization",
-      "name": "Claude Code Templates",
-      "url": "https://www.aitmpl.com/",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://www.aitmpl.com/logo.png"
-      },
-      "sameAs": [
-        "https://github.com/davila7/claude-code-templates"
-      ]
+      "@id": "https://consulting20.com/#organization",
+      "name": "Consulting 2.0",
+      "url": "https://consulting20.com/"
     }
   ]
 });
@@ -61,7 +54,7 @@ const schemaData = JSON.stringify({
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageURL} />
-    <meta property="og:site_name" content="Claude Code Templates" />
+    <meta property="og:site_name" content="Consulting 2.0" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -72,10 +65,10 @@ const schemaData = JSON.stringify({
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={schemaData} />
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   </head>
   <body class="bg-surface-0 text-text-primary antialiased">
     <div class="flex h-screen overflow-hidden">
@@ -90,6 +83,15 @@ const schemaData = JSON.stringify({
       <!-- Main content -->
       <main class="flex-1 md:ml-[220px] overflow-y-auto bg-surface-0">
         <slot />
+        <footer class="px-6 py-4 border-t border-[#1C2433] text-center">
+          <p class="text-[11px] text-[#4D6080]">
+            Made with ❤️ in Amsterdam by Claude Code &amp;
+            <a href="https://www.linkedin.com/in/sudiphcp/" target="_blank" rel="noopener noreferrer"
+              class="text-[#8A9BBE] hover:text-[#E4EBF8] transition-colors underline underline-offset-2">
+              Sudip
+            </a>
+          </p>
+        </footer>
       </main>
     </div>
 

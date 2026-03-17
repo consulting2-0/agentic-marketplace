@@ -1,34 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { collectionsApi } from '../lib/collections-api';
+import { localCollectionsApi as collectionsApi } from '../lib/local-collections-api';
 import type { Collection } from '../lib/types';
 
-// Hook that reads auth state from Clerk's global instance (window.Clerk)
-// Works without needing a ClerkProvider in the same React tree
+// Auth hook (local mode — always signed in, no Clerk needed)
 function useGlobalAuth() {
-  const [state, setState] = useState({ isSignedIn: false, isLoaded: false });
-
-  useEffect(() => {
-    function check() {
-      const clerk = (window as any).Clerk;
-      if (clerk?.loaded) {
-        setState({ isSignedIn: !!clerk.user, isLoaded: true });
-      }
-    }
-    check();
-    // Re-check periodically until Clerk loads
-    const interval = setInterval(check, 500);
-    // Also listen for clerk state changes
-    const handleChange = () => check();
-    window.addEventListener('clerk:session', handleChange);
-    return () => { clearInterval(interval); window.removeEventListener('clerk:session', handleChange); };
-  }, []);
-
-  const getToken = async () => {
-    const clerk = (window as any).Clerk;
-    return clerk?.session?.getToken() ?? null;
-  };
-
-  return { ...state, getToken };
+  const getToken = async () => 'local';
+  return { isSignedIn: true, isLoaded: true, getToken };
 }
 
 interface Props {
@@ -194,7 +171,7 @@ function SaveButton({ componentType, componentPath, componentName, componentCate
         className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-all ${
           isSaved
             ? 'text-blue-400'
-            : 'text-[--color-text-tertiary] opacity-0 group-hover:opacity-100 hover:text-white hover:bg-white/10'
+            : 'text-[--color-text-tertiary] hover:text-white hover:bg-white/10'
         }`}
         title={isSaved ? 'Saved to collection' : 'Save to collection'}
       >

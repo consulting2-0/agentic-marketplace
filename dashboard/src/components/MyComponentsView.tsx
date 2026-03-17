@@ -1,35 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { collectionsApi } from '../lib/collections-api';
+import { localCollectionsApi as collectionsApi } from '../lib/local-collections-api';
 import { TYPE_CONFIG } from '../lib/icons';
 import TypeIcon from './TypeIcon';
 import SendToRepoModal from './SendToRepoModal';
 import type { Collection, CollectionItem } from '../lib/types';
 
-// ── Auth hook ────────────────────────────────────────────────────────────
+// ── Auth hook (local mode — always signed in, no Clerk needed) ───────────
 function useGlobalAuth() {
-  const [state, setState] = useState({ isSignedIn: false, isLoaded: false, email: '' });
-
-  useEffect(() => {
-    function check() {
-      const clerk = (window as any).Clerk;
-      if (clerk?.loaded) {
-        const email = clerk.user?.primaryEmailAddress?.emailAddress ?? '';
-        setState({ isSignedIn: !!clerk.user, isLoaded: true, email });
-      }
-    }
-    check();
-    const interval = setInterval(check, 500);
-    const handleChange = () => check();
-    window.addEventListener('clerk:session', handleChange);
-    return () => { clearInterval(interval); window.removeEventListener('clerk:session', handleChange); };
-  }, []);
-
-  const getToken = async () => {
-    const clerk = (window as any).Clerk;
-    return clerk?.session?.getToken() ?? null;
-  };
-
-  return { ...state, getToken };
+  const getToken = async () => 'local';
+  return { isSignedIn: true, isLoaded: true, email: 'local', getToken };
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────
@@ -356,7 +335,7 @@ function generateCommand(items: CollectionItem[]): string {
     if (!grouped[t]) grouped[t] = [];
     grouped[t].push(cleanPath(item.component_path));
   }
-  let cmd = 'npx claude-code-templates@latest';
+  let cmd = 'npx c20-claude-template@latest';
   for (const [type, paths] of Object.entries(grouped)) {
     const flag = TYPE_FLAGS[type];
     if (flag) cmd += ` ${flag} ${paths.join(',')}`;

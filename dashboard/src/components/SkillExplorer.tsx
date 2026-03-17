@@ -30,7 +30,7 @@ interface SkillExplorerProps {
   headings: Heading[];
 }
 
-const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/davila7/claude-code-templates/main/cli-tool/components/skills';
+const COMPONENT_FILES_API = '/api/component-files';
 
 const EXT_COLORS: Record<string, string> = {
   md: '#60a5fa', js: '#facc15', ts: '#60a5fa', tsx: '#60a5fa', jsx: '#facc15',
@@ -174,7 +174,8 @@ export default function SkillExplorer({ skillContent, skillName, skillPath, refe
   useEffect(() => {
     if (selectedFile === 'SKILL.md') { setFileContent(skillContent); setError(''); return; }
     setLoading(true); setError('');
-    fetch(`${GITHUB_RAW_BASE}/${skillPath}/${selectedFile}`)
+    const params = new URLSearchParams({ componentPath: skillPath, file: selectedFile });
+    fetch(`${COMPONENT_FILES_API}?${params}`)
       .then((res) => { if (!res.ok) throw new Error(`HTTP ${res.status}`); return res.text(); })
       .then((text) => setFileContent(text))
       .catch((e) => { setError(`Failed to load file: ${e.message}`); setFileContent(''); })

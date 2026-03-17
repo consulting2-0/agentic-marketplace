@@ -48,7 +48,7 @@ export default function CartSidebar() {
 
   // Generate command
   function generateCommand(): string {
-    let cmd = 'npx claude-code-templates@latest';
+    let cmd = 'npx c20-claude-template@latest';
     for (const [type, items] of Object.entries(cart)) {
       if (items?.length > 0) {
         const flag = TYPE_FLAGS[type];

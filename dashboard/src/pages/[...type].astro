@@ -2,13 +2,13 @@
 import DashboardLayout from '../layouts/DashboardLayout.astro';
 import TopBar from '../components/TopBar.astro';
 import PartnerBanner from '../components/PartnerBanner.astro';
-import FeaturedSection from '../components/FeaturedSection.astro';
+import FeaturedSection from '../components/FeaturedSection.tsx';
 import ComponentGrid from '../components/ComponentGrid.tsx';
 import SearchModal from '../components/SearchModal.tsx';
 import CartSidebar from '../components/CartSidebar.tsx';
 import { VALID_TYPES } from '../lib/icons';
 
-export const prerender = true;
+export const prerender = false;
 
 const TYPE_META: Record<string, { title: string; description: string }> = {
   skills: {
@@ -40,16 +40,6 @@ const TYPE_META: Record<string, { title: string; description: string }> = {
 const { type } = Astro.params;
 const activeType = type && VALID_TYPES.includes(type) ? type : 'skills';
 
-export function getStaticPaths() {
-  return [
-    { params: { type: 'skills' } },
-    { params: { type: 'agents' } },
-    { params: { type: 'commands' } },
-    { params: { type: 'settings' } },
-    { params: { type: 'hooks' } },
-    { params: { type: 'mcps' } },
-  ];
-}
 ---
 
 <DashboardLayout
@@ -58,7 +48,7 @@ export function getStaticPaths() {
 >
   <TopBar />
   <PartnerBanner />
-  <FeaturedSection />
+  <FeaturedSection client:load />
   <ComponentGrid client:load initialType={activeType} />
   <SearchModal client:idle />
   <CartSidebar client:idle />

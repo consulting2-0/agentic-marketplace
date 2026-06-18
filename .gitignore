@@ -71,3 +71,6 @@ openspec/
 
 # Crawl output (cf-crawl skill)
 .crawl-output/
+
+# Visual companion / brainstorming mockups
+.superpowers/

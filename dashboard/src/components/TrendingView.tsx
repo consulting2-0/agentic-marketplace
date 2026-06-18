@@ -202,7 +202,7 @@ export default function TrendingView() {
                 </div>
 
                 {/* Stats */}
-                <span className={`text-[12px] text-right tabular-nums self-center ${item.downloadsToday > 0 ? 'text-emerald-400' : 'text-[#555]'}`}>
+                <span className={`text-[12px] text-right tabular-nums self-center ${item.downloadsToday > 0 ? 'text-emerald-600' : 'text-[#555]'}`}>
                   {item.downloadsToday > 0 ? `+${item.downloadsToday}` : '0'}
                 </span>
                 <span className="text-[12px] text-right tabular-nums self-center text-[#5C5A50]">

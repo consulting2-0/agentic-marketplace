@@ -300,7 +300,7 @@ export default function MarkdownViewer({ content, headings }: MarkdownViewerProp
               }}
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs transition-colors ${
                 searchOpen
-                  ? 'bg-accent-500/15 text-accent-400'
+                  ? 'bg-primary-50 text-primary-700'
                   : 'text-text-tertiary hover:text-text-secondary hover:bg-surface-2'
               }`}
               title="Search in document (Cmd+F)"
@@ -370,7 +370,7 @@ export default function MarkdownViewer({ content, headings }: MarkdownViewerProp
                     }`}
                   >
                     {result.type === 'heading' ? (
-                      <svg className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <svg className="w-3.5 h-3.5 mt-0.5 shrink-0 text-primary-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 7.5h13.5m-13.5 4.5h7.5m-7.5 4.5h13.5" />
                       </svg>
                     ) : (
@@ -477,7 +477,7 @@ export default function MarkdownViewer({ content, headings }: MarkdownViewerProp
                       h.level === 1 ? 'pl-3' : h.level === 2 ? 'pl-5' : 'pl-7'
                     } ${
                       activeHeading === h.id
-                        ? 'border-accent-400 text-accent-400'
+                        ? 'border-primary-700 text-primary-700'
                         : 'border-transparent text-text-tertiary hover:text-text-secondary hover:border-border'
                     }`}
                     title={h.text}
@@ -515,7 +515,7 @@ function HighlightText({ text, query, className }: { text: string; query: string
     <span className={className}>
       {parts.map((p, i) =>
         p.match ? (
-          <mark key={i} className="bg-accent-400/25 text-accent-300 rounded-sm px-px">{p.text}</mark>
+          <mark key={i} className="bg-primary-100 text-primary-900 rounded-sm px-px">{p.text}</mark>
         ) : (
           <span key={i}>{p.text}</span>
         )

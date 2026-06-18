@@ -74,7 +74,7 @@ function JsonPrimitive({ keyName, depth, value, className }: { keyName?: string;
   return (
     <div className="flex items-start" style={{ paddingLeft: `${depth * 1.25 + 0.75}rem` }}>
       {keyName !== undefined && (
-        <span className="text-accent-400 shrink-0">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
+        <span className="text-primary-700 shrink-0">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
       )}
       <span className={className}>{value}</span>
     </div>
@@ -90,7 +90,7 @@ function JsonString({ keyName, depth, value }: { keyName?: string; depth: number
   return (
     <div className="flex items-start group/str" style={{ paddingLeft: `${depth * 1.25 + 0.75}rem` }}>
       {keyName !== undefined && (
-        <span className="text-accent-400 shrink-0">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
+        <span className="text-primary-700 shrink-0">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
       )}
       <span className="text-green-400 break-all">
         &quot;{display}&quot;
@@ -131,7 +131,7 @@ function JsonObject({
     return (
       <div style={{ paddingLeft: `${depth * 1.25 + 0.75}rem` }}>
         {keyName !== undefined && (
-          <span className="text-accent-400">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
+          <span className="text-primary-700">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
         )}
         <span className="text-text-tertiary">{'{}'}</span>
       </div>
@@ -152,7 +152,7 @@ function JsonObject({
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
         {keyName !== undefined && (
-          <span className="text-accent-400">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
+          <span className="text-primary-700">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
         )}
         <span className="text-text-tertiary">{'{'}</span>
         {!open && (
@@ -204,7 +204,7 @@ function JsonArray({
     return (
       <div style={{ paddingLeft: `${depth * 1.25 + 0.75}rem` }}>
         {keyName !== undefined && (
-          <span className="text-accent-400">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
+          <span className="text-primary-700">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
         )}
         <span className="text-text-tertiary">{'[]'}</span>
       </div>
@@ -225,7 +225,7 @@ function JsonArray({
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
         {keyName !== undefined && (
-          <span className="text-accent-400">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
+          <span className="text-primary-700">&quot;{keyName}&quot;<span className="text-text-tertiary">: </span></span>
         )}
         <span className="text-text-tertiary">{'['}</span>
         {!open && (

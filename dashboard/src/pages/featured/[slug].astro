@@ -121,8 +121,8 @@ if (!item) {
                 <h2>BrainGrid Is Like Claude Code Plan Mode for Your Entire Product</h2>
                 <p>Think of BrainGrid as Claude Code plan mode, but applied to your entire product, not just a single prompt.</p>
                 <div class="bg-surface-2 border border-border rounded-lg p-4 my-4 space-y-2">
-                  <p><strong class="text-accent-400">Claude Code</strong> helps you plan a feature.</p>
-                  <p><strong class="text-accent-400">BrainGrid</strong> helps you plan the product.</p>
+                  <p><strong class="text-primary-700">Claude Code</strong> helps you plan a feature.</p>
+                  <p><strong class="text-primary-700">BrainGrid</strong> helps you plan the product.</p>
                 </div>
                 <p>BrainGrid acts as a Product Management Agent that sits upstream of Claude Code. It turns messy ideas into clear specifications, end-to-end UX flows, task breakdowns, and engineering-grade prompts that Claude Code can execute reliably.</p>
 
@@ -160,7 +160,7 @@ if (!item) {
 
                 <h3>1. Provisioning Layer</h3>
                 <p><strong>neon-instagres Skill</strong> — Auto-activating skill that provisions Postgres databases via <code>npx get-db</code>. Triggers on keywords like "database", "postgres", or "PostgreSQL".</p>
-                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-accent-400 font-mono">npx get-db --yes --ref 4eCjZDz</code></div>
+                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-primary-700 font-mono">npx get-db --yes --ref 4eCjZDz</code></div>
                 <p>Creates three environment variables:</p>
                 <ul>
                   <li><code>DATABASE_URL</code> — Connection pooler endpoint</li>
@@ -188,10 +188,10 @@ if (!item) {
 
                 <h2>Installation</h2>
                 <h3>Option 1: Skills Only</h3>
-                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-accent-400 font-mono break-all">npx c20-claude-template@latest --skill database/neon-instagres,database/using-neon</code></div>
+                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-primary-700 font-mono break-all">npx c20-claude-template@latest --skill database/neon-instagres,database/using-neon</code></div>
 
                 <h3>Option 2: Complete Template</h3>
-                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-accent-400 font-mono break-all whitespace-pre-wrap">npx c20-claude-template@latest \
+                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-primary-700 font-mono break-all whitespace-pre-wrap">npx c20-claude-template@latest \
   --skill database/neon-instagres,database/using-neon \
   --agent database/neon-expert,database/neon-database-architect,database/neon-auth-specialist,data-ai/neon-migration-specialist,data-ai/neon-optimization-analyzer \
   --mcp database/neon \
@@ -227,12 +227,12 @@ if (!item) {
 
                 <h3>1. Skills Layer</h3>
                 <div class="space-y-3 my-4">
-                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#128269;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">search Skill</p><p class="text-text-secondary text-sm mt-0.5">Google search with structured JSON results. Returns titles, links, and descriptions via Web Unlocker API with parsed_light format.</p></div><a href="/component/skill/web-data/search" class="shrink-0 self-center text-xs font-medium text-accent-400 border border-accent-400/30 rounded-md px-3 py-1.5 hover:bg-accent-400/10 transition-colors no-underline">View</a></div>
-                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#127760;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">scrape Skill</p><p class="text-text-secondary text-sm mt-0.5">Scrape any webpage as clean markdown. Automatic bot detection bypass, CAPTCHA solving, and JavaScript rendering via Web Unlocker.</p></div><a href="/component/skill/web-data/scrape" class="shrink-0 self-center text-xs font-medium text-accent-400 border border-accent-400/30 rounded-md px-3 py-1.5 hover:bg-accent-400/10 transition-colors no-underline">View</a></div>
-                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#128202;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">data-feeds Skill</p><p class="text-text-secondary text-sm mt-0.5">Extract structured data from 40+ websites. Covers e-commerce, professional networks, social media, and more with automatic polling.</p></div><a href="/component/skill/web-data/data-feeds" class="shrink-0 self-center text-xs font-medium text-accent-400 border border-accent-400/30 rounded-md px-3 py-1.5 hover:bg-accent-400/10 transition-colors no-underline">View</a></div>
-                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#9889;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">bright-data-mcp Skill</p><p class="text-text-secondary text-sm mt-0.5">Workflow orchestration guide that teaches Claude how to optimally use Bright Data's MCP server across all 60+ tools.</p></div><a href="/component/skill/web-data/bright-data-mcp" class="shrink-0 self-center text-xs font-medium text-accent-400 border border-accent-400/30 rounded-md px-3 py-1.5 hover:bg-accent-400/10 transition-colors no-underline">View</a></div>
-                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#128218;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">bright-data-best-practices Skill</p><p class="text-text-secondary text-sm mt-0.5">Production-ready API reference covering Web Unlocker, SERP API, Web Scraper API, and Browser API with code examples.</p></div><a href="/component/skill/web-data/bright-data-best-practices" class="shrink-0 self-center text-xs font-medium text-accent-400 border border-accent-400/30 rounded-md px-3 py-1.5 hover:bg-accent-400/10 transition-colors no-underline">View</a></div>
-                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#127912;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">design-mirror Skill</p><p class="text-text-secondary text-sm mt-0.5">Capture visual design from any website and apply it to your codebase. Extracts design tokens, colors, typography, and spacing.</p></div><a href="/component/skill/web-data/design-mirror" class="shrink-0 self-center text-xs font-medium text-accent-400 border border-accent-400/30 rounded-md px-3 py-1.5 hover:bg-accent-400/10 transition-colors no-underline">View</a></div>
+                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#128269;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">search Skill</p><p class="text-text-secondary text-sm mt-0.5">Google search with structured JSON results. Returns titles, links, and descriptions via Web Unlocker API with parsed_light format.</p></div><a href="/component/skill/web-data/search" class="shrink-0 self-center text-xs font-medium text-primary-700 border border-primary-700/30 rounded-md px-3 py-1.5 hover:bg-primary-50 transition-colors no-underline">View</a></div>
+                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#127760;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">scrape Skill</p><p class="text-text-secondary text-sm mt-0.5">Scrape any webpage as clean markdown. Automatic bot detection bypass, CAPTCHA solving, and JavaScript rendering via Web Unlocker.</p></div><a href="/component/skill/web-data/scrape" class="shrink-0 self-center text-xs font-medium text-primary-700 border border-primary-700/30 rounded-md px-3 py-1.5 hover:bg-primary-50 transition-colors no-underline">View</a></div>
+                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#128202;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">data-feeds Skill</p><p class="text-text-secondary text-sm mt-0.5">Extract structured data from 40+ websites. Covers e-commerce, professional networks, social media, and more with automatic polling.</p></div><a href="/component/skill/web-data/data-feeds" class="shrink-0 self-center text-xs font-medium text-primary-700 border border-primary-700/30 rounded-md px-3 py-1.5 hover:bg-primary-50 transition-colors no-underline">View</a></div>
+                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#9889;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">bright-data-mcp Skill</p><p class="text-text-secondary text-sm mt-0.5">Workflow orchestration guide that teaches Claude how to optimally use Bright Data's MCP server across all 60+ tools.</p></div><a href="/component/skill/web-data/bright-data-mcp" class="shrink-0 self-center text-xs font-medium text-primary-700 border border-primary-700/30 rounded-md px-3 py-1.5 hover:bg-primary-50 transition-colors no-underline">View</a></div>
+                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#128218;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">bright-data-best-practices Skill</p><p class="text-text-secondary text-sm mt-0.5">Production-ready API reference covering Web Unlocker, SERP API, Web Scraper API, and Browser API with code examples.</p></div><a href="/component/skill/web-data/bright-data-best-practices" class="shrink-0 self-center text-xs font-medium text-primary-700 border border-primary-700/30 rounded-md px-3 py-1.5 hover:bg-primary-50 transition-colors no-underline">View</a></div>
+                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 text-xl">&#127912;</span><div class="flex-1"><p class="font-medium text-text-primary text-sm">design-mirror Skill</p><p class="text-text-secondary text-sm mt-0.5">Capture visual design from any website and apply it to your codebase. Extracts design tokens, colors, typography, and spacing.</p></div><a href="/component/skill/web-data/design-mirror" class="shrink-0 self-center text-xs font-medium text-primary-700 border border-primary-700/30 rounded-md px-3 py-1.5 hover:bg-primary-50 transition-colors no-underline">View</a></div>
                 </div>
 
                 <h3>2. Integration Layer</h3>
@@ -252,17 +252,17 @@ if (!item) {
 
                 <h2>Installation</h2>
                 <h3>Option 1: Skills Only</h3>
-                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-accent-400 font-mono break-all">npx c20-claude-template@latest --skill web-data/search,web-data/scrape,web-data/data-feeds,web-data/bright-data-mcp,web-data/bright-data-best-practices</code></div>
+                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-primary-700 font-mono break-all">npx c20-claude-template@latest --skill web-data/search,web-data/scrape,web-data/data-feeds,web-data/bright-data-mcp,web-data/bright-data-best-practices</code></div>
 
                 <h3>Option 2: Complete Template (Skills + MCP)</h3>
-                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-accent-400 font-mono break-all whitespace-pre-wrap">npx c20-claude-template@latest \
+                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-primary-700 font-mono break-all whitespace-pre-wrap">npx c20-claude-template@latest \
   --skill web-data/search,web-data/scrape,web-data/data-feeds,web-data/bright-data-mcp,web-data/bright-data-best-practices \
   --mcp web-data/brightdata \
   --yes</code></div>
 
                 <h3>Option 3: MCP Only (No Skills)</h3>
                 <p>Add to your Claude Code MCP settings:</p>
-                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-accent-400 font-mono break-all whitespace-pre-wrap">&#123;
+                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-primary-700 font-mono break-all whitespace-pre-wrap">&#123;
   "mcpServers": &#123;
     "brightdata": &#123;
       "url": "https://mcp.brightdata.com/mcp?token=YOUR_TOKEN&amp;pro=1"
@@ -311,7 +311,7 @@ if (!item) {
                 <p><strong>4,000+ happy users across 109 countries trust ClaudeKit to power their development workflow.</strong></p>
 
                 <h2>Quick Installation</h2>
-                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-accent-400 font-mono whitespace-pre-wrap"># Login with your GitHub account
+                <div class="bg-surface-2 border border-border rounded-lg p-3 my-3"><code class="text-sm text-primary-700 font-mono whitespace-pre-wrap"># Login with your GitHub account
 gh auth login
 
 # Install ClaudeKit CLI
@@ -325,11 +325,11 @@ ck init -g</code></div>
 
                 <h2>The Battle-Tested Workflow</h2>
                 <div class="space-y-3 my-4">
-                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 w-7 h-7 rounded-lg bg-surface-3 flex items-center justify-center text-sm font-bold text-accent-400">1</span><div><p class="font-medium text-text-primary text-sm">/docs:init</p><p class="text-text-secondary text-sm mt-0.5">Scans your codebase, generates specs: structure, architecture, code standards, product overview, and design guidelines.</p></div></div>
-                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 w-7 h-7 rounded-lg bg-surface-3 flex items-center justify-center text-sm font-bold text-accent-400">2</span><div><p class="font-medium text-text-primary text-sm">/brainstorm</p><p class="text-text-secondary text-sm mt-0.5">Describe what you want to build. AI asks questions, challenges you, and produces requirement specs.</p></div></div>
-                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 w-7 h-7 rounded-lg bg-surface-3 flex items-center justify-center text-sm font-bold text-accent-400">3</span><div><p class="font-medium text-text-primary text-sm">/plan</p><p class="text-text-secondary text-sm mt-0.5">Researches approaches, spawns researcher agents in parallel, creates a comprehensive implementation plan.</p></div></div>
-                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 w-7 h-7 rounded-lg bg-surface-3 flex items-center justify-center text-sm font-bold text-accent-400">4</span><div><p class="font-medium text-text-primary text-sm">/clear</p><p class="text-text-secondary text-sm mt-0.5">Fresh context window before implementation for best code quality output.</p></div></div>
-                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 w-7 h-7 rounded-lg bg-surface-3 flex items-center justify-center text-sm font-bold text-accent-400">5</span><div><p class="font-medium text-text-primary text-sm">/code:auto</p><p class="text-text-secondary text-sm mt-0.5">Reads the plan, implements phase by phase. Write code, tests, code review, verification, iterate, then update specs.</p></div></div>
+                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 w-7 h-7 rounded-lg bg-surface-3 flex items-center justify-center text-sm font-bold text-primary-700">1</span><div><p class="font-medium text-text-primary text-sm">/docs:init</p><p class="text-text-secondary text-sm mt-0.5">Scans your codebase, generates specs: structure, architecture, code standards, product overview, and design guidelines.</p></div></div>
+                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 w-7 h-7 rounded-lg bg-surface-3 flex items-center justify-center text-sm font-bold text-primary-700">2</span><div><p class="font-medium text-text-primary text-sm">/brainstorm</p><p class="text-text-secondary text-sm mt-0.5">Describe what you want to build. AI asks questions, challenges you, and produces requirement specs.</p></div></div>
+                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 w-7 h-7 rounded-lg bg-surface-3 flex items-center justify-center text-sm font-bold text-primary-700">3</span><div><p class="font-medium text-text-primary text-sm">/plan</p><p class="text-text-secondary text-sm mt-0.5">Researches approaches, spawns researcher agents in parallel, creates a comprehensive implementation plan.</p></div></div>
+                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 w-7 h-7 rounded-lg bg-surface-3 flex items-center justify-center text-sm font-bold text-primary-700">4</span><div><p class="font-medium text-text-primary text-sm">/clear</p><p class="text-text-secondary text-sm mt-0.5">Fresh context window before implementation for best code quality output.</p></div></div>
+                  <div class="flex gap-3 p-3 bg-surface-2 border border-border rounded-lg hover:border-border-hover transition-colors"><span class="shrink-0 w-7 h-7 rounded-lg bg-surface-3 flex items-center justify-center text-sm font-bold text-primary-700">5</span><div><p class="font-medium text-text-primary text-sm">/code:auto</p><p class="text-text-secondary text-sm mt-0.5">Reads the plan, implements phase by phase. Write code, tests, code review, verification, iterate, then update specs.</p></div></div>
                 </div>
 
                 <h2>ClaudeKit Engineer</h2>
@@ -383,7 +383,7 @@ ck init -g</code></div>
               <div class="bg-surface-2 border border-border rounded-lg p-4">
                 <h3 class="text-xs font-semibold text-text-tertiary uppercase tracking-wide mb-3 pb-2 border-b border-border">Quick Install</h3>
                 <div class="bg-surface-1 border border-border rounded-md p-3">
-                  <code id="installCmd" class="text-xs text-accent-400 font-mono break-all leading-relaxed">{item.installCommand}</code>
+                  <code id="installCmd" class="text-xs text-primary-700 font-mono break-all leading-relaxed">{item.installCommand}</code>
                 </div>
                 <button id="copyInstallBtn" class="mt-2 w-full text-xs font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-md px-3 py-1.5 transition-colors">Copy</button>
               </div>
@@ -403,7 +403,7 @@ ck init -g</code></div>
                 </div>
                 <div class="flex justify-between items-center py-2 border-b border-border">
                   <span class="text-xs text-text-tertiary">Website</span>
-                  <a href={item.websiteUrl} target="_blank" class="text-xs text-accent-400 hover:underline font-mono">{item.websiteUrl.replace('https://', '')}</a>
+                  <a href={item.websiteUrl} target="_blank" class="text-xs text-primary-700 hover:underline font-mono">{item.websiteUrl.replace('https://', '')}</a>
                 </div>
                 {Object.entries(item.metadata).map(([label, value]) => (
                   <div class="flex justify-between items-center py-2 border-b border-border last:border-b-0">
@@ -463,7 +463,7 @@ ck init -g</code></div>
     margin-bottom: 0.75rem;
   }
   .featured-prose strong { color: var(--color-text-primary); }
-  .featured-prose a { color: var(--color-accent-400); text-decoration: none; }
+  .featured-prose a { color: #003499; text-decoration: none; }
   .featured-prose a:hover { text-decoration: underline; }
   .featured-prose ul { margin: 0.75rem 0; padding-left: 1.25rem; }
   .featured-prose li {
@@ -477,7 +477,7 @@ ck init -g</code></div>
     padding: 0.1rem 0.35rem;
     border-radius: 4px;
     font-size: 0.8rem;
-    color: var(--color-accent-400);
+    color: #003499;
     font-family: var(--font-mono);
   }
 </style>

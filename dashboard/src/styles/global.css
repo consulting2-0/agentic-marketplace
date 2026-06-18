@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Consulting 2.0 — Electric Blue (primary) */
+  /* Accent — Electric Blue (primary) — unchanged */
   --color-primary-50:  #e6eeff;
   --color-primary-100: #b3caff;
   --color-primary-200: #80a5ff;
@@ -13,7 +13,7 @@
   --color-primary-800: #002266;
   --color-primary-900: #001133;
 
-  /* Consulting 2.0 — Neon Mint (accent) */
+  /* Mint accent — kept for success/download badges, used sparingly */
   --color-accent-50:  #e6fff6;
   --color-accent-100: #b3ffe4;
   --color-accent-200: #66ffca;
@@ -25,24 +25,25 @@
   --color-accent-800: #001a11;
   --color-accent-900: #000d09;
 
-  /* Consulting 2.0 — Space dark surfaces */
-  --color-surface-0: #040D20;
-  --color-surface-1: #071535;
-  --color-surface-2: #0D1F45;
-  --color-surface-3: #162850;
-  --color-surface-4: #1E325C;
+  /* Light editorial surfaces */
+  --color-surface-0: #FBFAF7;
+  --color-surface-1: #FFFFFF;
+  --color-surface-2: #F4F2EC;
+  --color-surface-3: #ECE9E0;
+  --color-surface-4: #E3DFD4;
 
-  --color-border:       #1A2E55;
-  --color-border-hover: #2B4880;
+  --color-border:       #E9E6DF;
+  --color-border-hover: #D8D3C7;
 
-  --color-text-primary:   #E4EBF8;
-  --color-text-secondary: #8A9BBE;
-  --color-text-tertiary:  #4D6080;
+  --color-text-primary:   #16150F;
+  --color-text-secondary: #5C5A50;
+  --color-text-tertiary:  #8A867A;
 
-  /* Consulting 2.0 fonts */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Syne', 'Arial Black', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  /* Fonts — Light editorial */
+  --font-sans:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-ui:      'Space Grotesk', 'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
 }
 
 html {
@@ -73,12 +74,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3D5FA0;
+  background: #C4BFB2;
 }
 
 /* Selection */
 ::selection {
-  background: rgba(0, 87, 255, 0.25);
+  background: rgba(0, 87, 255, 0.18);
 }
 
 /* Focus ring */
@@ -94,7 +95,7 @@ a, button {
 
 /* Consulting 2.0 glow */
 .c20-glow {
-  box-shadow: 0 0 16px rgba(0, 87, 255, 0.18), 0 0 40px rgba(0, 229, 153, 0.06);
+  box-shadow: 0 1px 2px rgba(22, 21, 15, 0.04), 0 8px 24px rgba(22, 21, 15, 0.06);
 }
 
 /* Markdown preview styles */

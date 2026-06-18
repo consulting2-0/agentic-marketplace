@@ -1,12 +1,11 @@
 ---
 import DashboardLayout from '../layouts/DashboardLayout.astro';
-import TopBar from '../components/TopBar.astro';
 import PartnerBanner from '../components/PartnerBanner.astro';
 import FeaturedSection from '../components/FeaturedSection.tsx';
 import ComponentGrid from '../components/ComponentGrid.tsx';
 import SearchModal from '../components/SearchModal.tsx';
 import CartSidebar from '../components/CartSidebar.tsx';
-import { VALID_TYPES } from '../lib/icons';
+import { VALID_TYPES, TYPE_CONFIG } from '../lib/icons';
 
 export const prerender = false;
 
@@ -40,13 +39,18 @@ const TYPE_META: Record<string, { title: string; description: string }> = {
 const { type } = Astro.params;
 const activeType = type && VALID_TYPES.includes(type) ? type : 'skills';
 
+const pageTitle = TYPE_CONFIG[activeType]?.label ?? 'Components';
+
 ---
 
 <DashboardLayout
   title={TYPE_META[activeType]?.title ?? `${activeType.charAt(0).toUpperCase() + activeType.slice(1)} - Claude Code Templates`}
   description={TYPE_META[activeType]?.description ?? `Browse ${activeType} for Claude Code. Install with a single npx command.`}
 >
-  <TopBar />
+  <header class="pt-10 pb-4">
+    <h1 class="text-[clamp(28px,4vw,44px)] text-text-primary" style="font-family: var(--font-display);">{pageTitle}</h1>
+    <p class="text-[14px] text-text-secondary mt-1">Browse and install {pageTitle.toLowerCase()}.</p>
+  </header>
   <PartnerBanner />
   <FeaturedSection client:load />
   <ComponentGrid client:load initialType={activeType} />

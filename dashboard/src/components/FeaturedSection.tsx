@@ -48,23 +48,23 @@ function ItemCard({ item }: { item: FeaturedItem }) {
       target="_blank"
       rel="noopener noreferrer"
       className="group flex items-center gap-3 p-3 rounded-xl border transition-all duration-200"
-      style={{ background: '#0D1117', border: '1px solid #1C2433' }}
-      onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#2A3550')}
-      onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#1C2433')}
+      style={{ background: '#FFFFFF', border: '1px solid #E9E6DF' }}
+      onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#D8D3C7')}
+      onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#E9E6DF')}
     >
       {/* Logo / GitHub avatar */}
       <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 overflow-hidden"
-        style={{ background: '#111827', border: '1px solid #1C2433' }}>
+        style={{ background: '#F4F2EC', border: '1px solid #E9E6DF' }}>
         {item.logo_url ? (
           <img src={item.logo_url} alt={item.name} className="w-full h-full object-contain p-1" />
         ) : (
-          <span style={{ color: '#4D6080' }}><GitHubIcon /></span>
+          <span style={{ color: '#8A867A' }}><GitHubIcon /></span>
         )}
       </div>
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-1.5">
-          <span className="text-[13px] font-medium text-[#E4EBF8] truncate">{item.name}</span>
+          <span className="text-[13px] font-medium text-[#16150F] truncate">{item.name}</span>
           {item.tag && (
             <span className="text-[9px] px-1.5 py-0.5 rounded shrink-0"
               style={{ background: 'rgba(0,87,255,0.12)', color: '#60A5FA', border: '1px solid rgba(0,87,255,0.2)' }}>
@@ -73,13 +73,13 @@ function ItemCard({ item }: { item: FeaturedItem }) {
           )}
         </div>
         {item.description && (
-          <p className="text-[11px] mt-0.5 truncate" style={{ color: '#4D6080' }}>{item.description}</p>
+          <p className="text-[11px] mt-0.5 truncate" style={{ color: '#8A867A' }}>{item.description}</p>
         )}
       </div>
 
       <div className="flex items-center gap-1.5 shrink-0">
-        {isGitHub && <span style={{ color: '#4D6080' }}><GitHubIcon /></span>}
-        <svg className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: '#4D6080' }}
+        {isGitHub && <span style={{ color: '#8A867A' }}><GitHubIcon /></span>}
+        <svg className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: '#8A867A' }}
           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
         </svg>
@@ -96,9 +96,9 @@ function ComponentCard({ component }: { component: FeaturedComponent }) {
     <a
       href={href}
       className="group flex items-center gap-3 p-3 rounded-xl border transition-all duration-200"
-      style={{ background: '#0D1117', border: '1px solid #1C2433' }}
-      onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#2A3550')}
-      onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#1C2433')}
+      style={{ background: '#FFFFFF', border: '1px solid #E9E6DF' }}
+      onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#D8D3C7')}
+      onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#E9E6DF')}
     >
       <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 [&>svg]:w-4 [&>svg]:h-4"
         style={{ background: `${config?.color ?? '#60A5FA'}12`, color: config?.color ?? '#60A5FA' }}
@@ -109,14 +109,14 @@ function ComponentCard({ component }: { component: FeaturedComponent }) {
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-1.5">
-          <span className="text-[13px] font-medium text-[#E4EBF8] truncate">{formatName(component.name)}</span>
+          <span className="text-[13px] font-medium text-[#16150F] truncate">{formatName(component.name)}</span>
           <span className="text-[9px] px-1.5 py-0.5 rounded capitalize shrink-0"
             style={{ background: `${config?.color ?? '#60A5FA'}12`, color: config?.color ?? '#60A5FA' }}>
             {component.type}
           </span>
         </div>
         {component.description && (
-          <p className="text-[11px] mt-0.5 truncate" style={{ color: '#4D6080' }}>{component.description}</p>
+          <p className="text-[11px] mt-0.5 truncate" style={{ color: '#8A867A' }}>{component.description}</p>
         )}
       </div>
 
@@ -125,12 +125,12 @@ function ComponentCard({ component }: { component: FeaturedComponent }) {
           <a href={component.github_url} target="_blank" rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
             className="opacity-0 group-hover:opacity-100 transition-opacity"
-            style={{ color: '#4D6080' }}>
+            style={{ color: '#8A867A' }}>
             <GitHubIcon />
           </a>
         )}
         {component.downloads > 0 && (
-          <span className="text-[10px] tabular-nums" style={{ color: '#4D6080' }}>
+          <span className="text-[10px] tabular-nums" style={{ color: '#8A867A' }}>
             ↓{component.downloads >= 1000 ? `${(component.downloads / 1000).toFixed(1)}k` : component.downloads}
           </span>
         )}
@@ -173,9 +173,9 @@ export default function FeaturedSection() {
   return (
     <section className="px-6 py-4">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-[13px] font-semibold" style={{ color: '#E4EBF8' }}>Featured</h2>
+        <h2 className="text-[13px] font-semibold" style={{ color: '#16150F' }}>Featured</h2>
         {(items.length + components.length) > 6 && (
-          <span className="text-[11px]" style={{ color: '#4D6080' }}>
+          <span className="text-[11px]" style={{ color: '#8A867A' }}>
             {items.length + components.length} items
           </span>
         )}
@@ -184,7 +184,7 @@ export default function FeaturedSection() {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-[56px] rounded-xl animate-pulse" style={{ background: '#111827' }} />
+            <div key={i} className="h-[56px] rounded-xl animate-pulse" style={{ background: '#F4F2EC' }} />
           ))}
         </div>
       ) : (

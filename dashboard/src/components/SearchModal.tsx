@@ -127,7 +127,7 @@ export default function SearchModal() {
       onClick={() => setOpen(false)}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
 
       {/* Modal */}
       <div
@@ -171,7 +171,7 @@ export default function SearchModal() {
                 onClick={() => navigate(component)}
                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${
                   i === selectedIndex
-                    ? 'bg-[--color-primary-500]/10'
+                    ? 'bg-[--color-primary-50] text-[--color-text-primary]'
                     : 'hover:bg-[--color-surface-2]'
                 }`}
               >

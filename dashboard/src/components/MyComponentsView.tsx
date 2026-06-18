@@ -427,7 +427,7 @@ function CollectionContextMenu({
   }, [onClose]);
 
   return (
-    <div ref={ref} className="absolute right-0 top-full mt-1 w-36 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg shadow-xl z-50 py-1">
+    <div ref={ref} className="absolute right-0 top-full mt-1 w-36 bg-[#F4F2EC] border border-[#E9E6DF] rounded-lg shadow-xl z-50 py-1">
       <button onClick={onRename} className="flex items-center gap-2 w-full px-3 py-1.5 text-[12px] text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-white/[0.06]">
         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
         Rename
@@ -848,7 +848,7 @@ export default function MyComponentsView() {
                 <h4 className="text-[13px] font-medium text-[--color-text-secondary]">Project Structure</h4>
                 <span className="text-[10px] text-[--color-text-tertiary]">How components will be installed</span>
               </div>
-              <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-lg p-4 font-mono text-[12px]">
+              <div className="bg-[#FFFFFF] border border-[#E9E6DF] rounded-lg p-4 font-mono text-[12px]">
                 {(() => {
                   const tree = buildProjectTree(selectedItems);
                   return (
@@ -891,7 +891,7 @@ export default function MyComponentsView() {
                       return (
                         <div
                           key={item.id}
-                          className="group/card flex items-start gap-3 p-3.5 rounded-xl bg-[#111111] border border-[#1a1a1a] hover:border-[#2a2a2a] hover:bg-[#151515] transition-all duration-200"
+                          className="group/card flex items-start gap-3 p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E9E6DF] hover:border-[#D8D3C7] hover:bg-[#F4F2EC] transition-all duration-200"
                         >
                           <div
                             className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"

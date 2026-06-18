@@ -181,7 +181,7 @@ function SaveButton({ componentType, componentPath, componentName, componentCate
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-1 w-56 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg shadow-xl z-50 py-1">
+        <div className="absolute right-0 top-full mt-1 w-56 bg-[#F4F2EC] border border-[#E9E6DF] rounded-lg shadow-xl z-50 py-1">
           {loading ? (
             <div className="px-3 py-4 text-center">
               <div className="w-4 h-4 border-2 border-[--color-text-tertiary] border-t-transparent rounded-full animate-spin mx-auto" />

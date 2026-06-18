@@ -98,7 +98,7 @@ export default function TrendingView() {
           { label: 'Components', value: formatNumber(stats.totalComponents) },
           { label: 'Countries', value: String(stats.totalCountries) },
         ].map((s) => (
-          <div key={s.label} className="bg-[#111] border border-[#1f1f1f] rounded-lg px-4 py-3">
+          <div key={s.label} className="bg-[#FFFFFF] border border-[#E9E6DF] rounded-lg px-4 py-3">
             <div className="text-[18px] font-semibold text-[#ededed] tabular-nums">{s.value}</div>
             <div className="text-[11px] text-[#666] mt-0.5">{s.label}</div>
           </div>
@@ -120,7 +120,7 @@ export default function TrendingView() {
       </div>
 
       {/* Divider */}
-      <div className="border-t border-[#1f1f1f]" />
+      <div className="border-t border-[#E9E6DF]" />
 
       {/* Filter bar */}
       <div className="flex items-center gap-2 px-6 py-3">
@@ -162,9 +162,9 @@ export default function TrendingView() {
 
       {/* Trending list */}
       <div className="px-6 pb-8">
-        <div className="bg-[#111] border border-[#1f1f1f] rounded-lg overflow-hidden">
+        <div className="bg-[#FFFFFF] border border-[#E9E6DF] rounded-lg overflow-hidden">
           {/* Table header */}
-          <div className="grid grid-cols-[40px_1fr_100px_100px_100px_100px] gap-2 px-4 py-2 border-b border-[#1f1f1f] text-[11px] text-[#555] uppercase tracking-wider">
+          <div className="grid grid-cols-[40px_1fr_100px_100px_100px_100px] gap-2 px-4 py-2 border-b border-[#E9E6DF] text-[11px] text-[#555] uppercase tracking-wider">
             <span>#</span>
             <span>Component</span>
             <span className="text-right">Today</span>
@@ -182,7 +182,7 @@ export default function TrendingView() {
             return (
               <div
                 key={item.id}
-                className="grid grid-cols-[40px_1fr_100px_100px_100px_100px] gap-2 px-4 py-2.5 border-b border-[#1a1a1a] last:border-b-0 hover:bg-white/[0.02] transition-colors group"
+                className="grid grid-cols-[40px_1fr_100px_100px_100px_100px] gap-2 px-4 py-2.5 border-b border-[#E9E6DF] last:border-b-0 hover:bg-white/[0.02] transition-colors group"
               >
                 {/* Rank */}
                 <span className="text-[12px] text-[#555] tabular-nums">{idx + 1}</span>

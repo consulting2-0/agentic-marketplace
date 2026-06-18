@@ -256,7 +256,7 @@ export default function SendToRepoModal({ items, collectionName, onClose }: Prop
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search repositories..."
-                  className="w-full bg-[#0a0a0a] border border-[#222] rounded-lg px-3 py-2 text-sm text-white placeholder:text-[#555] outline-none focus:border-[#444] transition-colors"
+                  className="w-full bg-[#FFFFFF] border border-[#E9E6DF] rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-[#8A867A] outline-none focus:border-[#D8D3C7] transition-colors"
                   autoFocus
                 />
               </div>

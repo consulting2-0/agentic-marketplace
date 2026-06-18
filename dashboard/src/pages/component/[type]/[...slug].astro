@@ -367,7 +367,7 @@ const refs: string[] = (component as any)?.references ?? [];
           if (item.isChipList) {
             const chips = item.value.replace(/^\[|\]$/g, '').split(/,\s*/).map(s => s.trim()).filter(Boolean);
             metaModalBody.innerHTML = '<div class="flex flex-wrap gap-1.5">' +
-              chips.map(c => `<span class="px-2 py-0.5 rounded-full bg-white/[0.06] text-text-primary font-mono text-[12px]">${c}</span>`).join('') +
+              chips.map(c => `<span class="px-2 py-0.5 rounded-full bg-surface-2 text-text-primary font-mono text-[12px]">${c}</span>`).join('') +
               '</div>';
           } else {
             metaModalBody.textContent = item.value;

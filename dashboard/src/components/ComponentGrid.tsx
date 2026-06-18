@@ -214,7 +214,7 @@ export default function ComponentGrid({ initialType }: Props) {
             placeholder="Search..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-44 bg-white/[0.04] border-none rounded-lg text-[12px] text-[#ededed] placeholder:text-[#666] pl-8 pr-3 py-1.5 outline-none focus:bg-white/[0.08] focus:ring-1 focus:ring-white/10 transition-all"
+            className="w-44 bg-surface-2 border border-border rounded-lg text-[12px] text-[--color-text-primary] placeholder:text-[#666] pl-8 pr-3 py-1.5 outline-none focus:bg-surface-3 focus:ring-1 focus:ring-[--color-border] transition-all"
           />
         </div>
 
@@ -222,7 +222,7 @@ export default function ComponentGrid({ initialType }: Props) {
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="bg-white/[0.04] border-none rounded-lg text-[12px] text-[#a1a1a1] px-2.5 py-1.5 outline-none focus:bg-white/[0.08] cursor-pointer"
+          className="bg-surface-2 border border-border rounded-lg text-[12px] text-[--color-text-secondary] px-2.5 py-1.5 outline-none focus:bg-surface-3 cursor-pointer"
         >
           <option value="all">All categories</option>
           {categories.map((cat) => (
@@ -235,7 +235,7 @@ export default function ComponentGrid({ initialType }: Props) {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as 'downloads' | 'name')}
-            className="bg-white/[0.04] border-none rounded-lg text-[12px] text-[--color-text-secondary] px-2.5 py-1.5 outline-none focus:bg-white/[0.08] cursor-pointer"
+            className="bg-surface-2 border border-border rounded-lg text-[12px] text-[--color-text-secondary] px-2.5 py-1.5 outline-none focus:bg-surface-3 cursor-pointer"
           >
             <option value="downloads">Popular</option>
             <option value="name">A-Z</option>
@@ -267,7 +267,7 @@ export default function ComponentGrid({ initialType }: Props) {
 
               {/* Info */}
               <div className="min-w-0 flex-1">
-                <span className="text-[13px] font-medium text-[--color-text-primary] group-hover:text-white transition-colors">
+                <span className="text-[13px] font-medium text-[--color-text-primary] group-hover:text-[--color-text-primary] transition-colors">
                   {formatName(component.name)}
                 </span>
                 <p className="text-[12px] text-[--color-text-tertiary] line-clamp-2 mt-1 leading-relaxed">
@@ -284,7 +284,7 @@ export default function ComponentGrid({ initialType }: Props) {
                     </span>
                   )}
                   {component.category && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.06] text-[--color-text-tertiary]">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 text-[--color-text-tertiary]">
                       {component.category}
                     </span>
                   )}
@@ -311,8 +311,8 @@ export default function ComponentGrid({ initialType }: Props) {
                   onClick={(e) => { e.stopPropagation(); toggleCart(component); }}
                   className={`w-7 h-7 rounded-lg flex items-center justify-center mt-0.5 transition-all ${
                     inCart
-                      ? 'bg-white text-black'
-                      : 'text-[--color-text-tertiary] hover:text-white hover:bg-white/10'
+                      ? 'bg-[#111111] text-white'
+                      : 'text-[--color-text-tertiary] hover:text-[--color-text-primary] hover:bg-surface-2'
                   }`}
                   title={inCart ? 'Remove from stack' : 'Add to stack'}
                 >
@@ -350,7 +350,7 @@ export default function ComponentGrid({ initialType }: Props) {
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-3 py-1.5 text-[13px] rounded-lg text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-white/[0.06] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="px-3 py-1.5 text-[13px] rounded-lg text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-surface-2 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             Previous
           </button>
@@ -360,7 +360,7 @@ export default function ComponentGrid({ initialType }: Props) {
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="px-3 py-1.5 text-[13px] rounded-lg text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-white/[0.06] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="px-3 py-1.5 text-[13px] rounded-lg text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-surface-2 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             Next
           </button>

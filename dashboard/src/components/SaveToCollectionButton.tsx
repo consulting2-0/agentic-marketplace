@@ -154,7 +154,7 @@ function SaveButton({ componentType, componentPath, componentName, componentCate
     return (
       <button
         onClick={(e) => { e.stopPropagation(); (window as any).Clerk?.openSignIn?.(); }}
-        className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 text-[--color-text-tertiary] opacity-0 group-hover:opacity-100 hover:text-white hover:bg-white/10 transition-all"
+        className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 text-[--color-text-tertiary] opacity-0 group-hover:opacity-100 hover:text-[--color-text-primary] hover:bg-surface-2 transition-all"
         title="Sign in to save"
       >
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
@@ -171,7 +171,7 @@ function SaveButton({ componentType, componentPath, componentName, componentCate
         className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-all ${
           isSaved
             ? 'text-blue-400'
-            : 'text-[--color-text-tertiary] hover:text-white hover:bg-white/10'
+            : 'text-[--color-text-tertiary] hover:text-[--color-text-primary] hover:bg-surface-2'
         }`}
         title={isSaved ? 'Saved to collection' : 'Save to collection'}
       >
@@ -203,7 +203,7 @@ function SaveButton({ componentType, componentPath, componentName, componentCate
                   <button
                     key={col.id}
                     onClick={(e) => { e.stopPropagation(); handleToggleCollection(col.id); }}
-                    className="flex items-center gap-2 w-full px-3 py-1.5 text-[12px] text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-white/[0.06] transition-colors"
+                    className="flex items-center gap-2 w-full px-3 py-1.5 text-[12px] text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-surface-2 transition-colors"
                   >
                     <span className={`w-3.5 h-3.5 rounded border flex items-center justify-center shrink-0 ${
                       savedIn.has(col.id) ? 'bg-blue-500 border-blue-500' : 'border-[#444]'

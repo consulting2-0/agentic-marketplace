@@ -1,0 +1,27 @@
+---
+---
+<section class="pt-14 pb-6 text-center">
+  <h1 class="text-[clamp(36px,6vw,64px)] leading-[1.04] text-text-primary" style="font-family: var(--font-display);">
+    Ship your SAP&nbsp;BTP<br />setup in <em class="text-primary-500 italic">minutes</em>.
+  </h1>
+  <p class="mt-4 text-[15px] text-text-secondary max-w-xl mx-auto">
+    Browse and install AI agents, skills, commands, hooks and MCP integrations built for enterprise consulting.
+  </p>
+  <button
+    id="heroSearchTrigger"
+    class="mt-7 inline-flex items-center gap-2.5 px-5 h-11 bg-surface-1 border border-border rounded-full text-[14px] text-text-tertiary hover:border-border-hover transition-colors mx-auto"
+  >
+    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+    <span>Search the catalog…</span>
+    <kbd class="ml-1 px-1.5 py-0.5 text-[10px] font-mono border border-border rounded">⌘K</kbd>
+  </button>
+</section>
+
+<script>
+  // Hero search opens the same Cmd+K modal as the header trigger.
+  document.getElementById('heroSearchTrigger')?.addEventListener('click', () => {
+    document.getElementById('searchTrigger')?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  });
+</script>

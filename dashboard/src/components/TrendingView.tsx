@@ -99,7 +99,7 @@ export default function TrendingView() {
           { label: 'Countries', value: String(stats.totalCountries) },
         ].map((s) => (
           <div key={s.label} className="bg-[#FFFFFF] border border-[#E9E6DF] rounded-lg px-4 py-3">
-            <div className="text-[18px] font-semibold text-[#ededed] tabular-nums">{s.value}</div>
+            <div className="text-[18px] font-semibold text-[#16150F] tabular-nums">{s.value}</div>
             <div className="text-[11px] text-[#666] mt-0.5">{s.label}</div>
           </div>
         ))}
@@ -112,7 +112,7 @@ export default function TrendingView() {
           {data.topCountries.map((c) => (
             <div key={c.code} className="flex items-center gap-1.5 shrink-0">
               <span className="text-sm">{c.flag}</span>
-              <span className="text-[12px] text-[#a1a1a1]">{c.name}</span>
+              <span className="text-[12px] text-[#5C5A50]">{c.name}</span>
               <span className="text-[11px] text-[#555] tabular-nums">{c.percentage}%</span>
             </div>
           ))}
@@ -132,8 +132,8 @@ export default function TrendingView() {
               onClick={() => setActiveType(type)}
               className={`px-2.5 py-1 rounded-md text-[12px] transition-colors ${
                 activeType === type
-                  ? 'bg-white/10 text-white'
-                  : 'text-[#666] hover:text-[#a1a1a1] hover:bg-white/[0.04]'
+                  ? 'bg-primary-50 text-primary-700'
+                  : 'text-[#666] hover:text-[#5C5A50] hover:bg-surface-2'
               }`}
             >
               {type === 'all' ? 'All' : TYPE_CONFIG[type]?.label ?? type}
@@ -145,7 +145,7 @@ export default function TrendingView() {
         <select
           value={period}
           onChange={(e) => setPeriod(e.target.value as any)}
-          className="ml-auto bg-white/[0.04] border-none rounded-lg text-[12px] text-[#a1a1a1] px-2.5 py-1.5 outline-none cursor-pointer"
+          className="ml-auto bg-surface-2 border border-border rounded-lg text-[12px] text-[#5C5A50] px-2.5 py-1.5 outline-none cursor-pointer"
         >
           <option value="downloadsWeek">This Week</option>
           <option value="downloadsMonth">This Month</option>
@@ -182,7 +182,7 @@ export default function TrendingView() {
             return (
               <div
                 key={item.id}
-                className="grid grid-cols-[40px_1fr_100px_100px_100px_100px] gap-2 px-4 py-2.5 border-b border-[#E9E6DF] last:border-b-0 hover:bg-white/[0.02] transition-colors group"
+                className="grid grid-cols-[40px_1fr_100px_100px_100px_100px] gap-2 px-4 py-2.5 border-b border-[#E9E6DF] last:border-b-0 hover:bg-surface-2 transition-colors group"
               >
                 {/* Rank */}
                 <span className="text-[12px] text-[#555] tabular-nums">{idx + 1}</span>
@@ -196,7 +196,7 @@ export default function TrendingView() {
                     <TypeIcon type={typePlural} size={14} />
                   </div>
                   <div className="min-w-0">
-                    <span className="text-[13px] text-[#ededed] truncate block">{formatName(item.name)}</span>
+                    <span className="text-[13px] text-[#16150F] truncate block">{formatName(item.name)}</span>
                     <span className="text-[10px] text-[#555]">{item.category}</span>
                   </div>
                 </div>
@@ -205,13 +205,13 @@ export default function TrendingView() {
                 <span className={`text-[12px] text-right tabular-nums self-center ${item.downloadsToday > 0 ? 'text-emerald-400' : 'text-[#555]'}`}>
                   {item.downloadsToday > 0 ? `+${item.downloadsToday}` : '0'}
                 </span>
-                <span className="text-[12px] text-right tabular-nums self-center text-[#a1a1a1]">
+                <span className="text-[12px] text-right tabular-nums self-center text-[#5C5A50]">
                   {item.downloadsWeek.toLocaleString()}
                 </span>
-                <span className="text-[12px] text-right tabular-nums self-center text-[#a1a1a1]">
+                <span className="text-[12px] text-right tabular-nums self-center text-[#5C5A50]">
                   {item.downloadsMonth.toLocaleString()}
                 </span>
-                <span className="text-[12px] text-right tabular-nums self-center text-[#ededed]">
+                <span className="text-[12px] text-right tabular-nums self-center text-[#16150F]">
                   {item.downloadsTotal.toLocaleString()}
                 </span>
               </div>

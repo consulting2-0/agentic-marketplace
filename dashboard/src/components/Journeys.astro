@@ -1,0 +1,31 @@
+---
+import { FEATURED_ITEMS } from '../lib/constants';
+
+const journeys = FEATURED_ITEMS.map((item) => ({
+  title: item.name,
+  description: item.description,
+  href: item.url,
+  count: item.metadata?.Agents ? `${item.metadata.Agents} components` : 'Bundle',
+  tag: item.tag,
+}));
+---
+
+<section class="pt-6">
+  <div class="flex items-baseline justify-between mb-4">
+    <h2 class="text-[13px] font-medium uppercase tracking-widest text-text-tertiary" style="font-family: var(--font-ui);">Start with a goal</h2>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {journeys.map((j) => (
+      <a href={j.href}
+        class="group block bg-surface-1 border border-border rounded-xl p-5 hover:border-border-hover hover:shadow-[0_8px_24px_rgba(22,21,15,0.06)] transition-all">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[10px] font-medium uppercase tracking-wider text-primary-600 bg-primary-50 px-2 py-0.5 rounded-full">{j.tag}</span>
+          <span class="text-text-tertiary group-hover:text-primary-500 transition-colors">→</span>
+        </div>
+        <h3 class="text-[16px] font-semibold text-text-primary mb-1">{j.title}</h3>
+        <p class="text-[13px] text-text-secondary leading-snug mb-3">{j.description}</p>
+        <span class="text-[12px] text-text-tertiary tabular-nums">{j.count}</span>
+      </a>
+    ))}
+  </div>
+</section>

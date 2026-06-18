@@ -176,7 +176,7 @@ export default function ComponentGrid({ initialType }: Props) {
   return (
     <div>
       {/* Platform tabs */}
-      <div className="flex items-center gap-1 px-6 pt-3 pb-1 border-b border-[#1C2433]">
+      <div className="flex items-center gap-1 px-6 pt-3 pb-1 border-b border-border">
         {([
           { value: 'all',    label: 'All Platforms', color: '' },
           { value: 'claude', label: 'Claude Code',   color: '#60A5FA' },
@@ -187,8 +187,8 @@ export default function ComponentGrid({ initialType }: Props) {
             onClick={() => setPlatform(value)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors"
             style={platform === value
-              ? { background: `${color || '#60A5FA'}18`, color: color || '#E4EBF8', border: `1px solid ${color || '#60A5FA'}30` }
-              : { color: '#4D6080', border: '1px solid transparent' }}
+              ? { background: `${color || '#60A5FA'}18`, color: color || '#16150F', border: `1px solid ${color || '#60A5FA'}30` }
+              : { color: '#8A867A', border: '1px solid transparent' }}
           >
             {value !== 'all' && color && (
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: color }} />
@@ -196,7 +196,7 @@ export default function ComponentGrid({ initialType }: Props) {
             {label}
           </button>
         ))}
-        <span className="ml-auto text-[11px] text-[#4D6080]">
+        <span className="ml-auto text-[11px] text-text-tertiary">
           {filtered.length} result{filtered.length !== 1 ? 's' : ''}
           {search && ` for "${search}"`}
         </span>
@@ -252,7 +252,7 @@ export default function ComponentGrid({ initialType }: Props) {
           return (
             <div
               key={component.path ?? component.name}
-              className="group flex items-start gap-3 p-4 rounded-xl bg-[#0D1117] border border-[#1C2433] hover:border-[#2A3550] hover:bg-[#111827] transition-all duration-200 cursor-pointer"
+              className="group flex items-start gap-3 p-4 rounded-xl bg-surface-1 border border-border hover:border-border-hover hover:bg-surface-2 transition-all duration-200 cursor-pointer"
               onClick={() => {
                 window.location.href = `/component/${component.type}/${cleanPath(component.path ?? component.name)}`;
               }}

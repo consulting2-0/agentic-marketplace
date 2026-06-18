@@ -96,13 +96,13 @@ export default function CartSidebar() {
       {totalItems > 0 && !open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 pl-4 pr-3 py-2.5 bg-white hover:bg-neutral-100 text-black rounded-full shadow-[0_4px_20px_rgba(255,255,255,0.15)] transition-all hover:scale-105 hover:shadow-[0_4px_24px_rgba(255,255,255,0.25)]"
+          className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 pl-4 pr-3 py-2.5 bg-[#111111] hover:bg-[#000000] text-white rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all hover:scale-105 hover:shadow-[0_4px_24px_rgba(0,0,0,0.25)]"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
           </svg>
           <span className="text-[13px] font-semibold">Stack</span>
-          <span className="min-w-5 h-5 px-1 rounded-full bg-black text-white text-[11px] font-medium flex items-center justify-center">
+          <span className="min-w-5 h-5 px-1 rounded-full bg-white text-[#111111] text-[11px] font-medium flex items-center justify-center">
             {totalItems}
           </span>
         </button>
@@ -115,7 +115,7 @@ export default function CartSidebar() {
 
       {/* Sidebar panel */}
       <div
-        className={`fixed top-0 right-0 h-full w-96 max-w-[90vw] bg-[#0a0a0a] border-l border-[#1f1f1f] z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-96 max-w-[90vw] bg-[--color-surface-1] border-l border-[--color-border] z-50 transform transition-transform duration-300 ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -165,16 +165,16 @@ export default function CartSidebar() {
                 const config = TYPE_CONFIG[type];
                 const isLast = idx === arr.length - 1;
                 return (
-                  <div key={type} className={!isLast ? 'mb-1 pb-1 border-b border-[#1f1f1f]' : ''}>
+                  <div key={type} className={!isLast ? 'mb-1 pb-1 border-b border-[--color-border]' : ''}>
                     {/* Folder row */}
                     <div className="flex items-center gap-2 py-1.5 px-1">
-                      <svg className="w-4 h-4 shrink-0 text-[#666]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg className="w-4 h-4 shrink-0 text-[--color-text-tertiary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
                       </svg>
-                      <span className="text-[12px] font-medium text-[#a1a1a1]">
+                      <span className="text-[12px] font-medium text-[--color-text-secondary]">
                         {config?.label ?? type}
                       </span>
-                      <span className="text-[11px] text-[#666] tabular-nums">
+                      <span className="text-[11px] text-[--color-text-tertiary] tabular-nums">
                         {items.length}
                       </span>
                     </div>
@@ -187,22 +187,22 @@ export default function CartSidebar() {
                           className="flex items-center group pl-3 pr-1"
                         >
                           {/* Tree connector */}
-                          <span className="text-[#333] text-[12px] font-mono w-5 shrink-0 select-none">
+                          <span className="text-[--color-text-tertiary] text-[12px] font-mono w-5 shrink-0 select-none">
                             {isLastItem ? '└─' : '├─'}
                           </span>
                           {/* File icon */}
-                          <svg className="w-3.5 h-3.5 shrink-0 mr-2 text-[#555]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                          <svg className="w-3.5 h-3.5 shrink-0 mr-2 text-[--color-text-tertiary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
                             <polyline points="14 2 14 8 20 8" />
                           </svg>
                           {/* Name */}
-                          <span className="text-[12px] text-[#ededed] flex-1 truncate py-1">
+                          <span className="text-[12px] text-[--color-text-primary] flex-1 truncate py-1">
                             {formatName(item.name)}
                           </span>
                           {/* Remove */}
                           <button
                             onClick={() => removeItem(item.path, type)}
-                            className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-[#1a1a1a] text-[#555] hover:text-red-400 transition-all shrink-0"
+                            className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-[--color-surface-2] text-[--color-text-tertiary] hover:text-[--color-text-primary] transition-all shrink-0"
                           >
                             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -220,9 +220,9 @@ export default function CartSidebar() {
 
         {/* Footer */}
         {totalItems > 0 && (
-          <div className="absolute bottom-0 left-0 right-0 border-t border-[#1f1f1f] bg-[#0a0a0a] p-3 space-y-2">
+          <div className="absolute bottom-0 left-0 right-0 border-t border-[--color-border] bg-[--color-surface-1] p-3 space-y-2">
             {/* Command */}
-            <div className="bg-[--color-surface-0] rounded-lg p-2.5 text-xs font-mono text-[--color-text-secondary] break-all max-h-20 overflow-y-auto">
+            <div className="bg-[--color-surface-2] rounded-lg p-2.5 text-xs font-mono text-[--color-text-secondary] break-all max-h-20 overflow-y-auto">
               {generateCommand()}
             </div>
 
@@ -230,7 +230,7 @@ export default function CartSidebar() {
             <div className="flex gap-2">
               <button
                 onClick={copyCommand}
-                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-[--color-accent-500] hover:bg-[--color-accent-600] text-white rounded-lg text-sm font-medium transition-colors"
+                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-[--color-primary-500] hover:bg-[--color-primary-600] text-white rounded-lg text-sm font-medium transition-colors"
               >
                 {copied ? (
                   <>
@@ -250,7 +250,7 @@ export default function CartSidebar() {
               </button>
               <button
                 onClick={shareTwitter}
-                className="px-3 py-2 bg-[--color-surface-3] hover:bg-[--color-surface-4] text-[--color-text-secondary] hover:text-[--color-text-primary] rounded-lg text-sm transition-colors"
+                className="px-3 py-2 border border-[--color-border] text-[--color-text-secondary] hover:text-[--color-text-primary] rounded-lg text-sm transition-colors"
                 title="Share on Twitter"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">

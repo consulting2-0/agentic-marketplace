@@ -121,83 +121,124 @@ export default function SearchModal() {
 
   if (!open) return null;
 
+  const hasQuery = query.trim().length > 0;
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh]"
+      className="fixed inset-0 z-50 flex items-start justify-center px-4 pt-[16vh]"
       onClick={() => setOpen(false)}
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+      {/* Backdrop — warm dark tint */}
+      <div className="absolute inset-0 bg-[#16150F]/45 backdrop-blur-[3px]" />
 
-      {/* Modal */}
+      {/* Palette */}
       <div
-        className="relative w-full max-w-xl bg-[--color-surface-1] border border-[--color-border] rounded-xl shadow-2xl overflow-hidden"
+        className="relative w-full max-w-[600px] bg-[--color-surface-1] rounded-2xl ring-1 ring-black/[0.06] shadow-[0_28px_70px_-16px_rgba(22,21,15,0.45)] overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Input */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-[--color-border]">
-          <svg className="w-5 h-5 text-[--color-text-tertiary] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <div className="flex items-center gap-3 px-5 h-[60px] border-b border-[--color-border]">
+          <svg className="w-[18px] h-[18px] text-[--color-text-tertiary] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
             ref={inputRef}
             type="text"
-            placeholder="Search all components..."
+            placeholder="Search agents, skills, commands, hooks…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent text-sm text-[--color-text-primary] placeholder:text-[--color-text-tertiary] outline-none"
+            style={{ outline: 'none', boxShadow: 'none' }}
+            className="flex-1 bg-transparent text-[15px] text-[--color-text-primary] placeholder:text-[--color-text-tertiary] border-none"
           />
-          <kbd className="px-1.5 py-0.5 text-[10px] bg-[--color-surface-3] border border-[--color-border] rounded text-[--color-text-tertiary]">
+          <kbd className="px-1.5 py-1 text-[10px] font-medium bg-[--color-surface-2] border border-[--color-border] rounded-md text-[--color-text-tertiary]">
             ESC
           </kbd>
         </div>
 
-        {/* Results */}
-        <div ref={resultsRef} className="max-h-80 overflow-y-auto">
-          {query.trim() && results.length === 0 && (
-            <div className="px-4 py-8 text-center text-sm text-[--color-text-secondary]">
-              No components found for "{query}"
+        {/* Body */}
+        <div ref={resultsRef} className="max-h-[min(60vh,420px)] overflow-y-auto py-2">
+          {/* Empty state — quick links by type */}
+          {!hasQuery && (
+            <div>
+              <p className="px-5 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-[--color-text-tertiary]" style={{ fontFamily: 'var(--font-ui)' }}>
+                Browse by type
+              </p>
+              {Object.entries(TYPE_CONFIG).map(([type, config]) => (
+                <a
+                  key={type}
+                  href={`/${type}`}
+                  className="group/q w-full flex items-center gap-3 px-5 py-2.5 text-left hover:bg-[--color-surface-2] transition-colors"
+                >
+                  <span
+                    className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 [&>svg]:w-[18px] [&>svg]:h-[18px]"
+                    style={{ backgroundColor: `${config.color}1f`, color: config.color }}
+                  >
+                    <TypeIcon type={type} size={18} />
+                  </span>
+                  <span className="flex-1 text-[14px] text-[--color-text-primary]">{config.label}</span>
+                  <span className="text-[--color-text-tertiary] opacity-0 group-hover/q:opacity-100 transition-opacity">→</span>
+                </a>
+              ))}
             </div>
           )}
 
-          {results.map((component, i) => {
-            const typePlural = component.type.endsWith('s') ? component.type : component.type + 's';
-            const config = TYPE_CONFIG[typePlural];
+          {/* No results */}
+          {hasQuery && results.length === 0 && (
+            <div className="px-5 py-12 text-center">
+              <p className="text-[14px] text-[--color-text-secondary]">No results for “{query}”</p>
+              <p className="mt-1 text-[12px] text-[--color-text-tertiary]">Try a different keyword or browse by type.</p>
+            </div>
+          )}
 
-            return (
-              <button
-                key={component.path ?? `${component.name}-${i}`}
-                onClick={() => navigate(component)}
-                className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${
-                  i === selectedIndex
-                    ? 'bg-[--color-primary-50] text-[--color-text-primary]'
-                    : 'hover:bg-[--color-surface-2]'
-                }`}
-              >
-                <TypeIcon type={typePlural} size={16} className="w-4 h-4 shrink-0 [&>svg]:w-4 [&>svg]:h-4 text-[--color-text-tertiary]" />
-                <div className="min-w-0 flex-1">
-                  <span className="text-sm text-[--color-text-primary]">{formatName(component.name)}</span>
-                  <span className="text-xs text-[--color-text-tertiary] ml-2">{config?.label ?? component.type}</span>
-                </div>
-                {component.category && (
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-[--color-surface-3] text-[--color-text-tertiary] shrink-0">
-                    {component.category}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+          {/* Results */}
+          {hasQuery && results.length > 0 && (
+            <>
+              <p className="px-5 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-[--color-text-tertiary]" style={{ fontFamily: 'var(--font-ui)' }}>
+                {results.length} result{results.length !== 1 ? 's' : ''}
+              </p>
+              {results.map((component, i) => {
+                const typePlural = component.type.endsWith('s') ? component.type : component.type + 's';
+                const config = TYPE_CONFIG[typePlural];
+                const selected = i === selectedIndex;
+                return (
+                  <button
+                    key={component.path ?? `${component.name}-${i}`}
+                    onClick={() => navigate(component)}
+                    onMouseEnter={() => setSelectedIndex(i)}
+                    className={`group/r relative w-full flex items-center gap-3 px-5 py-2.5 text-left transition-colors ${
+                      selected ? 'bg-[--color-primary-50]' : 'hover:bg-[--color-surface-2]'
+                    }`}
+                  >
+                    {selected && <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r bg-[--color-primary-500]" />}
+                    <span
+                      className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 [&>svg]:w-[18px] [&>svg]:h-[18px]"
+                      style={{ backgroundColor: config ? `${config.color}1f` : 'var(--color-surface-3)', color: config?.color ?? 'var(--color-text-tertiary)' }}
+                    >
+                      <TypeIcon type={typePlural} size={18} />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[14px] text-[--color-text-primary] truncate">{formatName(component.name)}</div>
+                      {component.description && (
+                        <div className="text-[12px] text-[--color-text-tertiary] truncate">{component.description}</div>
+                      )}
+                    </div>
+                    <span className="text-[11px] text-[--color-text-tertiary] shrink-0">{config?.label ?? component.type}</span>
+                    <span className={`text-[--color-primary-600] text-[13px] shrink-0 transition-opacity ${selected ? 'opacity-100' : 'opacity-0'}`}>↵</span>
+                  </button>
+                );
+              })}
+            </>
+          )}
         </div>
 
-        {/* Footer */}
-        {query.trim() && results.length > 0 && (
-          <div className="flex items-center gap-4 px-4 py-2 border-t border-[--color-border] text-[10px] text-[--color-text-tertiary]">
-            <span>↑↓ navigate</span>
-            <span>↵ open</span>
-            <span>esc close</span>
-          </div>
-        )}
+        {/* Footer — always present */}
+        <div className="flex items-center gap-4 px-5 py-2.5 border-t border-[--color-border] text-[11px] text-[--color-text-tertiary]">
+          <span className="flex items-center gap-1.5"><kbd className="px-1 py-0.5 bg-[--color-surface-2] border border-[--color-border] rounded text-[10px]">↑↓</kbd> navigate</span>
+          <span className="flex items-center gap-1.5"><kbd className="px-1 py-0.5 bg-[--color-surface-2] border border-[--color-border] rounded text-[10px]">↵</kbd> open</span>
+          <span className="flex items-center gap-1.5"><kbd className="px-1 py-0.5 bg-[--color-surface-2] border border-[--color-border] rounded text-[10px]">esc</kbd> close</span>
+          <span className="ml-auto font-medium" style={{ fontFamily: 'var(--font-ui)' }}>consulting<span className="text-[--color-primary-500]">2.0</span></span>
+        </div>
       </div>
     </div>
   );

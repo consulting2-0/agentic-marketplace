@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
-import { getAdminClient } from '../../../../lib/supabase';
+import { fetchComponents } from '../../../../lib/data';
+import type { Component } from '../../../../lib/types';
 
 export const GET: APIRoute = async ({ params }) => {
   const { type, path } = params;
@@ -7,35 +8,37 @@ export const GET: APIRoute = async ({ params }) => {
     return new Response('Not found', { status: 404 });
   }
 
-  const supabase = getAdminClient();
+  // Match the same lookup the component detail page uses (static components.json,
+  // the site's source of truth). The Supabase table is not guaranteed in sync.
+  const requested = path.replace(/\.(md|json)$/, '');
+  const typeKey = type.endsWith('s') ? type : `${type}s`;
 
-  // Try with and without extension
-  const paths = [path, `${path}.md`, `${path}.json`];
+  let component: Component | null = null;
+  try {
+    const data = await fetchComponents();
+    const items = (data as any)[typeKey] as Component[] | undefined;
+    if (items) {
+      component =
+        items.find((c) => {
+          const clean = c.path?.replace(/\.(md|json)$/, '') ?? '';
+          return clean === requested || c.name === requested;
+        }) ?? null;
+    }
+  } catch {
+    return new Response('Failed to load components', { status: 500 });
+  }
 
-  const { data, error } = await supabase
-    .from('components')
-    .select('name, type, path, content, downloads')
-    .in('path', paths)
-    .eq('published', true)
-    .limit(1)
-    .single();
-
-  if (error || !data) {
+  if (!component || !component.content) {
     return new Response('Component not found', { status: 404 });
   }
 
-  // Increment download count (fire and forget)
-  supabase
-    .from('components')
-    .update({ downloads: (data.downloads ?? 0) + 1 })
-    .eq('path', data.path)
-    .then(() => {});
-
-  const isJson = data.path.endsWith('.json') || ['mcp', 'setting', 'hook'].includes(data.type);
+  const isJson =
+    component.path?.endsWith('.json') || ['mcp', 'setting', 'hook'].includes(component.type);
   const ext = isJson ? 'json' : 'md';
-  const filename = data.path.split('/').pop()?.replace(/\.(md|json)$/, '') ?? data.name;
+  const filename =
+    component.path?.split('/').pop()?.replace(/\.(md|json)$/, '') ?? component.name;
 
-  return new Response(data.content ?? '', {
+  return new Response(component.content, {
     headers: {
       'Content-Type': isJson ? 'application/json' : 'text/plain; charset=utf-8',
       'Content-Disposition': `attachment; filename="${filename}.${ext}"`,

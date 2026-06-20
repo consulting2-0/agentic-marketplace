@@ -1,7 +1,6 @@
 ---
 import DashboardLayout from '../layouts/DashboardLayout.astro';
 import HomeHero from '../components/HomeHero.astro';
-import Journeys from '../components/Journeys.astro';
 import BrowseByType from '../components/BrowseByType.astro';
 import FeaturedSection from '../components/FeaturedSection.tsx';
 import ComponentGrid from '../components/ComponentGrid.tsx';
@@ -30,7 +29,6 @@ export const prerender = false;
   })} />
 
   <HomeHero />
-  <Journeys />
   <FeaturedSection client:load />
   <BrowseByType />
   <ComponentGrid client:load initialType="skills" />

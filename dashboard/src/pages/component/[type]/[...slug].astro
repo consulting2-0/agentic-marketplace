@@ -1,7 +1,5 @@
 ---
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
-import SearchModal from '../../../components/SearchModal.tsx';
-import CartSidebar from '../../../components/CartSidebar.tsx';
 import SaveToCollectionButton from '../../../components/SaveToCollectionButton.tsx';
 import MarkdownViewer from '../../../components/MarkdownViewer.tsx';
 import JsonViewer from '../../../components/JsonViewer.tsx';
@@ -323,9 +321,6 @@ const refs: string[] = (component as any)?.references ?? [];
       </article>
     )}
   </div>
-
-  <SearchModal client:idle />
-  <CartSidebar client:idle />
 </DashboardLayout>
 
 <script>

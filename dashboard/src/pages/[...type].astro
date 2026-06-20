@@ -2,8 +2,6 @@
 import DashboardLayout from '../layouts/DashboardLayout.astro';
 import FeaturedSection from '../components/FeaturedSection.tsx';
 import ComponentGrid from '../components/ComponentGrid.tsx';
-import SearchModal from '../components/SearchModal.tsx';
-import CartSidebar from '../components/CartSidebar.tsx';
 import { VALID_TYPES, TYPE_CONFIG } from '../lib/icons';
 
 export const prerender = false;
@@ -52,6 +50,4 @@ const pageTitle = TYPE_CONFIG[activeType]?.label ?? 'Components';
   </header>
   <FeaturedSection client:load />
   <ComponentGrid client:load initialType={activeType} />
-  <SearchModal client:idle />
-  <CartSidebar client:idle />
 </DashboardLayout>

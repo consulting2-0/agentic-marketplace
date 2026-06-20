@@ -1,0 +1,13 @@
+---
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import WorkspaceView from '../components/WorkspaceView.tsx';
+
+export const prerender = false;
+---
+
+<DashboardLayout
+  title="My Workspace — Build your Claude Code setup | Consulting 2.0"
+  description="Collect agents, skills, commands, hooks and MCPs, then download one ZIP ready to drop into your project's .claude/ folder and start Claude Code."
+>
+  <WorkspaceView client:only="react" />
+</DashboardLayout>

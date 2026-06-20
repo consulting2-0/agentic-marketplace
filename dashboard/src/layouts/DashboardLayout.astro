@@ -1,6 +1,8 @@
 ---
 import SiteHeader from '../components/SiteHeader.astro';
 import ClerkIsland from '../components/ClerkIsland.tsx';
+import SearchModal from '../components/SearchModal.tsx';
+import CartSidebar from '../components/CartSidebar.tsx';
 import '../styles/global.css';
 
 interface Props {
@@ -85,12 +87,16 @@ const schemaData = JSON.stringify({
           </p>
           <nav class="flex items-center gap-4">
             <a href="/trending" class="hover:text-text-primary">Trending</a>
-            <a href="/my-components" class="hover:text-text-primary">My Workspace</a>
+            <a href="/workspace" class="hover:text-text-primary">My Workspace</a>
             <a href="https://github.com/sghosh13/btp-templates" target="_blank" rel="noopener noreferrer" class="hover:text-text-primary">GitHub</a>
           </nav>
         </div>
       </footer>
     </main>
+
+    <!-- Global search + workspace, available on every page -->
+    <SearchModal client:idle />
+    <CartSidebar client:idle />
 
     <!-- Single Clerk island for auth — shared React instance with all Astro islands -->
     <ClerkIsland client:load />

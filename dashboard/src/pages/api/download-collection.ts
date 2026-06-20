@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import * as JSZipModule from 'jszip';
-import { getAdminClient } from '../../lib/supabase';
+import { fetchComponents } from '../../lib/data';
 
 const JSZip = (JSZipModule as any).default ?? JSZipModule;
 
@@ -28,21 +28,17 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'No components provided' }), { status: 400 });
     }
 
-    const supabase = getAdminClient();
-    const allPaths = components.flatMap((c) => {
-      const p = c.path.replace(/\.(md|json)$/, '');
-      return [p, `${p}.md`, `${p}.json`];
-    });
-
-    const { data: rows } = await supabase
-      .from('components')
-      .select('path, type, name, content, downloads')
-      .in('path', allPaths);
-
+    // Read content from the static components.json (the site's source of truth),
+    // not Supabase — the table can be out of sync and yields empty files.
+    const data = await fetchComponents();
     const contentMap: Record<string, string> = {};
-    for (const row of rows ?? []) {
-      const key = row.path.replace(/\.(md|json)$/, '');
-      if (row.content) contentMap[key] = row.content;
+    for (const items of Object.values(data) as any[]) {
+      if (!Array.isArray(items)) continue;
+      for (const row of items) {
+        if (row?.path && row?.content) {
+          contentMap[row.path.replace(/\.(md|json)$/, '')] = row.content;
+        }
+      }
     }
 
     const zip = new JSZip();

@@ -45,11 +45,48 @@ import { NAV_LINKS } from '../lib/constants';
       <kbd class="hidden sm:inline-flex ml-auto items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono border border-border rounded text-text-tertiary">⌘K</kbd>
     </button>
 
-    <!-- Right: trending link, cart mount, auth -->
-    <nav class="flex items-center gap-3 shrink-0">
-      <a href={NAV_LINKS.trending} class="hidden sm:inline text-[13px] text-text-secondary hover:text-text-primary">Trending</a>
-      <div id="cart-button-mount"></div>
+    <!-- Right: trending link, workspace, auth -->
+    <nav class="flex items-center gap-2.5 shrink-0">
+      <a href={NAV_LINKS.trending} class="hidden sm:inline text-[13px] text-text-secondary hover:text-text-primary px-1">Trending</a>
+      <a
+        href="/workspace"
+        class="relative inline-flex items-center gap-1.5 px-3 h-9 rounded-full border border-border hover:border-border-hover text-[13px] font-medium text-text-primary transition-colors"
+        aria-label="My workspace"
+      >
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>
+        <span class="hidden sm:inline">Workspace</span>
+        <span id="workspaceCount" class="hidden min-w-[18px] h-[18px] px-1 rounded-full bg-primary-500 text-white text-[10px] font-semibold items-center justify-center"></span>
+      </a>
       <AuthButton client:load />
     </nav>
   </div>
 </header>
+
+<script>
+  function workspaceCount(): number {
+    try {
+      const c = JSON.parse(localStorage.getItem('claudeCodeCart') || '{}');
+      return Object.values(c).reduce((s: number, a) => s + (Array.isArray(a) ? a.length : 0), 0);
+    } catch {
+      return 0;
+    }
+  }
+  function renderWorkspaceCount() {
+    const el = document.getElementById('workspaceCount');
+    if (!el) return;
+    const n = workspaceCount();
+    if (n > 0) {
+      el.textContent = String(n);
+      el.classList.remove('hidden');
+      el.classList.add('inline-flex');
+    } else {
+      el.classList.add('hidden');
+      el.classList.remove('inline-flex');
+    }
+  }
+  window.addEventListener('cart-updated', renderWorkspaceCount);
+  window.addEventListener('storage', renderWorkspaceCount);
+  renderWorkspaceCount();
+</script>

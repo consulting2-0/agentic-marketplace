@@ -198,7 +198,7 @@ export default function WorkspaceView() {
             <p className="mt-1.5 text-[13px] text-text-secondary max-w-sm mx-auto">
               Browse the catalog and click <span className="inline-flex w-5 h-5 align-middle items-center justify-center rounded bg-surface-3 text-text-secondary">+</span> on any component to add it to this project.
             </p>
-            <a href="/" className="mt-5 inline-flex items-center gap-2 px-5 h-10 rounded-full bg-primary-500 hover:bg-primary-600 text-white text-[13px] font-medium transition-colors">Browse components</a>
+            <a href="/skills" className="mt-5 inline-flex items-center gap-2 px-5 h-10 rounded-full bg-primary-500 hover:bg-primary-600 text-white text-[13px] font-medium transition-colors">Browse components</a>
           </div>
         ) : (
           <>

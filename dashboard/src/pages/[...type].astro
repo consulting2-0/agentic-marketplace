@@ -1,6 +1,6 @@
 ---
 import DashboardLayout from '../layouts/DashboardLayout.astro';
-import FeaturedSection from '../components/FeaturedSection.tsx';
+import CatalogSidebar from '../components/CatalogSidebar.astro';
 import ComponentGrid from '../components/ComponentGrid.tsx';
 import { VALID_TYPES, TYPE_CONFIG } from '../lib/icons';
 
@@ -44,10 +44,14 @@ const pageTitle = TYPE_CONFIG[activeType]?.label ?? 'Components';
   title={TYPE_META[activeType]?.title ?? `${activeType.charAt(0).toUpperCase() + activeType.slice(1)} - Claude Code Templates`}
   description={TYPE_META[activeType]?.description ?? `Browse ${activeType} for Claude Code. Install with a single npx command.`}
 >
-  <header class="pt-10 pb-4">
-    <h1 class="text-[clamp(28px,4vw,44px)] text-text-primary" style="font-family: var(--font-display);">{pageTitle}</h1>
-    <p class="text-[14px] text-text-secondary mt-1">Browse and install {pageTitle.toLowerCase()}.</p>
-  </header>
-  <FeaturedSection client:load />
-  <ComponentGrid client:load initialType={activeType} />
+  <div class="flex gap-4 pt-6">
+    <CatalogSidebar activeType={activeType} />
+    <div class="flex-1 min-w-0">
+      <header class="px-6 pb-3">
+        <h1 class="text-[clamp(26px,3.4vw,40px)] text-text-primary" style="font-family: var(--font-display);">{pageTitle}</h1>
+        <p class="text-[14px] text-text-secondary mt-1">Browse and install {pageTitle.toLowerCase()}.</p>
+      </header>
+      <ComponentGrid client:load initialType={activeType} />
+    </div>
+  </div>
 </DashboardLayout>

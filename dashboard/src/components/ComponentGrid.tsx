@@ -157,8 +157,8 @@ export default function ComponentGrid({ initialType }: Props) {
     return (
       <div className="px-6 py-20">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-5 h-5 border-2 border-[--color-text-tertiary] border-t-transparent rounded-full animate-spin" />
-          <span className="text-[13px] text-[--color-text-tertiary]">Loading...</span>
+          <div className="w-5 h-5 border-2 border-text-tertiary border-t-transparent rounded-full animate-spin" />
+          <span className="text-[13px] text-text-tertiary">Loading...</span>
         </div>
       </div>
     );
@@ -168,7 +168,7 @@ export default function ComponentGrid({ initialType }: Props) {
     return (
       <div className="px-6 py-20 text-center">
         <p className="text-[13px] text-red-400">{error}</p>
-        <button onClick={() => window.location.reload()} className="mt-3 text-[13px] text-[--color-text-secondary] hover:text-[--color-text-primary] underline underline-offset-4">Retry</button>
+        <button onClick={() => window.location.reload()} className="mt-3 text-[13px] text-text-secondary hover:text-text-primary underline underline-offset-4">Retry</button>
       </div>
     );
   }
@@ -214,7 +214,7 @@ export default function ComponentGrid({ initialType }: Props) {
             placeholder="Search..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-44 bg-surface-2 border border-border rounded-lg text-[12px] text-[--color-text-primary] placeholder:text-[#666] pl-8 pr-3 py-1.5 outline-none focus:bg-surface-3 focus:ring-1 focus:ring-[--color-border] transition-all"
+            className="w-44 bg-surface-2 border border-border rounded-lg text-[12px] text-text-primary placeholder:text-[#666] pl-8 pr-3 py-1.5 outline-none focus:bg-surface-3 focus:ring-1 focus:ring-border transition-all"
           />
         </div>
 
@@ -222,7 +222,7 @@ export default function ComponentGrid({ initialType }: Props) {
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="bg-surface-2 border border-border rounded-lg text-[12px] text-[--color-text-secondary] px-2.5 py-1.5 outline-none focus:bg-surface-3 cursor-pointer"
+          className="bg-surface-2 border border-border rounded-lg text-[12px] text-text-secondary px-2.5 py-1.5 outline-none focus:bg-surface-3 cursor-pointer"
         >
           <option value="all">All categories</option>
           {categories.map((cat) => (
@@ -235,7 +235,7 @@ export default function ComponentGrid({ initialType }: Props) {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as 'downloads' | 'name')}
-            className="bg-surface-2 border border-border rounded-lg text-[12px] text-[--color-text-secondary] px-2.5 py-1.5 outline-none focus:bg-surface-3 cursor-pointer"
+            className="bg-surface-2 border border-border rounded-lg text-[12px] text-text-secondary px-2.5 py-1.5 outline-none focus:bg-surface-3 cursor-pointer"
           >
             <option value="downloads">Popular</option>
             <option value="name">A-Z</option>
@@ -267,10 +267,10 @@ export default function ComponentGrid({ initialType }: Props) {
 
               {/* Info */}
               <div className="min-w-0 flex-1">
-                <span className="text-[13px] font-medium text-[--color-text-primary] group-hover:text-[--color-text-primary] transition-colors">
+                <span className="text-[13px] font-medium text-text-primary group-hover:text-text-primary transition-colors">
                   {formatName(component.name)}
                 </span>
-                <p className="text-[12px] text-[--color-text-tertiary] line-clamp-2 mt-1 leading-relaxed">
+                <p className="text-[12px] text-text-tertiary line-clamp-2 mt-1 leading-relaxed">
                   {component.description || component.content?.slice(0, 120) || 'No description'}
                 </p>
                 <div className="flex items-center gap-1.5 mt-2.5 flex-wrap">
@@ -284,7 +284,7 @@ export default function ComponentGrid({ initialType }: Props) {
                     </span>
                   )}
                   {component.category && (
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 text-[--color-text-tertiary]">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-2 text-text-tertiary">
                       {component.category}
                     </span>
                   )}
@@ -312,7 +312,7 @@ export default function ComponentGrid({ initialType }: Props) {
                   className={`w-7 h-7 rounded-lg flex items-center justify-center mt-0.5 transition-all ${
                     inCart
                       ? 'bg-[#111111] text-white'
-                      : 'text-[--color-text-tertiary] hover:text-[--color-text-primary] hover:bg-surface-2'
+                      : 'text-text-tertiary hover:text-text-primary hover:bg-surface-2'
                   }`}
                   title={inCart ? 'Remove from stack' : 'Add to stack'}
                 >
@@ -335,9 +335,9 @@ export default function ComponentGrid({ initialType }: Props) {
       {/* Empty state */}
       {paged.length === 0 && !loading && (
         <div className="px-6 py-16 text-center">
-          <p className="text-[13px] text-[--color-text-tertiary]">No components found</p>
+          <p className="text-[13px] text-text-tertiary">No components found</p>
           {search && (
-            <button onClick={() => setSearch('')} className="mt-2 text-[13px] text-[--color-text-secondary] hover:text-[--color-text-primary] underline underline-offset-4">
+            <button onClick={() => setSearch('')} className="mt-2 text-[13px] text-text-secondary hover:text-text-primary underline underline-offset-4">
               Clear search
             </button>
           )}
@@ -350,17 +350,17 @@ export default function ComponentGrid({ initialType }: Props) {
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-3 py-1.5 text-[13px] rounded-lg text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-surface-2 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="px-3 py-1.5 text-[13px] rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-2 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             Previous
           </button>
-          <span className="px-3 py-1.5 text-[12px] text-[--color-text-tertiary] tabular-nums">
+          <span className="px-3 py-1.5 text-[12px] text-text-tertiary tabular-nums">
             {page} of {totalPages}
           </span>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="px-3 py-1.5 text-[13px] rounded-lg text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-surface-2 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="px-3 py-1.5 text-[13px] rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-2 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             Next
           </button>

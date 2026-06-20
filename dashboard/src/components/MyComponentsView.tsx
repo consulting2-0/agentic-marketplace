@@ -249,7 +249,7 @@ function ProjectTreeNode({
     // Leaf file with link to component
     return (
       <div
-        className="group/treeitem flex items-center gap-1.5 py-[4px] rounded-md text-[12px] text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-[--color-surface-2] transition-colors"
+        className="group/treeitem flex items-center gap-1.5 py-[4px] rounded-md text-[12px] text-text-secondary hover:text-text-primary hover:bg-surface-2 transition-colors"
         style={{ paddingLeft: pl }}
       >
         {fileIcon}
@@ -262,7 +262,7 @@ function ProjectTreeNode({
         </a>
         <button
           onClick={(e) => { e.stopPropagation(); onRemoveItem(node.item!, collectionId); }}
-          className="p-0.5 rounded hover:bg-surface-2 text-[--color-text-tertiary] hover:text-red-400 transition-colors opacity-0 group-hover/treeitem:opacity-100 shrink-0 mr-1"
+          className="p-0.5 rounded hover:bg-surface-2 text-text-tertiary hover:text-red-400 transition-colors opacity-0 group-hover/treeitem:opacity-100 shrink-0 mr-1"
           title="Remove"
         >
           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -279,14 +279,14 @@ function ProjectTreeNode({
         onClick={() => { if (isClickable) togglePath(fullPath); }}
         role={isClickable ? 'button' : undefined}
         className={`flex items-center gap-1.5 py-[4px] rounded-md text-[12px] transition-colors ${
-          isClickable ? 'cursor-pointer hover:bg-[--color-surface-2]' : ''
-        } ${node.name === '.claude' ? 'text-[--color-text-primary] font-medium' : 'text-[--color-text-secondary]'}`}
+          isClickable ? 'cursor-pointer hover:bg-surface-2' : ''
+        } ${node.name === '.claude' ? 'text-text-primary font-medium' : 'text-text-secondary'}`}
         style={{ paddingLeft: pl }}
       >
         {/* Chevron for expandable nodes */}
         {hasChildren ? (
           <svg
-            className={`w-3 h-3 shrink-0 text-[--color-text-tertiary] transition-transform duration-150 ${isExpanded ? 'rotate-90' : ''}`}
+            className={`w-3 h-3 shrink-0 text-text-tertiary transition-transform duration-150 ${isExpanded ? 'rotate-90' : ''}`}
             fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -302,7 +302,7 @@ function ProjectTreeNode({
         </span>
         {/* Count badge for type folders */}
         {node.componentType && hasChildren && (
-          <span className="text-[10px] text-[--color-text-tertiary] ml-auto mr-1">
+          <span className="text-[10px] text-text-tertiary ml-auto mr-1">
             {node.children!.length}
           </span>
         )}
@@ -368,7 +368,7 @@ function MainContentTree({
     <div>
       {depth > 0 && (
         <div className="group/treeline flex items-center whitespace-pre leading-6">
-          <span className="text-[--color-text-tertiary] select-none">{prefix}{connector}</span>
+          <span className="text-text-tertiary select-none">{prefix}{connector}</span>
           {node.item ? (
             <a
               href={`/component/${node.item.component_type}/${cleanPath(node.item.component_path)}`}
@@ -385,7 +385,7 @@ function MainContentTree({
           {node.item && (
             <button
               onClick={() => onRemoveItem(node.item!, collectionId)}
-              className="ml-2 p-0.5 rounded hover:bg-surface-2 text-[--color-text-tertiary] hover:text-red-400 transition-colors opacity-0 group-hover/treeline:opacity-100 shrink-0"
+              className="ml-2 p-0.5 rounded hover:bg-surface-2 text-text-tertiary hover:text-red-400 transition-colors opacity-0 group-hover/treeline:opacity-100 shrink-0"
               title="Remove"
             >
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -428,7 +428,7 @@ function CollectionContextMenu({
 
   return (
     <div ref={ref} className="absolute right-0 top-full mt-1 w-36 bg-[#F4F2EC] border border-[#E9E6DF] rounded-lg shadow-xl z-50 py-1">
-      <button onClick={onRename} className="flex items-center gap-2 w-full px-3 py-1.5 text-[12px] text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-surface-2">
+      <button onClick={onRename} className="flex items-center gap-2 w-full px-3 py-1.5 text-[12px] text-text-secondary hover:text-text-primary hover:bg-surface-2">
         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
         Rename
       </button>
@@ -587,7 +587,7 @@ export default function MyComponentsView() {
   if (!isLoaded) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="w-5 h-5 border-2 border-[--color-text-tertiary] border-t-transparent rounded-full animate-spin" />
+        <div className="w-5 h-5 border-2 border-text-tertiary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -596,13 +596,13 @@ export default function MyComponentsView() {
   if (!isSignedIn) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-center px-6">
-        <div className="w-16 h-16 rounded-2xl bg-[--color-surface-3] flex items-center justify-center mb-4">
-          <svg className="w-8 h-8 text-[--color-text-tertiary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+        <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mb-4">
+          <svg className="w-8 h-8 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
           </svg>
         </div>
-        <h2 className="text-lg font-semibold text-[--color-text-primary] mb-2">Save your favorite components</h2>
-        <p className="text-sm text-[--color-text-tertiary] mb-6 max-w-sm">
+        <h2 className="text-lg font-semibold text-text-primary mb-2">Save your favorite components</h2>
+        <p className="text-sm text-text-tertiary mb-6 max-w-sm">
           Sign in to create collections and organize the components you use most.
         </p>
         <button
@@ -619,7 +619,7 @@ export default function MyComponentsView() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="w-5 h-5 border-2 border-[--color-text-tertiary] border-t-transparent rounded-full animate-spin" />
+        <div className="w-5 h-5 border-2 border-text-tertiary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -639,26 +639,26 @@ export default function MyComponentsView() {
   return (
     <div className="flex h-full">
       {/* ── Sidebar ── */}
-      <div className="w-60 border-r border-[--color-border] flex flex-col shrink-0">
-        <div className="px-4 py-3 border-b border-[--color-border]">
-          <h2 className="text-sm font-semibold text-[--color-text-primary]">My Components</h2>
+      <div className="w-60 border-r border-border flex flex-col shrink-0">
+        <div className="px-4 py-3 border-b border-border">
+          <h2 className="text-sm font-semibold text-text-primary">My Components</h2>
         </div>
 
         {/* Create new — top */}
-        <div className="px-2 py-2 border-b border-[--color-border]">
+        <div className="px-2 py-2 border-b border-border">
           <div className="flex items-center gap-1">
             <input
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') handleCreate(); }}
               placeholder="New collection..."
-              className="flex-1 bg-transparent border-none text-[12px] text-[--color-text-primary] placeholder:text-[--color-text-tertiary] px-2 py-1.5 outline-none"
+              className="flex-1 bg-transparent border-none text-[12px] text-text-primary placeholder:text-text-tertiary px-2 py-1.5 outline-none"
               maxLength={100}
             />
             <button
               onClick={handleCreate}
               disabled={!newName.trim() || creating}
-              className="p-1.5 rounded hover:bg-[--color-surface-3] text-[--color-text-tertiary] hover:text-[--color-text-primary] disabled:opacity-30 transition-colors"
+              className="p-1.5 rounded hover:bg-surface-3 text-text-tertiary hover:text-text-primary disabled:opacity-30 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -687,7 +687,7 @@ export default function MyComponentsView() {
                         if (e.key === 'Escape') setRenaming(null);
                       }}
                       onBlur={() => handleRename(col.id)}
-                      className="w-full bg-[--color-surface-3] border-none rounded text-[12px] text-[--color-text-primary] px-2 py-1 outline-none focus:ring-1 focus:ring-blue-500"
+                      className="w-full bg-surface-3 border-none rounded text-[12px] text-text-primary px-2 py-1 outline-none focus:ring-1 focus:ring-blue-500"
                       maxLength={100}
                     />
                   </div>
@@ -705,23 +705,23 @@ export default function MyComponentsView() {
                     role="button"
                     className={`flex items-center gap-1.5 w-full px-2 py-[6px] rounded-md text-[13px] transition-colors group cursor-pointer ${
                       isSelected
-                        ? 'bg-[--color-surface-3] text-[--color-text-primary] font-medium'
-                        : 'text-[--color-text-secondary] hover:text-[--color-text-primary] hover:bg-[--color-surface-2]'
+                        ? 'bg-surface-3 text-text-primary font-medium'
+                        : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
                     }`}
                   >
                     {/* Chevron */}
                     <svg
-                      className={`w-3 h-3 shrink-0 text-[--color-text-tertiary] transition-transform duration-150 ${isExpanded ? 'rotate-90' : ''}`}
+                      className={`w-3 h-3 shrink-0 text-text-tertiary transition-transform duration-150 ${isExpanded ? 'rotate-90' : ''}`}
                       fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
                     {/* Folder icon */}
-                    <svg className="w-4 h-4 shrink-0 text-[--color-text-tertiary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                    <svg className="w-4 h-4 shrink-0 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2 17V7a2 2 0 012-2h5l2 2h9a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2z" />
                     </svg>
                     <span className="truncate flex-1 text-left">{col.name}</span>
-                    <span className="text-[10px] text-[--color-text-tertiary]">
+                    <span className="text-[10px] text-text-tertiary">
                       {items.length}
                     </span>
                     <button
@@ -773,24 +773,24 @@ export default function MyComponentsView() {
       <div className="flex-1 overflow-y-auto">
         {!selectedCollection ? (
           <div className="flex flex-col items-center justify-center h-full text-center px-6">
-            <p className="text-sm text-[--color-text-tertiary]">Select a collection</p>
+            <p className="text-sm text-text-tertiary">Select a collection</p>
           </div>
         ) : selectedItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center px-6">
-            <div className="w-14 h-14 rounded-2xl bg-[--color-surface-3] flex items-center justify-center mb-4">
-              <svg className="w-7 h-7 text-[--color-text-tertiary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+            <div className="w-14 h-14 rounded-2xl bg-surface-3 flex items-center justify-center mb-4">
+              <svg className="w-7 h-7 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
               </svg>
             </div>
-            <p className="text-sm text-[--color-text-secondary]">
+            <p className="text-sm text-text-secondary">
               "{selectedCollection.name}" is empty
             </p>
-            <p className="text-xs text-[--color-text-tertiary] mt-1">
+            <p className="text-xs text-text-tertiary mt-1">
               Browse components and click the bookmark icon to save them here.
             </p>
             <a
               href="/agents"
-              className="mt-4 px-4 py-2 bg-[--color-surface-3] hover:bg-[--color-surface-4] rounded-lg text-sm text-[--color-text-secondary] hover:text-[--color-text-primary] transition-colors"
+              className="mt-4 px-4 py-2 bg-surface-3 hover:bg-surface-4 rounded-lg text-sm text-text-secondary hover:text-text-primary transition-colors"
             >
               Browse Components
             </a>
@@ -800,8 +800,8 @@ export default function MyComponentsView() {
             {/* Header + install command */}
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-semibold text-[--color-text-primary]">{selectedCollection.name}</h3>
-                <span className="text-[12px] text-[--color-text-tertiary]">
+                <h3 className="text-base font-semibold text-text-primary">{selectedCollection.name}</h3>
+                <span className="text-[12px] text-text-tertiary">
                   {selectedItems.length} component{selectedItems.length !== 1 ? 's' : ''}
                 </span>
               </div>
@@ -842,11 +842,11 @@ export default function MyComponentsView() {
             {/* Project structure view */}
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-3">
-                <svg className="w-4 h-4 text-[--color-text-tertiary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                <svg className="w-4 h-4 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2 17V7a2 2 0 012-2h5l2 2h9a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2z" />
                 </svg>
-                <h4 className="text-[13px] font-medium text-[--color-text-secondary]">Project Structure</h4>
-                <span className="text-[10px] text-[--color-text-tertiary]">How components will be installed</span>
+                <h4 className="text-[13px] font-medium text-text-secondary">Project Structure</h4>
+                <span className="text-[10px] text-text-tertiary">How components will be installed</span>
               </div>
               <div className="bg-[#FFFFFF] border border-[#E9E6DF] rounded-lg p-4 font-mono text-[12px]">
                 {(() => {
@@ -880,7 +880,7 @@ export default function MyComponentsView() {
                     <h4 className="text-[13px] font-semibold" style={{ color: group.color }}>
                       {group.label}
                     </h4>
-                    <span className="text-[11px] text-[--color-text-tertiary]">
+                    <span className="text-[11px] text-text-tertiary">
                       ({group.items.length})
                     </span>
                   </div>
@@ -902,13 +902,13 @@ export default function MyComponentsView() {
                           <div className="min-w-0 flex-1">
                             <a
                               href={`/component/${item.component_type}/${cleanPath(item.component_path)}`}
-                              className="text-[13px] font-medium text-[--color-text-primary] hover:text-[--color-text-primary] transition-colors line-clamp-1"
+                              className="text-[13px] font-medium text-text-primary hover:text-text-primary transition-colors line-clamp-1"
                             >
                               {formatName(item.component_name)}
                             </a>
                             {item.component_category && (
                               <div className="flex items-center gap-1.5 mt-1">
-                                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-surface-2 text-[--color-text-tertiary]">
+                                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-surface-2 text-text-tertiary">
                                   {item.component_category}
                                 </span>
                               </div>
@@ -916,7 +916,7 @@ export default function MyComponentsView() {
                           </div>
                           <button
                             onClick={() => handleRemoveItem(item, selectedCollection!.id)}
-                            className="p-1.5 rounded hover:bg-surface-2 text-[--color-text-tertiary] hover:text-red-400 transition-colors opacity-0 group-hover/card:opacity-100 shrink-0"
+                            className="p-1.5 rounded hover:bg-surface-2 text-text-tertiary hover:text-red-400 transition-colors opacity-0 group-hover/card:opacity-100 shrink-0"
                             title="Remove"
                           >
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

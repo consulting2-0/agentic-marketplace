@@ -220,7 +220,7 @@ export default function SendToRepoModal({ items, collectionName, onClose }: Prop
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded hover:bg-white/10 text-[--color-text-tertiary] hover:text-white transition-colors"
+            className="p-1 rounded hover:bg-white/10 text-text-tertiary hover:text-white transition-colors"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -233,7 +233,7 @@ export default function SendToRepoModal({ items, collectionName, onClose }: Prop
           {/* Step: Connect GitHub */}
           {step === 'connect' && (
             <div className="text-center py-6">
-              <p className="text-sm text-[--color-text-secondary] mb-4">
+              <p className="text-sm text-text-secondary mb-4">
                 Connect your GitHub account to create a PR with your components.
               </p>
               <button
@@ -277,19 +277,19 @@ export default function SendToRepoModal({ items, collectionName, onClose }: Prop
                           : 'hover:bg-white/[0.04] border border-transparent'
                       }`}
                     >
-                      <svg className="w-4 h-4 shrink-0 text-[--color-text-tertiary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                      <svg className="w-4 h-4 shrink-0 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                       </svg>
                       <div className="min-w-0 flex-1">
                         <div className="text-[13px] text-white truncate">{repo.full_name}</div>
                         {repo.description && (
-                          <div className="text-[11px] text-[--color-text-tertiary] truncate mt-0.5">
+                          <div className="text-[11px] text-text-tertiary truncate mt-0.5">
                             {repo.description}
                           </div>
                         )}
                       </div>
                       {repo.private && (
-                        <svg className="w-3.5 h-3.5 shrink-0 text-[--color-text-tertiary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                        <svg className="w-3.5 h-3.5 shrink-0 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                           <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                           <path d="M7 11V7a5 5 0 0110 0v4" />
                         </svg>
@@ -297,7 +297,7 @@ export default function SendToRepoModal({ items, collectionName, onClose }: Prop
                     </button>
                   ))}
                   {filteredRepos.length === 0 && !loadingRepos && (
-                    <p className="text-center text-sm text-[--color-text-tertiary] py-6">
+                    <p className="text-center text-sm text-text-tertiary py-6">
                       {search ? 'No repositories found' : 'No repositories available'}
                     </p>
                   )}
@@ -307,7 +307,7 @@ export default function SendToRepoModal({ items, collectionName, onClose }: Prop
               {/* Footer with create PR button */}
               {selectedRepo && (
                 <div className="mt-4 pt-3 border-t border-[#222] flex items-center justify-between">
-                  <div className="text-[12px] text-[--color-text-tertiary]">
+                  <div className="text-[12px] text-text-tertiary">
                     {items.length} component{items.length !== 1 ? 's' : ''} → <span className="text-white">{selectedRepo.full_name}</span>
                   </div>
                   <button
@@ -331,8 +331,8 @@ export default function SendToRepoModal({ items, collectionName, onClose }: Prop
           {step === 'creating' && (
             <div className="text-center py-8">
               <div className="w-6 h-6 border-2 border-[#333] border-t-white rounded-full animate-spin mx-auto mb-3" />
-              <p className="text-sm text-[--color-text-secondary]">Creating pull request...</p>
-              <p className="text-[11px] text-[--color-text-tertiary] mt-1">
+              <p className="text-sm text-text-secondary">Creating pull request...</p>
+              <p className="text-[11px] text-text-tertiary mt-1">
                 Adding {items.length} component{items.length !== 1 ? 's' : ''} to {selectedRepo?.full_name}
               </p>
             </div>
@@ -347,7 +347,7 @@ export default function SendToRepoModal({ items, collectionName, onClose }: Prop
                 </svg>
               </div>
               <p className="text-sm font-medium text-white mb-1">Pull Request Created!</p>
-              <p className="text-[12px] text-[--color-text-tertiary] mb-4">
+              <p className="text-[12px] text-text-tertiary mb-4">
                 PR #{prResult.number} in {selectedRepo?.full_name}
               </p>
               <a
@@ -373,13 +373,13 @@ export default function SendToRepoModal({ items, collectionName, onClose }: Prop
                 </svg>
               </div>
               <p className="text-sm font-medium text-white mb-1">Something went wrong</p>
-              <p className="text-[12px] text-[--color-text-tertiary] mb-4 max-w-sm mx-auto">{error}</p>
+              <p className="text-[12px] text-text-tertiary mb-4 max-w-sm mx-auto">{error}</p>
               <button
                 onClick={() => {
                   setError('');
                   setStep(token ? 'select-repo' : 'connect');
                 }}
-                className="px-4 py-2 bg-[--color-surface-3] hover:bg-[--color-surface-4] rounded-lg text-sm text-[--color-text-secondary] hover:text-white transition-colors"
+                className="px-4 py-2 bg-surface-3 hover:bg-surface-4 rounded-lg text-sm text-text-secondary hover:text-white transition-colors"
               >
                 Try Again
               </button>

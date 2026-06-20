@@ -115,15 +115,15 @@ export default function CartSidebar() {
 
       {/* Sidebar panel */}
       <div
-        className={`fixed top-0 right-0 h-full w-96 max-w-[90vw] bg-[--color-surface-1] border-l border-[--color-border] z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-96 max-w-[90vw] bg-surface-1 border-l border-border z-50 transform transition-transform duration-300 ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-[--color-border]">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-semibold text-[--color-text-primary]">Stack Builder</h2>
-            <span className="text-xs px-1.5 py-0.5 rounded-full bg-[--color-surface-3] text-[--color-text-tertiary]">
+            <h2 className="text-sm font-semibold text-text-primary">Stack Builder</h2>
+            <span className="text-xs px-1.5 py-0.5 rounded-full bg-surface-3 text-text-tertiary">
               {totalItems}
             </span>
           </div>
@@ -131,14 +131,14 @@ export default function CartSidebar() {
             {totalItems > 0 && (
               <button
                 onClick={clearAll}
-                className="text-xs text-[--color-text-tertiary] hover:text-red-400 px-2 py-1 rounded transition-colors"
+                className="text-xs text-text-tertiary hover:text-red-400 px-2 py-1 rounded transition-colors"
               >
                 Clear
               </button>
             )}
             <button
               onClick={() => setOpen(false)}
-              className="p-1 rounded hover:bg-[--color-surface-3] text-[--color-text-secondary]"
+              className="p-1 rounded hover:bg-surface-3 text-text-secondary"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -151,13 +151,13 @@ export default function CartSidebar() {
         <div className="flex-1 overflow-y-auto h-[calc(100%-140px)]">
           {totalItems === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center px-6">
-              <div className="w-12 h-12 rounded-full bg-[--color-surface-3] flex items-center justify-center mb-3">
-                <svg className="w-6 h-6 text-[--color-text-tertiary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+              <div className="w-12 h-12 rounded-full bg-surface-3 flex items-center justify-center mb-3">
+                <svg className="w-6 h-6 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
               </div>
-              <p className="text-sm text-[--color-text-secondary]">Your stack is empty</p>
-              <p className="text-xs text-[--color-text-tertiary] mt-1">Click + on components to add them</p>
+              <p className="text-sm text-text-secondary">Your stack is empty</p>
+              <p className="text-xs text-text-tertiary mt-1">Click + on components to add them</p>
             </div>
           ) : (
             <div className="px-3 py-2">
@@ -165,16 +165,16 @@ export default function CartSidebar() {
                 const config = TYPE_CONFIG[type];
                 const isLast = idx === arr.length - 1;
                 return (
-                  <div key={type} className={!isLast ? 'mb-1 pb-1 border-b border-[--color-border]' : ''}>
+                  <div key={type} className={!isLast ? 'mb-1 pb-1 border-b border-border' : ''}>
                     {/* Folder row */}
                     <div className="flex items-center gap-2 py-1.5 px-1">
-                      <svg className="w-4 h-4 shrink-0 text-[--color-text-tertiary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg className="w-4 h-4 shrink-0 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
                       </svg>
-                      <span className="text-[12px] font-medium text-[--color-text-secondary]">
+                      <span className="text-[12px] font-medium text-text-secondary">
                         {config?.label ?? type}
                       </span>
-                      <span className="text-[11px] text-[--color-text-tertiary] tabular-nums">
+                      <span className="text-[11px] text-text-tertiary tabular-nums">
                         {items.length}
                       </span>
                     </div>
@@ -187,22 +187,22 @@ export default function CartSidebar() {
                           className="flex items-center group pl-3 pr-1"
                         >
                           {/* Tree connector */}
-                          <span className="text-[--color-text-tertiary] text-[12px] font-mono w-5 shrink-0 select-none">
+                          <span className="text-text-tertiary text-[12px] font-mono w-5 shrink-0 select-none">
                             {isLastItem ? '└─' : '├─'}
                           </span>
                           {/* File icon */}
-                          <svg className="w-3.5 h-3.5 shrink-0 mr-2 text-[--color-text-tertiary]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                          <svg className="w-3.5 h-3.5 shrink-0 mr-2 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
                             <polyline points="14 2 14 8 20 8" />
                           </svg>
                           {/* Name */}
-                          <span className="text-[12px] text-[--color-text-primary] flex-1 truncate py-1">
+                          <span className="text-[12px] text-text-primary flex-1 truncate py-1">
                             {formatName(item.name)}
                           </span>
                           {/* Remove */}
                           <button
                             onClick={() => removeItem(item.path, type)}
-                            className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-[--color-surface-2] text-[--color-text-tertiary] hover:text-[--color-text-primary] transition-all shrink-0"
+                            className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-surface-2 text-text-tertiary hover:text-text-primary transition-all shrink-0"
                           >
                             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -220,9 +220,9 @@ export default function CartSidebar() {
 
         {/* Footer */}
         {totalItems > 0 && (
-          <div className="absolute bottom-0 left-0 right-0 border-t border-[--color-border] bg-[--color-surface-1] p-3 space-y-2">
+          <div className="absolute bottom-0 left-0 right-0 border-t border-border bg-surface-1 p-3 space-y-2">
             {/* Command */}
-            <div className="bg-[--color-surface-2] rounded-lg p-2.5 text-xs font-mono text-[--color-text-secondary] break-all max-h-20 overflow-y-auto">
+            <div className="bg-surface-2 rounded-lg p-2.5 text-xs font-mono text-text-secondary break-all max-h-20 overflow-y-auto">
               {generateCommand()}
             </div>
 
@@ -230,7 +230,7 @@ export default function CartSidebar() {
             <div className="flex gap-2">
               <button
                 onClick={copyCommand}
-                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-[--color-primary-500] hover:bg-[--color-primary-600] text-white rounded-lg text-sm font-medium transition-colors"
+                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg text-sm font-medium transition-colors"
               >
                 {copied ? (
                   <>
@@ -250,7 +250,7 @@ export default function CartSidebar() {
               </button>
               <button
                 onClick={shareTwitter}
-                className="px-3 py-2 border border-[--color-border] text-[--color-text-secondary] hover:text-[--color-text-primary] rounded-lg text-sm transition-colors"
+                className="px-3 py-2 border border-border text-text-secondary hover:text-text-primary rounded-lg text-sm transition-colors"
                 title="Share on Twitter"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">

@@ -129,16 +129,16 @@ export default function SearchModal() {
       onClick={() => setOpen(false)}
     >
       {/* Backdrop — warm dark tint */}
-      <div className="absolute inset-0 bg-[#16150F]/45 backdrop-blur-[3px]" />
+      <div className="absolute inset-0 bg-[#16150F]/60 backdrop-blur-md" />
 
       {/* Palette */}
       <div
-        className="relative w-full max-w-[600px] bg-[--color-surface-1] rounded-2xl ring-1 ring-black/[0.06] shadow-[0_28px_70px_-16px_rgba(22,21,15,0.45)] overflow-hidden"
+        className="relative w-full max-w-[600px] bg-surface-1 rounded-2xl ring-1 ring-black/[0.06] shadow-[0_28px_70px_-16px_rgba(22,21,15,0.45)] overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Input */}
-        <div className="flex items-center gap-3 px-5 h-[60px] border-b border-[--color-border]">
-          <svg className="w-[18px] h-[18px] text-[--color-text-tertiary] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <div className="flex items-center gap-3 px-5 h-[60px] border-b border-border">
+          <svg className="w-[18px] h-[18px] text-text-tertiary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -149,9 +149,9 @@ export default function SearchModal() {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             style={{ outline: 'none', boxShadow: 'none' }}
-            className="flex-1 bg-transparent text-[15px] text-[--color-text-primary] placeholder:text-[--color-text-tertiary] border-none"
+            className="flex-1 bg-transparent text-[15px] text-text-primary placeholder:text-text-tertiary border-none"
           />
-          <kbd className="px-1.5 py-1 text-[10px] font-medium bg-[--color-surface-2] border border-[--color-border] rounded-md text-[--color-text-tertiary]">
+          <kbd className="px-1.5 py-1 text-[10px] font-medium bg-surface-2 border border-border rounded-md text-text-tertiary">
             ESC
           </kbd>
         </div>
@@ -161,14 +161,14 @@ export default function SearchModal() {
           {/* Empty state — quick links by type */}
           {!hasQuery && (
             <div>
-              <p className="px-5 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-[--color-text-tertiary]" style={{ fontFamily: 'var(--font-ui)' }}>
+              <p className="px-5 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-text-tertiary" style={{ fontFamily: 'var(--font-ui)' }}>
                 Browse by type
               </p>
               {Object.entries(TYPE_CONFIG).map(([type, config]) => (
                 <a
                   key={type}
                   href={`/${type}`}
-                  className="group/q w-full flex items-center gap-3 px-5 py-2.5 text-left hover:bg-[--color-surface-2] transition-colors"
+                  className="group/q w-full flex items-center gap-3 px-5 py-2.5 text-left hover:bg-surface-2 transition-colors"
                 >
                   <span
                     className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 [&>svg]:w-[18px] [&>svg]:h-[18px]"
@@ -176,8 +176,8 @@ export default function SearchModal() {
                   >
                     <TypeIcon type={type} size={18} />
                   </span>
-                  <span className="flex-1 text-[14px] text-[--color-text-primary]">{config.label}</span>
-                  <span className="text-[--color-text-tertiary] opacity-0 group-hover/q:opacity-100 transition-opacity">→</span>
+                  <span className="flex-1 text-[14px] text-text-primary">{config.label}</span>
+                  <span className="text-text-tertiary opacity-0 group-hover/q:opacity-100 transition-opacity">→</span>
                 </a>
               ))}
             </div>
@@ -186,15 +186,15 @@ export default function SearchModal() {
           {/* No results */}
           {hasQuery && results.length === 0 && (
             <div className="px-5 py-12 text-center">
-              <p className="text-[14px] text-[--color-text-secondary]">No results for “{query}”</p>
-              <p className="mt-1 text-[12px] text-[--color-text-tertiary]">Try a different keyword or browse by type.</p>
+              <p className="text-[14px] text-text-secondary">No results for “{query}”</p>
+              <p className="mt-1 text-[12px] text-text-tertiary">Try a different keyword or browse by type.</p>
             </div>
           )}
 
           {/* Results */}
           {hasQuery && results.length > 0 && (
             <>
-              <p className="px-5 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-[--color-text-tertiary]" style={{ fontFamily: 'var(--font-ui)' }}>
+              <p className="px-5 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-text-tertiary" style={{ fontFamily: 'var(--font-ui)' }}>
                 {results.length} result{results.length !== 1 ? 's' : ''}
               </p>
               {results.map((component, i) => {
@@ -207,10 +207,10 @@ export default function SearchModal() {
                     onClick={() => navigate(component)}
                     onMouseEnter={() => setSelectedIndex(i)}
                     className={`group/r relative w-full flex items-center gap-3 px-5 py-2.5 text-left transition-colors ${
-                      selected ? 'bg-[--color-primary-50]' : 'hover:bg-[--color-surface-2]'
+                      selected ? 'bg-primary-50' : 'hover:bg-surface-2'
                     }`}
                   >
-                    {selected && <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r bg-[--color-primary-500]" />}
+                    {selected && <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r bg-primary-500" />}
                     <span
                       className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 [&>svg]:w-[18px] [&>svg]:h-[18px]"
                       style={{ backgroundColor: config ? `${config.color}1f` : 'var(--color-surface-3)', color: config?.color ?? 'var(--color-text-tertiary)' }}
@@ -218,13 +218,13 @@ export default function SearchModal() {
                       <TypeIcon type={typePlural} size={18} />
                     </span>
                     <div className="min-w-0 flex-1">
-                      <div className="text-[14px] text-[--color-text-primary] truncate">{formatName(component.name)}</div>
+                      <div className="text-[14px] text-text-primary truncate">{formatName(component.name)}</div>
                       {component.description && (
-                        <div className="text-[12px] text-[--color-text-tertiary] truncate">{component.description}</div>
+                        <div className="text-[12px] text-text-tertiary truncate">{component.description}</div>
                       )}
                     </div>
-                    <span className="text-[11px] text-[--color-text-tertiary] shrink-0">{config?.label ?? component.type}</span>
-                    <span className={`text-[--color-primary-600] text-[13px] shrink-0 transition-opacity ${selected ? 'opacity-100' : 'opacity-0'}`}>↵</span>
+                    <span className="text-[11px] text-text-tertiary shrink-0">{config?.label ?? component.type}</span>
+                    <span className={`text-primary-600 text-[13px] shrink-0 transition-opacity ${selected ? 'opacity-100' : 'opacity-0'}`}>↵</span>
                   </button>
                 );
               })}
@@ -233,11 +233,11 @@ export default function SearchModal() {
         </div>
 
         {/* Footer — always present */}
-        <div className="flex items-center gap-4 px-5 py-2.5 border-t border-[--color-border] text-[11px] text-[--color-text-tertiary]">
-          <span className="flex items-center gap-1.5"><kbd className="px-1 py-0.5 bg-[--color-surface-2] border border-[--color-border] rounded text-[10px]">↑↓</kbd> navigate</span>
-          <span className="flex items-center gap-1.5"><kbd className="px-1 py-0.5 bg-[--color-surface-2] border border-[--color-border] rounded text-[10px]">↵</kbd> open</span>
-          <span className="flex items-center gap-1.5"><kbd className="px-1 py-0.5 bg-[--color-surface-2] border border-[--color-border] rounded text-[10px]">esc</kbd> close</span>
-          <span className="ml-auto font-medium" style={{ fontFamily: 'var(--font-ui)' }}>consulting<span className="text-[--color-primary-500]">2.0</span></span>
+        <div className="flex items-center gap-4 px-5 py-2.5 border-t border-border text-[11px] text-text-tertiary">
+          <span className="flex items-center gap-1.5"><kbd className="px-1 py-0.5 bg-surface-2 border border-border rounded text-[10px]">↑↓</kbd> navigate</span>
+          <span className="flex items-center gap-1.5"><kbd className="px-1 py-0.5 bg-surface-2 border border-border rounded text-[10px]">↵</kbd> open</span>
+          <span className="flex items-center gap-1.5"><kbd className="px-1 py-0.5 bg-surface-2 border border-border rounded text-[10px]">esc</kbd> close</span>
+          <span className="ml-auto font-medium" style={{ fontFamily: 'var(--font-ui)' }}>consulting<span className="text-primary-500">2.0</span></span>
         </div>
       </div>
     </div>

@@ -154,6 +154,35 @@ export function toggleInActive(component: {
   return { added: !exists, projectName: p.name };
 }
 
+export function isInProject(projectId: string, path: string, type: string): boolean {
+  const ws = loadWorkspace();
+  const p = ws.projects.find((x) => x.id === projectId);
+  const tp = plural(type);
+  return p?.items[tp]?.some((i) => i.path === path) ?? false;
+}
+
+// Toggle a component in a SPECIFIC project (used by the per-card project picker).
+export function toggleInProject(projectId: string, component: {
+  path: string; name: string; type: string; category?: string; description?: string;
+}): { added: boolean; projectName: string } {
+  const ws = loadWorkspace();
+  const p = ws.projects.find((x) => x.id === projectId);
+  if (!p) return { added: false, projectName: '' };
+  const tp = plural(component.type);
+  if (!p.items[tp]) p.items[tp] = [];
+  const exists = p.items[tp].some((i) => i.path === component.path);
+  if (exists) {
+    p.items[tp] = p.items[tp].filter((i) => i.path !== component.path);
+  } else {
+    p.items[tp].push({
+      path: component.path, name: component.name, type: tp,
+      category: component.category, description: component.description,
+    });
+  }
+  save(ws);
+  return { added: !exists, projectName: p.name };
+}
+
 export function removeItem(projectId: string, type: string, path: string): Workspace {
   const ws = loadWorkspace();
   const p = ws.projects.find((x) => x.id === projectId);

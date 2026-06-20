@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import type { Component, ComponentsData, ComponentType } from '../lib/types';
 import { TYPE_CONFIG } from '../lib/icons';
 import { ITEMS_PER_PAGE, COMPONENTS_JSON_URL } from '../lib/constants';
-import { loadWorkspace, activeProject, toggleInActive, setActive, createProject } from '../lib/workspace';
+import { loadWorkspace, activeProject, toggleInActive, setActive, createProject, isInProject, toggleInProject } from '../lib/workspace';
 
 interface Props {
   initialType: string;
@@ -45,6 +45,7 @@ export default function ComponentGrid({ initialType, markAdded = true }: Props) 
   const [toast, setToast] = useState<string | null>(null);
   const [projects, setProjects] = useState<{ id: string; name: string }[]>([]);
   const [activeId, setActiveId] = useState('');
+  const [pickerPath, setPickerPath] = useState<string | null>(null);
 
   // Sync activeType when initialType changes (e.g. sidebar navigation)
   useEffect(() => {
@@ -163,6 +164,40 @@ export default function ComponentGrid({ initialType, markAdded = true }: Props) 
     window.clearTimeout((toggleCart as any)._t);
     (toggleCart as any)._t = window.setTimeout(() => setToast(null), 1900);
   }, []);
+
+  function flashToast(msg: string) {
+    setToast(msg);
+    window.clearTimeout((flashToast as any)._t);
+    (flashToast as any)._t = window.setTimeout(() => setToast(null), 1900);
+  }
+
+  // "+" click: with multiple projects, ask which; with one, add directly.
+  function handleAddClick(component: Component) {
+    if (projects.length <= 1) {
+      toggleCart(component);
+    } else {
+      setPickerPath((prev) => (prev === component.path ? null : component.path));
+    }
+  }
+
+  function pickProject(projectId: string, component: Component) {
+    const { added, projectName } = toggleInProject(projectId, {
+      path: component.path,
+      name: component.name,
+      type: component.type,
+      category: component.category ?? '',
+      description: component.description ?? '',
+    });
+    flashToast(`${added ? 'Added to' : 'Removed from'} “${projectName}”`);
+  }
+
+  function newProjectAndAdd(component: Component) {
+    const name = window.prompt('Name your new project');
+    if (!name || !name.trim()) return;
+    const ws = createProject(name.trim());
+    pickProject(ws.activeId, component);
+    setPickerPath(null);
+  }
 
   if (loading) {
     return (
@@ -345,15 +380,15 @@ export default function ComponentGrid({ initialType, markAdded = true }: Props) 
               </div>
 
               {/* Action buttons */}
-              <div className="flex items-center gap-0.5 shrink-0">
+              <div className="relative flex items-center gap-0.5 shrink-0">
                 <button
-                  onClick={(e) => { e.stopPropagation(); toggleCart(component); }}
+                  onClick={(e) => { e.stopPropagation(); handleAddClick(component); }}
                   className={`w-7 h-7 rounded-lg flex items-center justify-center mt-0.5 transition-all ${
                     inCart
                       ? 'bg-[#111111] text-white'
                       : 'text-text-tertiary hover:text-text-primary hover:bg-surface-2'
                   }`}
-                  title={inCart ? 'Remove from stack' : 'Add to stack'}
+                  title={inCart ? 'Remove from stack' : 'Add to project'}
                 >
                   {inCart ? (
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
@@ -365,11 +400,52 @@ export default function ComponentGrid({ initialType, markAdded = true }: Props) 
                     </svg>
                   )}
                 </button>
+
+                {/* Project picker (when 2+ projects) */}
+                {pickerPath === component.path && (
+                  <div
+                    className="absolute right-0 top-9 z-30 w-56 bg-surface-1 border border-border rounded-xl shadow-[0_16px_40px_-12px_rgba(11,18,40,0.35)] p-1.5"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <p className="px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-text-tertiary">Add to project</p>
+                    <div className="max-h-56 overflow-y-auto">
+                      {projects.map((p) => {
+                        const inIt = isInProject(p.id, component.path, component.type);
+                        return (
+                          <button
+                            key={p.id}
+                            onClick={(e) => { e.stopPropagation(); pickProject(p.id, component); }}
+                            className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-left text-[13px] text-text-primary hover:bg-surface-2 transition-colors"
+                          >
+                            <span className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${inIt ? 'bg-primary-500 border-primary-500' : 'border-border'}`}>
+                              {inIt && (
+                                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                              )}
+                            </span>
+                            <span className="flex-1 truncate">{p.name}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); newProjectAndAdd(component); }}
+                      className="w-full flex items-center gap-2 px-2.5 py-2 mt-1 border-t border-border rounded-lg text-left text-[13px] text-primary-600 hover:bg-surface-2 transition-colors"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
+                      New project…
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           );
         })}
       </div>
+
+      {/* Click-away overlay for the project picker */}
+      {pickerPath && (
+        <div className="fixed inset-0 z-20" onClick={() => setPickerPath(null)} />
+      )}
 
       {/* Empty state */}
       {paged.length === 0 && !loading && (

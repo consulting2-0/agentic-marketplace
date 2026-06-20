@@ -3,7 +3,6 @@ import DashboardLayout from '../layouts/DashboardLayout.astro';
 import HomeHero from '../components/HomeHero.astro';
 import Journeys from '../components/Journeys.astro';
 import BrowseByType from '../components/BrowseByType.astro';
-import PartnerBanner from '../components/PartnerBanner.astro';
 import FeaturedSection from '../components/FeaturedSection.tsx';
 import ComponentGrid from '../components/ComponentGrid.tsx';
 import SearchModal from '../components/SearchModal.tsx';
@@ -31,7 +30,6 @@ export const prerender = false;
   })} />
 
   <HomeHero />
-  <PartnerBanner />
   <Journeys />
   <FeaturedSection client:load />
   <BrowseByType />

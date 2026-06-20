@@ -1,6 +1,5 @@
 ---
 import DashboardLayout from '../layouts/DashboardLayout.astro';
-import PartnerBanner from '../components/PartnerBanner.astro';
 import FeaturedSection from '../components/FeaturedSection.tsx';
 import ComponentGrid from '../components/ComponentGrid.tsx';
 import SearchModal from '../components/SearchModal.tsx';
@@ -51,7 +50,6 @@ const pageTitle = TYPE_CONFIG[activeType]?.label ?? 'Components';
     <h1 class="text-[clamp(28px,4vw,44px)] text-text-primary" style="font-family: var(--font-display);">{pageTitle}</h1>
     <p class="text-[14px] text-text-secondary mt-1">Browse and install {pageTitle.toLowerCase()}.</p>
   </header>
-  <PartnerBanner />
   <FeaturedSection client:load />
   <ComponentGrid client:load initialType={activeType} />
   <SearchModal client:idle />

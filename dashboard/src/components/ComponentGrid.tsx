@@ -8,6 +8,8 @@ interface Props {
   initialType: string;
   /** Whether to mark items already in the active project (catalog: true, home: false) */
   markAdded?: boolean;
+  /** Show a heading with the current type (home single-page browse) */
+  showHeading?: boolean;
 }
 
 interface CartState {
@@ -30,7 +32,7 @@ function formatName(name: string): string {
 
 import TypeIcon from './TypeIcon';
 
-export default function ComponentGrid({ initialType, markAdded = true }: Props) {
+export default function ComponentGrid({ initialType, markAdded = true, showHeading = false }: Props) {
   const [data, setData] = useState<ComponentsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,6 +56,24 @@ export default function ComponentGrid({ initialType, markAdded = true }: Props) 
     setPlatform('all');
     setPage(1);
   }, [initialType]);
+
+  // In-place type switching (home single-page browse) — no navigation.
+  useEffect(() => {
+    function onSetType(e: Event) {
+      const t = (e as CustomEvent).detail;
+      if (typeof t !== 'string') return;
+      setActiveType(t);
+      setCategory('all');
+      setPlatform('all');
+      setSearch('');
+      setPage(1);
+      requestAnimationFrame(() => {
+        document.getElementById('catalog-grid-top')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+    window.addEventListener('set-component-type', onSetType);
+    return () => window.removeEventListener('set-component-type', onSetType);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -220,7 +240,14 @@ export default function ComponentGrid({ initialType, markAdded = true }: Props) 
   }
 
   return (
-    <div>
+    <div id="catalog-grid-top">
+      {showHeading && (
+        <div className="px-6 pt-4 pb-1">
+          <h2 className="text-[clamp(22px,3vw,32px)] font-bold tracking-tight text-text-primary" style={{ fontFamily: 'var(--font-display)' }}>
+            {TYPE_CONFIG[activeType]?.label ?? 'Components'}
+          </h2>
+        </div>
+      )}
       {/* Add-to-workspace toast */}
       {toast && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#111111] text-white text-[13px] shadow-[0_10px_30px_-8px_rgba(0,0,0,0.4)]">

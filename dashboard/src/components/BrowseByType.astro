@@ -6,11 +6,35 @@ import { TYPE_CONFIG, ICONS } from '../lib/icons';
   <h2 class="text-[13px] font-medium uppercase tracking-widest text-text-tertiary mb-4" style="font-family: var(--font-ui);">Browse by type</h2>
   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
     {Object.entries(TYPE_CONFIG).map(([type, config]) => (
-      <a href={`/${type}`}
-        class="group flex items-center gap-2.5 bg-surface-1 border border-border rounded-lg px-3 py-2.5 hover:border-border-hover transition-colors">
+      <button
+        type="button"
+        data-browse-type={type}
+        class="browse-type group flex items-center gap-2.5 bg-surface-1 border border-border rounded-lg px-3 py-2.5 hover:border-border-hover transition-colors text-left"
+      >
         <span class="w-4 h-4 shrink-0 text-text-tertiary group-hover:text-primary-500 [&>svg]:w-4 [&>svg]:h-4" set:html={ICONS[type]} />
-        <span class="text-[13px] text-text-secondary group-hover:text-text-primary truncate" data-count-type={type}>{config.label}</span>
-      </a>
+        <span class="text-[13px] text-text-secondary group-hover:text-text-primary truncate">{config.label}</span>
+      </button>
     ))}
   </div>
 </section>
+
+<script>
+  // Switch the catalog grid in place (no navigation) — single-page browse on home.
+  function setActiveChip(type: string | null) {
+    document.querySelectorAll<HTMLElement>('.browse-type').forEach((el) => {
+      const active = el.getAttribute('data-browse-type') === type;
+      el.classList.toggle('border-primary-300', active);
+      el.classList.toggle('bg-primary-50', active);
+    });
+  }
+  document.querySelectorAll<HTMLElement>('.browse-type').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const t = btn.getAttribute('data-browse-type');
+      if (!t) return;
+      window.dispatchEvent(new CustomEvent('set-component-type', { detail: t }));
+      setActiveChip(t);
+    });
+  });
+  // Reflect the grid's default (skills) on load.
+  setActiveChip('skills');
+</script>

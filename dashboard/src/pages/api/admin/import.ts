@@ -1,10 +1,11 @@
 import type { APIRoute } from 'astro';
 import { getAdminClient } from '../../../lib/supabase';
+import { isAdminRequest } from '../../../lib/api/admin-auth';
 import fs from 'node:fs';
 import path from 'node:path';
 
 function isAdmin(request: Request): boolean {
-  return request.headers.get('x-admin-password') === import.meta.env.ADMIN_PASSWORD;
+  return isAdminRequest(request);
 }
 
 const SKILLS_BASE = path.resolve('..', 'cli-tool', 'components', 'skills');

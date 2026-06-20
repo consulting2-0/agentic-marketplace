@@ -1,9 +1,9 @@
 import type { APIRoute } from 'astro';
 import * as XLSX from 'xlsx';
+import { isAdminRequest } from '../../../lib/api/admin-auth';
 
 export const GET: APIRoute = async ({ request }) => {
-  const password = request.headers.get('x-admin-password');
-  if (password !== import.meta.env.ADMIN_PASSWORD) {
+  if (!isAdminRequest(request)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
   }
 

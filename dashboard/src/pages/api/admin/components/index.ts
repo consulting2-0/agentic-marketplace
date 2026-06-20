@@ -1,9 +1,9 @@
 import type { APIRoute } from 'astro';
 import { getAdminClient } from '../../../../lib/supabase';
+import { isAdminRequest } from '../../../../lib/api/admin-auth';
 
 function isAdmin(request: Request): boolean {
-  const auth = request.headers.get('x-admin-password');
-  return auth === import.meta.env.ADMIN_PASSWORD;
+  return isAdminRequest(request);
 }
 
 /** GET /api/admin/components — list all (inc unpublished) */

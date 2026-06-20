@@ -16,7 +16,7 @@ let component: Component | null = null;
 let error: string | null = null;
 
 try {
-  const data = await fetchComponents();
+  const data = await fetchComponents(Astro.url.origin);
   const typeKey = (type?.endsWith('s') ? type : (type + 's')) as keyof typeof data;
   const items = data[typeKey] as Component[] | undefined;
 

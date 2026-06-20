@@ -15,7 +15,7 @@ export const GET: APIRoute = async ({ params }) => {
 
   let component: Component | null = null;
   try {
-    const data = await fetchComponents();
+    const data = await fetchComponents(new URL(request.url).origin);
     const items = (data as any)[typeKey] as Component[] | undefined;
     if (items) {
       component =

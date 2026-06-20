@@ -30,7 +30,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Read content from the static components.json (the site's source of truth),
     // not Supabase — the table can be out of sync and yields empty files.
-    const data = await fetchComponents();
+    const data = await fetchComponents(new URL(request.url).origin);
     const contentMap: Record<string, string> = {};
     for (const items of Object.values(data) as any[]) {
       if (!Array.isArray(items)) continue;

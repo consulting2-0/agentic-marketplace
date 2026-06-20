@@ -5,7 +5,7 @@ let cachedData: ComponentsData | null = null;
 let cacheTimestamp = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
-export async function fetchComponents(): Promise<ComponentsData> {
+export async function fetchComponents(baseUrl?: string): Promise<ComponentsData> {
   const now = Date.now();
   if (cachedData && now - cacheTimestamp < CACHE_TTL) {
     return cachedData;
@@ -27,10 +27,11 @@ export async function fetchComponents(): Promise<ComponentsData> {
     }
   }
 
-  // Server-side: resolve relative URLs to absolute (fetch() needs full URL on Node)
+  // Server-side: resolve relative URLs to absolute (fetch() needs full URL on Node).
+  // Prefer the caller's request origin so it works on any domain (e.g. claude.consulting20.com).
   let url = COMPONENTS_JSON_URL;
   if (typeof window === 'undefined' && url.startsWith('/')) {
-    const base = import.meta.env.SITE || 'https://www.aitmpl.com';
+    const base = baseUrl || import.meta.env.SITE || 'https://www.aitmpl.com';
     url = `${base}${url}`;
   }
 

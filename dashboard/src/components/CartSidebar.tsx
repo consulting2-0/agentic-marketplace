@@ -1,37 +1,17 @@
 import { useState, useEffect } from 'react';
-import type { Cart } from '../lib/types';
-
-const EMPTY_CART: Cart = {
-  agents: [], commands: [], settings: [], hooks: [], mcps: [], skills: [], templates: [],
-};
-
-function countOf(obj: any): number {
-  try {
-    return Object.values(obj ?? {}).reduce((s: number, a: any) => s + (Array.isArray(a) ? a.length : 0), 0);
-  } catch {
-    return 0;
-  }
-}
+import { activeCount } from '../lib/workspace';
 
 // Floating quick-access to the workspace page (appears once you've added something).
 export default function CartSidebar() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    function load() {
-      try {
-        const saved = localStorage.getItem('claudeCodeCart');
-        setCount(countOf(saved ? JSON.parse(saved) : EMPTY_CART));
-      } catch {
-        setCount(0);
-      }
-    }
+    const load = () => setCount(activeCount());
     load();
-    const onUpdate = ((e: CustomEvent) => setCount(countOf(e.detail))) as EventListener;
-    window.addEventListener('cart-updated', onUpdate);
+    window.addEventListener('workspace-updated', load);
     window.addEventListener('storage', load);
     return () => {
-      window.removeEventListener('cart-updated', onUpdate);
+      window.removeEventListener('workspace-updated', load);
       window.removeEventListener('storage', load);
     };
   }, []);

@@ -3,6 +3,7 @@ import type { Component, ComponentsData, ComponentType } from '../lib/types';
 import { TYPE_CONFIG } from '../lib/icons';
 import { ITEMS_PER_PAGE, COMPONENTS_JSON_URL } from '../lib/constants';
 import SaveToCollectionButton from './SaveToCollectionButton';
+import { loadWorkspace, activeProject, toggleInActive } from '../lib/workspace';
 
 interface Props {
   initialType: string;
@@ -39,6 +40,8 @@ export default function ComponentGrid({ initialType }: Props) {
   const [sortBy, setSortBy] = useState<'downloads' | 'name'>('downloads');
   const [page, setPage] = useState(1);
   const [cart, setCart] = useState<CartState>({});
+  const [activeName, setActiveName] = useState('');
+  const [toast, setToast] = useState<string | null>(null);
 
   // Sync activeType when initialType changes (e.g. sidebar navigation)
   useEffect(() => {
@@ -69,10 +72,19 @@ export default function ComponentGrid({ initialType }: Props) {
   }, []);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem('claudeCodeCart');
-      if (saved) setCart(JSON.parse(saved));
-    } catch {}
+    function syncActive() {
+      const p = activeProject(loadWorkspace());
+      setCart(p ? ((p.items as unknown) as CartState) : {});
+      setActiveName(p?.name ?? '');
+    }
+    syncActive();
+    const onWs = () => syncActive();
+    window.addEventListener('workspace-updated', onWs);
+    window.addEventListener('storage', onWs);
+    return () => {
+      window.removeEventListener('workspace-updated', onWs);
+      window.removeEventListener('storage', onWs);
+    };
   }, []);
 
 
@@ -134,23 +146,16 @@ export default function ComponentGrid({ initialType }: Props) {
   );
 
   const toggleCart = useCallback((component: Component) => {
-    const typePlural = component.type.endsWith('s') ? component.type : component.type + 's';
-    setCart((prev) => {
-      const items = prev[typePlural] ?? [];
-      const exists = items.some((i) => i.path === component.path);
-      let newItems: CartState;
-      if (exists) {
-        newItems = { ...prev, [typePlural]: items.filter((i) => i.path !== component.path) };
-      } else {
-        newItems = { ...prev, [typePlural]: [...items, {
-          name: component.name, path: component.path, category: component.category ?? '',
-          description: component.description ?? '', icon: typePlural,
-        }] };
-      }
-      localStorage.setItem('claudeCodeCart', JSON.stringify(newItems));
-      window.dispatchEvent(new CustomEvent('cart-updated', { detail: newItems }));
-      return newItems;
+    const { added, projectName } = toggleInActive({
+      path: component.path,
+      name: component.name,
+      type: component.type,
+      category: component.category ?? '',
+      description: component.description ?? '',
     });
+    setToast(`${added ? 'Added to' : 'Removed from'} “${projectName}”`);
+    window.clearTimeout((toggleCart as any)._t);
+    (toggleCart as any)._t = window.setTimeout(() => setToast(null), 1900);
   }, []);
 
   if (loading) {
@@ -175,6 +180,17 @@ export default function ComponentGrid({ initialType }: Props) {
 
   return (
     <div>
+      {/* Add-to-workspace toast */}
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#111111] text-white text-[13px] shadow-[0_10px_30px_-8px_rgba(0,0,0,0.4)]">
+          <svg className="w-4 h-4 text-[#00E599]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>{toast}</span>
+          <a href="/workspace" className="ml-1 text-[12px] font-medium text-[#7db4ff] hover:underline">View</a>
+        </div>
+      )}
+
       {/* Platform tabs */}
       <div className="flex items-center gap-1 px-6 pt-3 pb-1 border-b border-border">
         {([

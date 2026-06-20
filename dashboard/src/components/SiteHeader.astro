@@ -65,18 +65,11 @@ import { NAV_LINKS } from '../lib/constants';
 </header>
 
 <script>
-  function workspaceCount(): number {
-    try {
-      const c = JSON.parse(localStorage.getItem('claudeCodeCart') || '{}');
-      return Object.values(c).reduce((s: number, a) => s + (Array.isArray(a) ? a.length : 0), 0);
-    } catch {
-      return 0;
-    }
-  }
+  import { activeCount } from '../lib/workspace';
   function renderWorkspaceCount() {
     const el = document.getElementById('workspaceCount');
     if (!el) return;
-    const n = workspaceCount();
+    const n = activeCount();
     if (n > 0) {
       el.textContent = String(n);
       el.classList.remove('hidden');
@@ -86,7 +79,7 @@ import { NAV_LINKS } from '../lib/constants';
       el.classList.remove('inline-flex');
     }
   }
-  window.addEventListener('cart-updated', renderWorkspaceCount);
+  window.addEventListener('workspace-updated', renderWorkspaceCount);
   window.addEventListener('storage', renderWorkspaceCount);
   renderWorkspaceCount();
 </script>

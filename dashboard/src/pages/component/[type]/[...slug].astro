@@ -1,6 +1,7 @@
 ---
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 import SaveToCollectionButton from '../../../components/SaveToCollectionButton.tsx';
+import AddToWorkspaceButton from '../../../components/AddToWorkspaceButton.tsx';
 import MarkdownViewer from '../../../components/MarkdownViewer.tsx';
 import JsonViewer from '../../../components/JsonViewer.tsx';
 import SkillExplorer from '../../../components/SkillExplorer.tsx';
@@ -205,6 +206,18 @@ const refs: string[] = (component as any)?.references ?? [];
               )}
             </div>
           </div>
+        </div>
+
+        {/* Primary actions */}
+        <div class="flex items-center gap-2 mb-6">
+          <AddToWorkspaceButton
+            client:load
+            type={component.type}
+            path={component.path}
+            name={component.name}
+            category={component.category}
+            description={component.description}
+          />
         </div>
 
         {/* Install section */}

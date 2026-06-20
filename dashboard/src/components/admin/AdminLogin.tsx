@@ -2,24 +2,35 @@ import { useState } from 'react';
 
 export default function AdminLogin({ onLogin }: { onLogin: (pw: string) => void }) {
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [checking, setChecking] = useState(false);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setChecking(true);
-    setError(false);
-    // Verify by hitting the API
-    const res = await fetch('/api/admin/components?limit=1', {
-      headers: { 'x-admin-password': password },
-    });
-    if (res.ok) {
-      sessionStorage.setItem('admin_pw', password);
-      onLogin(password);
-    } else {
-      setError(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/admin/components?limit=1', {
+        headers: { 'x-admin-password': password },
+      });
+      if (res.ok) {
+        sessionStorage.setItem('admin_pw', password);
+        onLogin(password);
+        return;
+      }
+      if (res.status === 401) {
+        setError('Incorrect password');
+      } else {
+        // Password may be correct — this is a backend/config error, not auth.
+        let detail = '';
+        try { detail = (await res.json())?.error ?? ''; } catch {}
+        setError(`Server error ${res.status}${detail ? `: ${detail}` : ''} (password may be fine — backend issue)`);
+      }
+    } catch (err: any) {
+      setError(`Network error: ${err?.message ?? 'request failed'}`);
+    } finally {
+      setChecking(false);
     }
-    setChecking(false);
   }
 
   return (
@@ -42,7 +53,7 @@ export default function AdminLogin({ onLogin }: { onLogin: (pw: string) => void 
               className="w-full bg-[#0D1117] border border-[#1C2433] rounded-lg text-[13px] text-[#E4EBF8] px-3 py-2.5 outline-none focus:border-[#2A3550] placeholder:text-[#4D6080]"
               placeholder="Enter admin password"
             />
-            {error && <p className="mt-1.5 text-[11px] text-red-400">Incorrect password</p>}
+            {error && <p className="mt-1.5 text-[11px] text-red-400">{error}</p>}
           </div>
           <button
             type="submit"

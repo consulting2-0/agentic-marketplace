@@ -3,7 +3,7 @@ import type { Component, ComponentsData, ComponentType } from '../lib/types';
 import { TYPE_CONFIG } from '../lib/icons';
 import { ITEMS_PER_PAGE, COMPONENTS_JSON_URL } from '../lib/constants';
 import SaveToCollectionButton from './SaveToCollectionButton';
-import { loadWorkspace, activeProject, toggleInActive } from '../lib/workspace';
+import { loadWorkspace, activeProject, toggleInActive, setActive, createProject } from '../lib/workspace';
 
 interface Props {
   initialType: string;
@@ -42,6 +42,8 @@ export default function ComponentGrid({ initialType }: Props) {
   const [cart, setCart] = useState<CartState>({});
   const [activeName, setActiveName] = useState('');
   const [toast, setToast] = useState<string | null>(null);
+  const [projects, setProjects] = useState<{ id: string; name: string }[]>([]);
+  const [activeId, setActiveId] = useState('');
 
   // Sync activeType when initialType changes (e.g. sidebar navigation)
   useEffect(() => {
@@ -73,9 +75,12 @@ export default function ComponentGrid({ initialType }: Props) {
 
   useEffect(() => {
     function syncActive() {
-      const p = activeProject(loadWorkspace());
+      const ws = loadWorkspace();
+      const p = activeProject(ws);
       setCart(p ? ((p.items as unknown) as CartState) : {});
       setActiveName(p?.name ?? '');
+      setProjects(ws.projects.map((x) => ({ id: x.id, name: x.name })));
+      setActiveId(ws.activeId);
     }
     syncActive();
     const onWs = () => syncActive();
@@ -257,6 +262,29 @@ export default function ComponentGrid({ initialType }: Props) {
             <option value="name">A-Z</option>
           </select>
         </div>
+      </div>
+
+      {/* Active project bar — where the + adds */}
+      <div className="flex items-center gap-2 px-6 pb-3 text-[12px]">
+        <span className="text-text-tertiary">Adding to</span>
+        <select
+          value={activeId}
+          onChange={(e) => {
+            if (e.target.value === '__new') {
+              const n = window.prompt('Name your new project');
+              if (n && n.trim()) createProject(n.trim());
+            } else {
+              setActive(e.target.value);
+            }
+          }}
+          className="bg-primary-50 text-primary-700 border border-primary-200 rounded-lg px-2.5 py-1 font-medium outline-none cursor-pointer max-w-[200px]"
+        >
+          {projects.map((p) => (
+            <option key={p.id} value={p.id}>{p.name}</option>
+          ))}
+          <option value="__new">+ New project…</option>
+        </select>
+        <a href="/workspace" className="text-text-tertiary hover:text-text-primary underline underline-offset-2">view workspace</a>
       </div>
 
       {/* Grid */}

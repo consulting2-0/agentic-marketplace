@@ -149,9 +149,18 @@ export default function WorkspaceView() {
                   )}
                   <span className={`text-[11px] tabular-nums ${active ? 'text-primary-600' : 'text-text-tertiary'}`}>{count}</span>
                   <button
+                    onClick={(e) => { e.stopPropagation(); setEditingId(p.id); setEditName(p.name); }}
+                    className="opacity-0 group-hover:opacity-100 text-text-tertiary hover:text-primary-600 transition-all"
+                    aria-label="Rename project"
+                    title="Rename"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" /></svg>
+                  </button>
+                  <button
                     onClick={(e) => { e.stopPropagation(); removeProject(p.id, p.name); }}
                     className="opacity-0 group-hover:opacity-100 text-text-tertiary hover:text-red-500 transition-all"
                     aria-label="Delete project"
+                    title="Delete"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                   </button>
@@ -189,7 +198,7 @@ export default function WorkspaceView() {
             <p className="mt-1.5 text-[13px] text-text-secondary max-w-sm mx-auto">
               Browse the catalog and click <span className="inline-flex w-5 h-5 align-middle items-center justify-center rounded bg-surface-3 text-text-secondary">+</span> on any component to add it to this project.
             </p>
-            <a href="/agents" className="mt-5 inline-flex items-center gap-2 px-5 h-10 rounded-full bg-primary-500 hover:bg-primary-600 text-white text-[13px] font-medium transition-colors">Browse components</a>
+            <a href="/" className="mt-5 inline-flex items-center gap-2 px-5 h-10 rounded-full bg-primary-500 hover:bg-primary-600 text-white text-[13px] font-medium transition-colors">Browse components</a>
           </div>
         ) : (
           <>

@@ -2,11 +2,12 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import type { Component, ComponentsData, ComponentType } from '../lib/types';
 import { TYPE_CONFIG } from '../lib/icons';
 import { ITEMS_PER_PAGE, COMPONENTS_JSON_URL } from '../lib/constants';
-import SaveToCollectionButton from './SaveToCollectionButton';
 import { loadWorkspace, activeProject, toggleInActive, setActive, createProject } from '../lib/workspace';
 
 interface Props {
   initialType: string;
+  /** Whether to mark items already in the active project (catalog: true, home: false) */
+  markAdded?: boolean;
 }
 
 interface CartState {
@@ -29,7 +30,7 @@ function formatName(name: string): string {
 
 import TypeIcon from './TypeIcon';
 
-export default function ComponentGrid({ initialType }: Props) {
+export default function ComponentGrid({ initialType, markAdded = true }: Props) {
   const [data, setData] = useState<ComponentsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -290,7 +291,7 @@ export default function ComponentGrid({ initialType }: Props) {
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 px-6 pb-6">
         {paged.map((component) => {
-          const inCart = isInCart(component.path, component.type);
+          const inCart = markAdded && isInCart(component.path, component.type);
           const config = TYPE_CONFIG[activeType];
 
           return (
@@ -345,12 +346,6 @@ export default function ComponentGrid({ initialType }: Props) {
 
               {/* Action buttons */}
               <div className="flex items-center gap-0.5 shrink-0">
-                <SaveToCollectionButton
-                  componentType={component.type}
-                  componentPath={component.path}
-                  componentName={component.name}
-                  componentCategory={component.category}
-                />
                 <button
                   onClick={(e) => { e.stopPropagation(); toggleCart(component); }}
                   className={`w-7 h-7 rounded-lg flex items-center justify-center mt-0.5 transition-all ${

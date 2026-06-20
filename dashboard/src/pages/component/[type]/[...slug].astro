@@ -1,6 +1,5 @@
 ---
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
-import SaveToCollectionButton from '../../../components/SaveToCollectionButton.tsx';
 import AddToWorkspaceButton from '../../../components/AddToWorkspaceButton.tsx';
 import MarkdownViewer from '../../../components/MarkdownViewer.tsx';
 import JsonViewer from '../../../components/JsonViewer.tsx';
@@ -321,16 +320,6 @@ const refs: string[] = (component as any)?.references ?? [];
           />
         )}
 
-        {/* Action buttons */}
-        <div class="mt-6 flex items-center gap-3">
-          <SaveToCollectionButton
-            client:load
-            componentType={component.type}
-            componentPath={component.path}
-            componentName={component.name}
-            componentCategory={component.category ?? ''}
-          />
-        </div>
       </article>
     )}
   </div>

@@ -178,6 +178,15 @@ export default function WorkspaceView() {
             <h2 className="text-xl font-semibold text-text-primary">{project.name}</h2>
             <p className="text-[13px] text-text-secondary mt-0.5">{total} component{total !== 1 ? 's' : ''}</p>
           </div>
+          <div className="flex items-center gap-2">
+          <a
+            href="/skills"
+            onClick={() => setActive(project.id)}
+            className="inline-flex items-center gap-2 px-4 h-11 rounded-full border border-border bg-surface-1 hover:border-border-hover text-text-primary text-[14px] font-medium transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
+            Add components
+          </a>
           <button
             onClick={downloadZip}
             disabled={total === 0 || zipping}
@@ -190,6 +199,7 @@ export default function WorkspaceView() {
             )}
             {zipping ? 'Preparing…' : 'Download ZIP'}
           </button>
+          </div>
         </div>
 
         {total === 0 ? (

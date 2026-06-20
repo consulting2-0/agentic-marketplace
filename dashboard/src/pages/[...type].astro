@@ -48,7 +48,7 @@ const pageTitle = TYPE_CONFIG[activeType]?.label ?? 'Components';
     <CatalogSidebar activeType={activeType} />
     <div class="flex-1 min-w-0">
       <header class="px-6 pb-3">
-        <h1 class="text-[clamp(26px,3.4vw,40px)] text-text-primary" style="font-family: var(--font-display);">{pageTitle}</h1>
+        <h1 class="text-[clamp(26px,3.4vw,40px)] font-bold tracking-tight text-text-primary" style="font-family: var(--font-display);">{pageTitle}</h1>
         <p class="text-[14px] text-text-secondary mt-1">Browse and install {pageTitle.toLowerCase()}.</p>
       </header>
       <ComponentGrid client:load initialType={activeType} />

@@ -94,7 +94,7 @@ export default function WorkspaceView() {
     <div className="flex flex-col md:flex-row gap-8 py-8 min-h-[70vh]">
       {/* Sidebar: projects */}
       <aside className="md:w-64 shrink-0">
-        <h1 className="text-2xl text-text-primary mb-1" style={{ fontFamily: 'var(--font-display)' }}>My Workspace</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-text-primary mb-1" style={{ fontFamily: 'var(--font-display)' }}>My Workspace</h1>
         <p className="text-[12.5px] text-text-tertiary mb-4">Projects you can install into Claude Code.</p>
 
         <div className="flex items-center gap-2 mb-3">

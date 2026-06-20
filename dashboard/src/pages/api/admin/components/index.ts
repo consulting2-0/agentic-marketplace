@@ -10,28 +10,32 @@ function isAdmin(request: Request): boolean {
 export const GET: APIRoute = async ({ request }) => {
   if (!isAdmin(request)) return new Response('Unauthorized', { status: 401 });
 
-  const url = new URL(request.url);
-  const type = url.searchParams.get('type');
-  const page = parseInt(url.searchParams.get('page') ?? '1');
-  const limit = parseInt(url.searchParams.get('limit') ?? '50');
-  const search = url.searchParams.get('search') ?? '';
+  try {
+    const url = new URL(request.url);
+    const type = url.searchParams.get('type');
+    const page = parseInt(url.searchParams.get('page') ?? '1');
+    const limit = parseInt(url.searchParams.get('limit') ?? '50');
+    const search = url.searchParams.get('search') ?? '';
 
-  const supabase = getAdminClient();
-  let query = supabase
-    .from('components')
-    .select('*', { count: 'exact' })
-    .order('created_at', { ascending: false })
-    .range((page - 1) * limit, page * limit - 1);
+    const supabase = getAdminClient();
+    let query = supabase
+      .from('components')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range((page - 1) * limit, page * limit - 1);
 
-  if (type) query = query.eq('type', type);
-  if (search) query = query.ilike('name', `%${search}%`);
+    if (type) query = query.eq('type', type);
+    if (search) query = query.ilike('name', `%${search}%`);
 
-  const { data, error, count } = await query;
-  if (error) return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    const { data, error, count } = await query;
+    if (error) return new Response(JSON.stringify({ error: error.message }), { status: 500 });
 
-  return new Response(JSON.stringify({ data, count, page, limit }), {
-    headers: { 'Content-Type': 'application/json' },
-  });
+    return new Response(JSON.stringify({ data, count, page, limit }), {
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (e: any) {
+    return new Response(JSON.stringify({ error: e?.message ?? 'Server error' }), { status: 500 });
+  }
 };
 
 /** POST /api/admin/components — create */

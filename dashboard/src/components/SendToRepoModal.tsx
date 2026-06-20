@@ -187,7 +187,7 @@ export default function SendToRepoModal({ items, collectionName, onClose }: Prop
           ...Object.keys(files).map((f) => `- \`${f}\``),
           '',
           '---',
-          `Sent from [AI Templates](https://app.aitmpl.com/my-components)`,
+          `Sent from [Consulting 2.0](https://consulting20.com/workspace)`,
         ].join('\n')
       );
 

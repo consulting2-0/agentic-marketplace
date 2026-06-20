@@ -2,12 +2,6 @@ import type { APIRoute } from 'astro';
 import { getNeonClient } from '../../lib/api/neon';
 import { corsResponse, jsonResponse } from '../../lib/api/cors';
 
-const ENDPOINTS_TO_CHECK = [
-  { url: 'https://www.aitmpl.com/api/track-download-supabase', method: 'OPTIONS' },
-  { url: 'https://www.aitmpl.com/api/track-command-usage', method: 'OPTIONS' },
-  { url: 'https://www.aitmpl.com/api/track-website-events', method: 'OPTIONS' },
-];
-
 const TIMEOUT_MS = 10000;
 
 interface EndpointResult {
@@ -86,9 +80,15 @@ export const OPTIONS: APIRoute = async () => {
   return corsResponse();
 };
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ request }) => {
   try {
-    const results = await Promise.all(ENDPOINTS_TO_CHECK.map(checkEndpoint));
+    const origin = new URL(request.url).origin;
+    const endpoints = [
+      { url: `${origin}/api/track-download-supabase`, method: 'OPTIONS' },
+      { url: `${origin}/api/track-command-usage`, method: 'OPTIONS' },
+      { url: `${origin}/api/track-website-events`, method: 'OPTIONS' },
+    ];
+    const results = await Promise.all(endpoints.map(checkEndpoint));
 
     const sql = getNeonClient();
 

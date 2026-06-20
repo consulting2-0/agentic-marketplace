@@ -31,7 +31,7 @@ export async function fetchComponents(baseUrl?: string): Promise<ComponentsData>
   // Prefer the caller's request origin so it works on any domain (e.g. claude.consulting20.com).
   let url = COMPONENTS_JSON_URL;
   if (typeof window === 'undefined' && url.startsWith('/')) {
-    const base = baseUrl || import.meta.env.SITE || 'https://www.aitmpl.com';
+    const base = baseUrl || import.meta.env.SITE || 'https://consulting20.com';
     url = `${base}${url}`;
   }
 

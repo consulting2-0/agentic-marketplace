@@ -5,7 +5,7 @@ import MarkdownViewer from '../../../components/MarkdownViewer.tsx';
 import JsonViewer from '../../../components/JsonViewer.tsx';
 import SkillExplorer from '../../../components/SkillExplorer.tsx';
 import { TYPE_CONFIG, ICONS } from '../../../lib/icons';
-import { fetchComponents, getInstallCommand } from '../../../lib/data';
+import { fetchComponents, getInstallCommand, originFromRequest } from '../../../lib/data';
 import type { Component } from '../../../lib/types';
 
 export const prerender = false;
@@ -16,7 +16,7 @@ let component: Component | null = null;
 let error: string | null = null;
 
 try {
-  const data = await fetchComponents(Astro.url.origin);
+  const data = await fetchComponents(originFromRequest(Astro.request));
   const typeKey = (type?.endsWith('s') ? type : (type + 's')) as keyof typeof data;
   const items = data[typeKey] as Component[] | undefined;
 

@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { fetchComponents } from '../../../../lib/data';
+import { fetchComponents, originFromRequest } from '../../../../lib/data';
 import type { Component } from '../../../../lib/types';
 
 export const GET: APIRoute = async ({ params }) => {
@@ -15,7 +15,7 @@ export const GET: APIRoute = async ({ params }) => {
 
   let component: Component | null = null;
   try {
-    const data = await fetchComponents(new URL(request.url).origin);
+    const data = await fetchComponents(originFromRequest(request));
     const items = (data as any)[typeKey] as Component[] | undefined;
     if (items) {
       component =

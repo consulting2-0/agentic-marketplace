@@ -5,6 +5,22 @@ let cachedData: ComponentsData | null = null;
 let cacheTimestamp = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
+// Build the PUBLIC origin from a request. On Vercel, request.url / Astro.url
+// reflect an internal host, so prefer the forwarded headers (same pattern the
+// layout uses for canonical URLs).
+export function originFromRequest(request: Request): string {
+  const host = request.headers.get('x-forwarded-host') || request.headers.get('host');
+  if (host) {
+    const proto = request.headers.get('x-forwarded-proto') || 'https';
+    return `${proto}://${host}`;
+  }
+  try {
+    return new URL(request.url).origin;
+  } catch {
+    return '';
+  }
+}
+
 export async function fetchComponents(baseUrl?: string): Promise<ComponentsData> {
   const now = Date.now();
   if (cachedData && now - cacheTimestamp < CACHE_TTL) {

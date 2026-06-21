@@ -110,17 +110,28 @@ const rawUrl = component ? `${origin}/api/raw/${component.type}/${cleanPath}` : 
 // Single-file components download the file; multi-file (skills w/ references) download a folder ZIP.
 const isMultiFile = component ? ((component as any).references?.length ?? 0) > 0 : false;
 const downloadUrl = component ? `${origin}/api/download-component?type=${component.type}&path=${encodeURIComponent(cleanPath)}` : '';
-const destPath = component ? (() => {
-  const fname = cleanPath.split('/').pop() ?? component.name;
-  const ext = ['mcp','setting','hook'].includes(component.type) ? 'json' : 'md';
+const cfname = component ? (cleanPath.split('/').pop() ?? component.name) : '';
+const cext = component ? (['mcp','setting','hook'].includes(component.type) ? 'json' : 'md') : 'md';
+const cdir = component ? (() => {
   const dirs: Record<string, string> = {
     skill: '.claude/skills', agent: '.claude/agents', command: '.claude/commands',
     hook: '.claude/settings.json', mcp: '.claude/mcp.json', setting: '.claude/settings.json',
   };
-  const dir = dirs[component.type] ?? `.claude/${component.type}s`;
-  if (['hook','mcp','setting'].includes(component.type)) return dir;
-  return `${dir}/${fname}.${ext}`;
+  return dirs[component.type] ?? `.claude/${component.type}s`;
 })() : '';
+const destPath = component
+  ? (['hook','mcp','setting'].includes(component.type)
+      ? cdir
+      : isMultiFile
+        ? `${cdir}/${cfname}/`
+        : `${cdir}/${cfname}.${cext}`)
+  : '';
+// Multi-file components install as a folder ZIP; single-file via a direct curl.
+const curlCmd = component
+  ? (isMultiFile
+      ? `mkdir -p ${cdir} && curl -fsSL "${downloadUrl}" -o "${cfname}.zip" && unzip -o "${cfname}.zip" -d ${cdir} && rm "${cfname}.zip"`
+      : `curl -fsSL "${rawUrl}" --create-dirs -o "${destPath}"`)
+  : '';
 const frontmatter = component ? parseFrontmatter(component.content, typePlural ?? '') : {};
 const infoCards = CARD_FIELDS.filter((f) => {
   const v = frontmatter[f.key];
@@ -261,17 +272,17 @@ const refs: string[] = (component as any)?.references ?? [];
           {/* curl command */}
           <div>
             <div class="flex items-center justify-between mb-1">
-              <p class="text-[11px] text-text-tertiary">Or install via curl:</p>
+              <p class="text-[11px] text-text-tertiary">{isMultiFile ? 'Or install via curl (downloads the full folder):' : 'Or install via curl:'}</p>
               <button
                 id="curlCopyBtn"
                 class="text-[11px] text-primary-400 hover:text-primary-300 transition-colors"
-                data-cmd={`curl -fsSL "${rawUrl}" --create-dirs -o "${destPath}"`}
+                data-cmd={curlCmd}
               >
                 Copy
               </button>
             </div>
             <code class="block text-xs font-mono text-primary-700 bg-surface-0 rounded px-3 py-2 break-all">
-              {`curl -fsSL "${rawUrl}" --create-dirs -o "${destPath}"`}
+              {curlCmd}
             </code>
           </div>
         </div>

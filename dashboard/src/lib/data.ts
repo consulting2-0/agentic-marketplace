@@ -5,6 +5,26 @@ let cachedData: ComponentsData | null = null;
 let cacheTimestamp = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
+// Reference sub-files live in this repo under cli-tool/components/<type>/<path>/<ref>.
+export const COMPONENTS_RAW_BASE =
+  'https://raw.githubusercontent.com/consulting2-0/agentic-marketplace/main/cli-tool/components';
+
+/** Fetch a component reference sub-file as bytes (handles text + binary like PDFs). */
+export async function fetchReferenceBytes(
+  typePlural: string,
+  cleanPath: string,
+  ref: string,
+): Promise<Uint8Array | null> {
+  if (ref.includes('..') || cleanPath.includes('..')) return null;
+  try {
+    const res = await fetch(`${COMPONENTS_RAW_BASE}/${typePlural}/${cleanPath}/${ref}`);
+    if (!res.ok) return null;
+    return new Uint8Array(await res.arrayBuffer());
+  } catch {
+    return null;
+  }
+}
+
 // Build the PUBLIC origin from a request. On Vercel, request.url / Astro.url
 // reflect an internal host, so prefer the forwarded headers (same pattern the
 // layout uses for canonical URLs).

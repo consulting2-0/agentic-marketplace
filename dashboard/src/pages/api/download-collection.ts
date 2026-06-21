@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import * as JSZipModule from 'jszip';
-import { fetchComponents, originFromRequest } from '../../lib/data';
+import { fetchComponents, originFromRequest, fetchReferenceBytes } from '../../lib/data';
 
 const JSZip = (JSZipModule as any).default ?? JSZipModule;
 
@@ -32,11 +32,14 @@ export const POST: APIRoute = async ({ request }) => {
     // not Supabase — the table can be out of sync and yields empty files.
     const data = await fetchComponents(originFromRequest(request));
     const contentMap: Record<string, string> = {};
+    const componentMap: Record<string, any> = {};
     for (const items of Object.values(data) as any[]) {
       if (!Array.isArray(items)) continue;
       for (const row of items) {
-        if (row?.path && row?.content) {
-          contentMap[row.path.replace(/\.(md|json)$/, '')] = row.content;
+        if (row?.path) {
+          const k = row.path.replace(/\.(md|json)$/, '');
+          if (row.content) contentMap[k] = row.content;
+          componentMap[k] = row;
         }
       }
     }
@@ -71,6 +74,14 @@ export const POST: APIRoute = async ({ request }) => {
         installLines.push(`cp commands/${fname}.md .claude/commands/${fname}.md`);
       } else if (type === 'skill') {
         zip.file(`skills/${fname}/SKILL.md`, content);
+        // Include every reference sub-file so the skill is complete.
+        const refs: string[] = componentMap[key]?.references ?? [];
+        await Promise.all(
+          refs.map(async (ref) => {
+            const bytes = await fetchReferenceBytes('skills', key, ref);
+            if (bytes) zip.file(`skills/${fname}/${ref}`, bytes);
+          }),
+        );
         installLines.push(`cp -r skills/${fname} .claude/skills/${fname}`);
       } else if (type === 'hook') {
         zip.file(`hooks/${fname}.sh`, content);
